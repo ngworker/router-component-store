@@ -5,19 +5,30 @@
     "defaultBase": "main"
   },
   "cli": {
-    "defaultCollection": "@nrwl/workspace"
+    "defaultCollection": "@nrwl/angular"
   },
   "tasksRunnerOptions": {
     "default": {
       "runner": "@nrwl/workspace/tasks-runners/default",
       "options": {
-        "cacheableOperations": [
-          "build",
-          "lint",
-          "test",
-          "e2e"
-        ]
+        "cacheableOperations": ["build", "lint", "test", "e2e"]
       }
+    }
+  },
+  "generators": {
+    "@nrwl/angular:application": {
+      "e2eTestRunner": "cypress",
+      "linter": "eslint",
+      "style": "css",
+      "unitTestRunner": "jest"
+    },
+    "@nrwl/angular:library": {
+      "linter": "eslint",
+      "style": "css",
+      "unitTestRunner": "jest"
+    },
+    "@schematics/angular:component": {
+      "style": "css"
     }
   }
 }

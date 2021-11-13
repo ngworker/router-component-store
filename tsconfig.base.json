@@ -14,7 +14,11 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@ngworker/router-component-store": [
+        "packages/router-component-store/src/index.ts"
+      ]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }

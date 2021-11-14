@@ -4,6 +4,7 @@ import {
   Data,
   Event as AngularRouterEvent,
   NavigationCancel,
+  NavigationError,
   NavigationStart,
   Params,
   Router,
@@ -110,6 +111,7 @@ export class RouterStore extends ComponentStore<RouterStoreState> {
       )
     );
     this.#syncNavigationCancel(this.#selectRouterEvents(NavigationCancel));
+    this.#syncNavigationError(this.#selectRouterEvents(NavigationError));
   }
 
   #navigateIfNeeded = this.effect<RouterTrigger>((trigger$) =>
@@ -152,6 +154,16 @@ export class RouterStore extends ComponentStore<RouterStoreState> {
       tap((navigationCancel) => {
         // TODO(@LayZeeDK): implement equivalent API
         // this.dispatchRouterCancel(navigationCancel);
+        this.#reset();
+      })
+    )
+  );
+
+  #syncNavigationError = this.effect<NavigationError>((navigationError$) =>
+    navigationError$.pipe(
+      tap((navigationError) => {
+        // TODO(@LayZeeDK): implement equivalent API
+        // this.dispatchRouterError(navigationError);
         this.#reset();
       })
     )

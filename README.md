@@ -1,3 +1,3 @@
-# Angular Router-connected NgRx ComponentStore
+# Angular Router-connecting NgRx ComponentStore
 
-An attempt to create an Angular Router-connected NgRx component store.
+An attempt to create an Angular Router-connecting NgRx component store.

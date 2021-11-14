@@ -4,6 +4,7 @@ import {
   Data,
   Event as AngularRouterEvent,
   NavigationCancel,
+  NavigationEnd,
   NavigationError,
   NavigationStart,
   Params,
@@ -35,6 +36,9 @@ type RouterStoreState<
   providedIn: 'root',
 })
 export class RouterStore extends ComponentStore<RouterStoreState> {
+  #dispatchNavLate: boolean =
+    this.config.navigationActionTiming ===
+    NavigationActionTiming.PostActivation;
   #routerState$: Observable<SerializedRouterStateSnapshot> = this.select(
     (state) => state.routerState as SerializedRouterStateSnapshot
   ).pipe(skipWhile((routerState) => routerState === null));
@@ -42,6 +46,9 @@ export class RouterStore extends ComponentStore<RouterStoreState> {
     this.#routerState$,
     (routerState) => routerState?.root
   );
+  #routesRecognized$: Observable<RoutesRecognized> = this.select(
+    (state) => state.routesRecognized as RoutesRecognized
+  ).pipe(skipWhile((routesRecognized) => routesRecognized === null));
   #trigger$: Observable<RouterTrigger> = this.select(
     (state) => state.trigger as RouterTrigger
   ).pipe(skipWhile((trigger) => trigger === null));
@@ -112,6 +119,12 @@ export class RouterStore extends ComponentStore<RouterStoreState> {
     );
     this.#syncNavigationCancel(this.#selectRouterEvents(NavigationCancel));
     this.#syncNavigationError(this.#selectRouterEvents(NavigationError));
+
+    this.#syncNavigationEnd(
+      this.#selectRouterEvents(NavigationEnd).pipe(
+        withLatestFrom(this.#trigger$, this.#routesRecognized$)
+      )
+    );
   }
 
   #navigateIfNeeded = this.effect<RouterTrigger>((trigger$) =>
@@ -159,6 +172,26 @@ export class RouterStore extends ComponentStore<RouterStoreState> {
     )
   );
 
+  #syncNavigationEnd = this.effect<
+    [NavigationEnd, RouterTrigger, RoutesRecognized]
+  >((sources$) =>
+    sources$.pipe(
+      tap(([navigationEnd, trigger, routesRecognized]) => {
+        if (trigger !== RouterTrigger.STORE) {
+          if (this.#dispatchNavLate) {
+            // TODO(@LayZeeDK): implement equivalent API
+            // this.dispatchRouterNavigation(routesRecognized);
+          }
+
+          // TODO(@LayZeeDK): implement equivalent API
+          // this.dispatchRouterNavigated(navigationEnd);
+        }
+
+        this.#reset();
+      })
+    )
+  );
+
   #syncNavigationError = this.effect<NavigationError>((navigationError$) =>
     navigationError$.pipe(
       tap((navigationError) => {
@@ -177,11 +210,7 @@ export class RouterStore extends ComponentStore<RouterStoreState> {
             routesRecognized,
           });
 
-          const dispatchNavLate =
-            this.config.navigationActionTiming ===
-            NavigationActionTiming.PostActivation;
-
-          if (!dispatchNavLate && trigger !== RouterTrigger.STORE) {
+          if (!this.#dispatchNavLate && trigger !== RouterTrigger.STORE) {
             // TODO(@LayZeeDK): implement equivalent API
             // this.dispatchRouterNavigation(routesRecognized);
           }

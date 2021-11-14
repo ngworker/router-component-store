@@ -1,15 +1,14 @@
-import { Injectable, Type } from '@angular/core';
+import { ErrorHandler, Injectable, Type } from '@angular/core';
 import { ActivatedRouteSnapshot, Data, Event as AngularRouterEvent, NavigationStart, Params, Router } from '@angular/router';
 import { ComponentStore } from '@ngrx/component-store';
 import { BaseRouterStoreState, RouterStateSerializer, SerializedRouterStateSnapshot } from '@ngrx/router-store';
 import { filter, map, Observable, skipWhile, tap, withLatestFrom } from 'rxjs';
 
-import { RouterTrigger } from './router-store/router_store_module';
+import { isSameUrl, RouterTrigger } from './router-store/router_store_module';
 
 type RouterState<
   TRouterState extends BaseRouterStoreState = SerializedRouterStateSnapshot
 > = {
-  readonly lastEvent: AngularRouterEvent | null;
   readonly navigationId: number | null;
   readonly state: TRouterState | null;
   readonly trigger: RouterTrigger;
@@ -76,6 +75,7 @@ export class RouterStore extends ComponentStore<RouterState> {
   );
 
   constructor(
+    private errorHandler: ErrorHandler,
     private router: Router,
     // TODO(@LayZeeDK): provide serializer
     private serializer: RouterStateSerializer<SerializedRouterStateSnapshot>
@@ -83,6 +83,7 @@ export class RouterStore extends ComponentStore<RouterState> {
     super(initialState);
 
     this.#syncRouterState(this.#navigationStartTrigger$);
+    this.#navigateIfNeeded(this.#navigationStartTrigger$);
   }
 
   selectQueryParam<T>(param: string): Observable<T | undefined> {
@@ -92,6 +93,24 @@ export class RouterStore extends ComponentStore<RouterState> {
   selectRouteParam<T>(param: string): Observable<T | undefined> {
     return this.select(this.routeParams$, (params) => params?.[param]);
   }
+
+  #navigateIfNeeded = this.effect<RouterTrigger>((trigger$) =>
+    trigger$.pipe(
+      filter((trigger) => trigger !== RouterTrigger.ROUTER),
+      withLatestFrom(this.url$),
+      map(([_, url]) => url),
+      filter((url) => !isSameUrl(this.router.url, url)),
+      tap((url) => {
+        this.patchState({
+          trigger: RouterTrigger.STORE,
+        });
+
+        this.router.navigateByUrl(url).catch((error) => {
+          this.errorHandler.handleError(error);
+        });
+      })
+    )
+  );
 
   #selectRouterEvents<TEvent extends AngularRouterEvent>(
     eventType: Type<TEvent>
@@ -118,7 +137,6 @@ export class RouterStore extends ComponentStore<RouterState> {
 }
 
 const initialState: RouterState = {
-  lastEvent: null,
   navigationId: null,
   state: null,
   trigger: RouterTrigger.NONE,

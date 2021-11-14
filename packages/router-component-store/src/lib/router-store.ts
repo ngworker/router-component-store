@@ -3,6 +3,7 @@ import {
   ActivatedRouteSnapshot,
   Data,
   Event as AngularRouterEvent,
+  NavigationCancel,
   NavigationStart,
   Params,
   Router,
@@ -108,6 +109,7 @@ export class RouterStore extends ComponentStore<RouterStoreState> {
         withLatestFrom(this.#trigger$)
       )
     );
+    this.#syncNavigationCancel(this.#selectRouterEvents(NavigationCancel));
   }
 
   #navigateIfNeeded = this.effect<RouterTrigger>((trigger$) =>
@@ -141,6 +143,16 @@ export class RouterStore extends ComponentStore<RouterStoreState> {
           // TODO(@LayZeeDK): implement equivalent API
           // this.dispatchRouterRequest(navigationStart);
         }
+      })
+    )
+  );
+
+  #syncNavigationCancel = this.effect<NavigationCancel>((navigationCancel$) =>
+    navigationCancel$.pipe(
+      tap((navigationCancel) => {
+        // TODO(@LayZeeDK): implement equivalent API
+        // this.dispatchRouterCancel(navigationCancel);
+        this.#reset();
       })
     )
   );

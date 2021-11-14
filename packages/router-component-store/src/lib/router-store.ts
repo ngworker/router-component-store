@@ -1,15 +1,30 @@
-import { ErrorHandler, Injectable, Type } from '@angular/core';
-import { ActivatedRouteSnapshot, Data, Event as AngularRouterEvent, NavigationStart, Params, Router } from '@angular/router';
+import { ErrorHandler, Inject, Injectable, Type } from '@angular/core';
+import {
+  ActivatedRouteSnapshot,
+  Data,
+  Event as AngularRouterEvent,
+  NavigationStart,
+  Params,
+  Router,
+  RoutesRecognized,
+} from '@angular/router';
 import { ComponentStore } from '@ngrx/component-store';
-import { BaseRouterStoreState, RouterStateSerializer, SerializedRouterStateSnapshot } from '@ngrx/router-store';
+import {
+  BaseRouterStoreState,
+  NavigationActionTiming,
+  RouterStateSerializer,
+  SerializedRouterStateSnapshot,
+} from '@ngrx/router-store';
 import { filter, map, Observable, skipWhile, tap, withLatestFrom } from 'rxjs';
 
+import { RouterStoreConfig, routerStoreConfigToken } from './router-store-config';
 import { isSameUrl, RouterTrigger } from './router-store/router_store_module';
 
-type RouterState<
+type RouterStoreState<
   TRouterState extends BaseRouterStoreState = SerializedRouterStateSnapshot
 > = {
   readonly navigationId: number | null;
+  readonly routesRecognized: RoutesRecognized | null;
   readonly state: TRouterState | null;
   readonly trigger: RouterTrigger;
 };
@@ -17,7 +32,7 @@ type RouterState<
 @Injectable({
   providedIn: 'root',
 })
-export class RouterStore extends ComponentStore<RouterState> {
+export class RouterStore extends ComponentStore<RouterStoreState> {
   #routerState$: Observable<SerializedRouterStateSnapshot> = this.select(
     (state) => state.state as SerializedRouterStateSnapshot
   ).pipe(skipWhile((routerState) => routerState === null));
@@ -28,11 +43,6 @@ export class RouterStore extends ComponentStore<RouterState> {
   #trigger$: Observable<RouterTrigger> = this.select(
     (state) => state.trigger as RouterTrigger
   ).pipe(skipWhile((trigger) => trigger === null));
-  #navigationStartTrigger$: Observable<RouterTrigger> =
-    this.#selectRouterEvents(NavigationStart).pipe(
-      withLatestFrom(this.#trigger$),
-      map(([_, trigger]) => trigger)
-    );
 
   // TODO(@LayZeeDK): determine whether we need to add `undefined` to the type of
   //   the public selectors depending on the final type of `#routerState$`
@@ -75,23 +85,29 @@ export class RouterStore extends ComponentStore<RouterState> {
   );
 
   constructor(
+    @Inject(routerStoreConfigToken) private readonly config: RouterStoreConfig,
     private errorHandler: ErrorHandler,
     private router: Router,
-    // TODO(@LayZeeDK): provide serializer
     private serializer: RouterStateSerializer<SerializedRouterStateSnapshot>
   ) {
     super(initialState);
 
-    this.#syncRouterState(this.#navigationStartTrigger$);
-    this.#navigateIfNeeded(this.#navigationStartTrigger$);
-  }
-
-  selectQueryParam<T>(param: string): Observable<T | undefined> {
-    return this.select(this.queryParams$, (params) => params?.[param]);
-  }
-
-  selectRouteParam<T>(param: string): Observable<T | undefined> {
-    return this.select(this.routeParams$, (params) => params?.[param]);
+    this.#syncRouterState(
+      this.#selectRouterEvents(NavigationStart).pipe(
+        withLatestFrom(this.#trigger$)
+      )
+    );
+    this.#navigateIfNeeded(
+      this.#selectRouterEvents(NavigationStart).pipe(
+        withLatestFrom(this.#trigger$),
+        map(([_, trigger]) => trigger)
+      )
+    );
+    this.#syncRoutesRecognized(
+      this.#selectRouterEvents(RoutesRecognized).pipe(
+        withLatestFrom(this.#trigger$)
+      )
+    );
   }
 
   #navigateIfNeeded = this.effect<RouterTrigger>((trigger$) =>
@@ -112,6 +128,41 @@ export class RouterStore extends ComponentStore<RouterState> {
     )
   );
 
+  #syncRouterState = this.effect<[NavigationStart, RouterTrigger]>((sources$) =>
+    sources$.pipe(
+      tap(([navigationStart, trigger]) => {
+        this.patchState({
+          state: this.serializer.serialize(this.router.routerState.snapshot),
+        });
+
+        if (trigger !== RouterTrigger.STORE) {
+          // TODO(@LayZeeDK): implement equivalent API
+          // this.dispatchRouterRequest(navigationStart);
+        }
+      })
+    )
+  );
+
+  #syncRoutesRecognized = this.effect<[RoutesRecognized, RouterTrigger]>(
+    (sources$) =>
+      sources$.pipe(
+        tap(([routesRecognized, trigger]) => {
+          this.patchState({
+            routesRecognized,
+          });
+
+          const dispatchNavLate =
+            this.config.navigationActionTiming ===
+            NavigationActionTiming.PostActivation;
+
+          if (!dispatchNavLate && trigger !== RouterTrigger.STORE) {
+            // TODO(@LayZeeDK): implement equivalent API
+            // this.dispatchRouterNavigation(routesRecognized);
+          }
+        })
+      )
+  );
+
   #selectRouterEvents<TEvent extends AngularRouterEvent>(
     eventType: Type<TEvent>
   ): Observable<TEvent> {
@@ -120,24 +171,18 @@ export class RouterStore extends ComponentStore<RouterState> {
     );
   }
 
-  #syncRouterState = this.effect<RouterTrigger>((trigger$) =>
-    trigger$.pipe(
-      tap((trigger) => {
-        this.patchState({
-          state: this.serializer.serialize(this.router.routerState.snapshot),
-        });
+  selectQueryParam<T>(param: string): Observable<T | undefined> {
+    return this.select(this.queryParams$, (params) => params?.[param]);
+  }
 
-        if (trigger !== RouterTrigger.STORE) {
-          // TODO(@LayZeeDK): implement equivalent API
-          // this.dispatchRouterRequest(event);
-        }
-      })
-    )
-  );
+  selectRouteParam<T>(param: string): Observable<T | undefined> {
+    return this.select(this.routeParams$, (params) => params?.[param]);
+  }
 }
 
-const initialState: RouterState = {
+const initialState: RouterStoreState = {
   navigationId: null,
+  routesRecognized: null,
   state: null,
   trigger: RouterTrigger.NONE,
 };

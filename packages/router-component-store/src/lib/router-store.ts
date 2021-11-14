@@ -24,8 +24,8 @@ type RouterStoreState<
   TRouterState extends BaseRouterStoreState = SerializedRouterStateSnapshot
 > = {
   readonly navigationId: number | null;
+  readonly routerState: TRouterState | null;
   readonly routesRecognized: RoutesRecognized | null;
-  readonly state: TRouterState | null;
   readonly trigger: RouterTrigger;
 };
 
@@ -34,7 +34,7 @@ type RouterStoreState<
 })
 export class RouterStore extends ComponentStore<RouterStoreState> {
   #routerState$: Observable<SerializedRouterStateSnapshot> = this.select(
-    (state) => state.state as SerializedRouterStateSnapshot
+    (state) => state.routerState as SerializedRouterStateSnapshot
   ).pipe(skipWhile((routerState) => routerState === null));
   #rootRoute$: Observable<ActivatedRouteSnapshot> = this.select(
     this.#routerState$,
@@ -132,7 +132,9 @@ export class RouterStore extends ComponentStore<RouterStoreState> {
     sources$.pipe(
       tap(([navigationStart, trigger]) => {
         this.patchState({
-          state: this.serializer.serialize(this.router.routerState.snapshot),
+          routerState: this.serializer.serialize(
+            this.router.routerState.snapshot
+          ),
         });
 
         if (trigger !== RouterTrigger.STORE) {
@@ -163,6 +165,13 @@ export class RouterStore extends ComponentStore<RouterStoreState> {
       )
   );
 
+  #reset(): void {
+    this.patchState({
+      routerState: null,
+      trigger: RouterTrigger.NONE,
+    });
+  }
+
   #selectRouterEvents<TEvent extends AngularRouterEvent>(
     eventType: Type<TEvent>
   ): Observable<TEvent> {
@@ -182,7 +191,7 @@ export class RouterStore extends ComponentStore<RouterStoreState> {
 
 const initialState: RouterStoreState = {
   navigationId: null,
+  routerState: null,
   routesRecognized: null,
-  state: null,
   trigger: RouterTrigger.NONE,
 };

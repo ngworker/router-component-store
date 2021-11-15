@@ -270,7 +270,7 @@ export class RouterStore extends ComponentStore<RouterStoreState> {
         throw new Error('RouterStoreState#routerState is null');
       }
 
-      this.#routerStoreEvent.emit({
+      const routerStoreEvent: RouterStoreEvent = {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         type: type as any,
         payload: {
@@ -289,6 +289,13 @@ export class RouterStore extends ComponentStore<RouterStoreState> {
                 } as RouterEvent &
                   Optional<NavigationEnd, 'urlAfterRedirects'>),
         },
+      };
+
+      this.#routerStoreEvent.emit(routerStoreEvent);
+      this.patchState({
+        navigationId: routerStoreEvent.payload.event.id,
+        // TODO(@LayZeeDK): determine whether this is necessary/works
+        routerState: routerStoreEvent.payload.routerState,
       });
     } finally {
       this.patchState({

@@ -1,6 +1,3 @@
-import { routerStoreCancelType } from './router-store-events/router-cancel-event';
-import { routerStoreNavigationType } from './router-store-events/router-store-navigation-event';
-import { routerStoreRequestType } from './router-store-events/router-store-request-event';
 import {
   ErrorHandler,
   EventEmitter,
@@ -39,11 +36,15 @@ import {
   RouterStoreConfig,
   routerStoreConfigToken,
 } from './router-store-config';
-import { RouterStoreEvent } from './router-store-events/router-store-event';
-import { Optional } from './util-types/optional';
-import { PickTypes } from './util-types/pick-types';
+import { routerStoreCancelType } from './router-store-events/router-store-cancel-event';
 import { routerStoreErrorType } from './router-store-events/router-store-error-event';
+import { RouterStoreEvent } from './router-store-events/router-store-event';
 import { routerStoreNavigatedType } from './router-store-events/router-store-navigated-event';
+import { routerStoreNavigationType } from './router-store-events/router-store-navigation-event';
+import { routerStoreRequestType } from './router-store-events/router-store-request-event';
+import { Optional } from './util-types/optional';
+
+import type { PickTypes } from './util-types/pick-types';
 
 interface RouterStoreEventPayload {
   readonly event: RouterEvent;

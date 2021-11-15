@@ -69,6 +69,8 @@ export class RouterStore extends ComponentStore<RouterStoreState> {
     NavigationActionTiming.PostActivation;
   #routerState$: Observable<SerializedRouterStateSnapshot | null> = this.select(
     (state) => state.routerState
+    // TODO(@LayZeeDK): determine whether debounceAsync is necessary/works
+    // { debounce: true }
   );
   #rootRoute$: Observable<ActivatedRouteSnapshot | null> = this.select(
     this.#routerState$,

@@ -159,10 +159,10 @@ export class RouterStore extends ComponentStore<RouterStoreState> {
 
   #navigateIfNeeded = this.effect<RouterTrigger>((trigger$) =>
     trigger$.pipe(
-      withLatestFrom(this.url$),
+      withLatestFrom(this.url$ as Observable<string>),
       filter(([trigger]) => trigger !== RouterTrigger.ROUTER),
       map(([_, url]) => url),
-      filter((url) => !isSameUrl(this.router.url, url)),
+      filter((url) => url !== null && !isSameUrl(this.router.url, url)),
       tap((url) => {
         this.patchState({
           trigger: RouterTrigger.STORE,

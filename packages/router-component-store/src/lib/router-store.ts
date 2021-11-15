@@ -1,4 +1,13 @@
-import { ErrorHandler, Inject, Injectable, Type } from '@angular/core';
+import { routerStoreCancelType } from './router-store-events/router-cancel-event';
+import { routerStoreNavigationType } from './router-store-events/router-store-navigation-event';
+import { routerStoreRequestType } from './router-store-events/router-store-request-event';
+import {
+  ErrorHandler,
+  EventEmitter,
+  Inject,
+  Injectable,
+  Type,
+} from '@angular/core';
 import {
   ActivatedRouteSnapshot,
   Data,
@@ -9,12 +18,14 @@ import {
   NavigationStart,
   Params,
   Router,
+  RouterEvent,
   RoutesRecognized,
 } from '@angular/router';
 import { ComponentStore } from '@ngrx/component-store';
 import {
   BaseRouterStoreState,
   NavigationActionTiming,
+  RouterState,
   RouterStateSerializer,
   SerializedRouterStateSnapshot,
 } from '@ngrx/router-store';
@@ -28,6 +39,16 @@ import {
   RouterStoreConfig,
   routerStoreConfigToken,
 } from './router-store-config';
+import { RouterStoreEvent } from './router-store-events/router-store-event';
+import { Optional } from './util-types/optional';
+import { PickTypes } from './util-types/pick-types';
+import { routerStoreErrorType } from './router-store-events/router-store-error-event';
+import { routerStoreNavigatedType } from './router-store-events/router-store-navigated-event';
+
+interface RouterStoreEventPayload {
+  readonly event: RouterEvent;
+  readonly routerState?: SerializedRouterStateSnapshot;
+}
 
 type RouterStoreState<
   TRouterState extends BaseRouterStoreState = SerializedRouterStateSnapshot
@@ -52,6 +73,7 @@ export class RouterStore extends ComponentStore<RouterStoreState> {
     this.#routerState$,
     (routerState) => routerState?.root
   );
+  #routerStoreEvent = new EventEmitter<RouterStoreEvent>();
   #routesRecognized$: Observable<RoutesRecognized> = this.select(
     (state) => state.routesRecognized as RoutesRecognized
   ).pipe(skipWhile((routesRecognized) => routesRecognized === null));
@@ -94,6 +116,8 @@ export class RouterStore extends ComponentStore<RouterStoreState> {
     this.currentRoute$,
     (route) => route?.params
   );
+  routerStoreEvent$: Observable<RouterStoreEvent> =
+    this.#routerStoreEvent.asObservable();
   url$: Observable<string> = this.select(
     this.#routerState$,
     (routerState) => routerState?.url
@@ -107,7 +131,7 @@ export class RouterStore extends ComponentStore<RouterStoreState> {
   ) {
     super(initialState);
 
-    this.#syncRouterState(
+    this.#syncNavigationStart(
       this.#selectRouterEvents(NavigationStart).pipe(
         withLatestFrom(this.#trigger$)
       )
@@ -135,8 +159,8 @@ export class RouterStore extends ComponentStore<RouterStoreState> {
 
   #navigateIfNeeded = this.effect<RouterTrigger>((trigger$) =>
     trigger$.pipe(
-      filter((trigger) => trigger !== RouterTrigger.ROUTER),
       withLatestFrom(this.url$),
+      filter(([trigger]) => trigger !== RouterTrigger.ROUTER),
       map(([_, url]) => url),
       filter((url) => !isSameUrl(this.router.url, url)),
       tap((url) => {
@@ -151,28 +175,10 @@ export class RouterStore extends ComponentStore<RouterStoreState> {
     )
   );
 
-  #syncRouterState = this.effect<[NavigationStart, RouterTrigger]>((sources$) =>
-    sources$.pipe(
-      tap(([navigationStart, trigger]) => {
-        this.patchState({
-          routerState: this.serializer.serialize(
-            this.router.routerState.snapshot
-          ),
-        });
-
-        if (trigger !== RouterTrigger.STORE) {
-          // TODO(@LayZeeDK): implement equivalent API
-          // this.dispatchRouterRequest(navigationStart);
-        }
-      })
-    )
-  );
-
   #syncNavigationCancel = this.effect<NavigationCancel>((navigationCancel$) =>
     navigationCancel$.pipe(
       tap((navigationCancel) => {
-        // TODO(@LayZeeDK): implement equivalent API
-        // this.dispatchRouterCancel(navigationCancel);
+        this.#emitRouterStoreCancelEvent(navigationCancel);
         this.#reset();
       })
     )
@@ -185,12 +191,10 @@ export class RouterStore extends ComponentStore<RouterStoreState> {
       tap(([navigationEnd, trigger, routesRecognized]) => {
         if (trigger !== RouterTrigger.STORE) {
           if (this.#dispatchNavLate) {
-            // TODO(@LayZeeDK): implement equivalent API
-            // this.dispatchRouterNavigation(routesRecognized);
+            this.#emitRouterStoreNavigationEvent(routesRecognized);
           }
 
-          // TODO(@LayZeeDK): implement equivalent API
-          // this.dispatchRouterNavigated(navigationEnd);
+          this.#emitRouterStoreNavigatedEvent(navigationEnd);
         }
 
         this.#reset();
@@ -201,11 +205,27 @@ export class RouterStore extends ComponentStore<RouterStoreState> {
   #syncNavigationError = this.effect<NavigationError>((navigationError$) =>
     navigationError$.pipe(
       tap((navigationError) => {
-        // TODO(@LayZeeDK): implement equivalent API
-        // this.dispatchRouterError(navigationError);
+        this.#emitRouterStoreErrorEvent(navigationError);
         this.#reset();
       })
     )
+  );
+
+  #syncNavigationStart = this.effect<[NavigationStart, RouterTrigger]>(
+    (sources$) =>
+      sources$.pipe(
+        tap(([navigationStart, trigger]) => {
+          this.patchState({
+            routerState: this.serializer.serialize(
+              this.router.routerState.snapshot
+            ),
+          });
+
+          if (trigger !== RouterTrigger.STORE) {
+            this.#emitRouterStoreRequestEvent(navigationStart);
+          }
+        })
+      )
   );
 
   #syncRoutesRecognized = this.effect<[RoutesRecognized, RouterTrigger]>(
@@ -217,12 +237,99 @@ export class RouterStore extends ComponentStore<RouterStoreState> {
           });
 
           if (!this.#dispatchNavLate && trigger !== RouterTrigger.STORE) {
-            // TODO(@LayZeeDK): implement equivalent API
-            // this.dispatchRouterNavigation(routesRecognized);
+            this.#emitRouterStoreNavigationEvent(routesRecognized);
           }
         })
       )
   );
+
+  #emitRouterStoreCancelEvent(event: NavigationCancel): void {
+    this.#emitRouterStoreEvent(routerStoreCancelType, {
+      event,
+    });
+  }
+
+  #emitRouterStoreErrorEvent(event: NavigationError): void {
+    this.#emitRouterStoreEvent(routerStoreErrorType, {
+      event: new NavigationError(event.id, event.url, `${event}`),
+    });
+  }
+
+  #emitRouterStoreEvent(
+    type: PickTypes<RouterStoreEvent, 'type'>,
+    payload: RouterStoreEventPayload
+  ): void {
+    this.patchState({
+      trigger: RouterTrigger.ROUTER,
+    });
+
+    try {
+      const routerState = this.get((state) => state.routerState);
+
+      if (routerState === null) {
+        throw new Error('RouterStoreState#routerState is null');
+      }
+
+      this.#routerStoreEvent.emit({
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        type: type as any,
+        payload: {
+          routerState,
+          ...payload,
+          event:
+            this.config.routerState === RouterState.Full
+              ? payload.event
+              : ({
+                  id: payload.event.id,
+                  url: payload.event.url,
+                  urlAfterRedirects:
+                    payload.event instanceof NavigationEnd
+                      ? payload.event.urlAfterRedirects
+                      : undefined,
+                } as RouterEvent &
+                  Optional<NavigationEnd, 'urlAfterRedirects'>),
+        },
+      });
+    } finally {
+      this.patchState({
+        trigger: RouterTrigger.NONE,
+      });
+    }
+  }
+
+  #emitRouterStoreNavigatedEvent(event: NavigationEnd): void {
+    const routerState = this.serializer.serialize(
+      this.router.routerState.snapshot
+    );
+    this.#emitRouterStoreEvent(routerStoreNavigatedType, {
+      event,
+      routerState,
+    });
+  }
+
+  #emitRouterStoreNavigationEvent(
+    lastRoutesRecognized: RoutesRecognized
+  ): void {
+    const nextRouterState = this.serializer.serialize(
+      lastRoutesRecognized.state
+    );
+
+    this.#emitRouterStoreEvent(routerStoreNavigationType, {
+      routerState: nextRouterState,
+      event: new RoutesRecognized(
+        lastRoutesRecognized.id,
+        lastRoutesRecognized.url,
+        lastRoutesRecognized.urlAfterRedirects,
+        nextRouterState
+      ),
+    });
+  }
+
+  #emitRouterStoreRequestEvent(event: NavigationStart): void {
+    this.#emitRouterStoreEvent(routerStoreRequestType, {
+      event,
+    });
+  }
 
   #reset(): void {
     this.patchState({

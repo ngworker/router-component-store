@@ -20,8 +20,14 @@ import {
 } from '@ngrx/router-store';
 import { filter, map, Observable, skipWhile, tap, withLatestFrom } from 'rxjs';
 
-import { RouterStoreConfig, routerStoreConfigToken } from './router-store-config';
-import { isSameUrl, RouterTrigger } from './router-store/router_store_module';
+import {
+  isSameUrl,
+  RouterTrigger,
+} from './@ngrx/router-store/router_store_module';
+import {
+  RouterStoreConfig,
+  routerStoreConfigToken,
+} from './router-store-config';
 
 type RouterStoreState<
   TRouterState extends BaseRouterStoreState = SerializedRouterStateSnapshot

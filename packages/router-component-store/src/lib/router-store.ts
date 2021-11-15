@@ -66,12 +66,12 @@ export class RouterStore extends ComponentStore<RouterStoreState> {
   #dispatchNavLate: boolean =
     this.config.navigationActionTiming ===
     NavigationActionTiming.PostActivation;
-  #routerState$: Observable<SerializedRouterStateSnapshot> = this.select(
-    (state) => state.routerState as SerializedRouterStateSnapshot
-  ).pipe(skipWhile((routerState) => routerState === null));
-  #rootRoute$: Observable<ActivatedRouteSnapshot> = this.select(
+  #routerState$: Observable<SerializedRouterStateSnapshot | null> = this.select(
+    (state) => state.routerState
+  );
+  #rootRoute$: Observable<ActivatedRouteSnapshot | null> = this.select(
     this.#routerState$,
-    (routerState) => routerState?.root
+    (routerState) => routerState?.root ?? null
   );
   #routerStoreEvent = new EventEmitter<RouterStoreEvent>();
   #routesRecognized$: Observable<RoutesRecognized> = this.select(
@@ -79,10 +79,7 @@ export class RouterStore extends ComponentStore<RouterStoreState> {
   ).pipe(skipWhile((routesRecognized) => routesRecognized === null));
   #trigger$: Observable<RouterTrigger> = this.select(
     (state) => state.trigger as RouterTrigger
-  ).pipe(skipWhile((trigger) => trigger === null));
-
-  // TODO(@LayZeeDK): determine whether we need to add `undefined` to the type of
-  //   the public selectors depending on the final type of `#routerState$`
+  );
 
   currentRoute$: Observable<ActivatedRouteSnapshot | undefined> = this.select(
     this.#rootRoute$,
@@ -102,25 +99,25 @@ export class RouterStore extends ComponentStore<RouterStoreState> {
   );
   fragment$: Observable<string | null> = this.select(
     this.#rootRoute$,
-    (route) => route?.fragment
+    (route) => route?.fragment ?? null
   );
-  queryParams$: Observable<Params> = this.select(
+  queryParams$: Observable<Params | null> = this.select(
     this.#rootRoute$,
-    (route) => route?.queryParams
+    (route) => route?.queryParams ?? null
   );
-  routeData$: Observable<Data | undefined> = this.select(
+  routeData$: Observable<Data | null> = this.select(
     this.currentRoute$,
-    (route) => route?.data
+    (route) => route?.data ?? null
   );
-  routeParams$: Observable<Params | undefined> = this.select(
+  routeParams$: Observable<Params | null> = this.select(
     this.currentRoute$,
-    (route) => route?.params
+    (route) => route?.params ?? null
   );
   routerStoreEvent$: Observable<RouterStoreEvent> =
     this.#routerStoreEvent.asObservable();
-  url$: Observable<string> = this.select(
+  url$: Observable<string | null> = this.select(
     this.#routerState$,
-    (routerState) => routerState?.url
+    (routerState) => routerState?.url ?? null
   );
 
   constructor(

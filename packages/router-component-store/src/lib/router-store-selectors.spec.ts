@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Router, Routes } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { filter, firstValueFrom, map, withLatestFrom } from 'rxjs';
+import { filter, firstValueFrom, map, Observable, withLatestFrom } from 'rxjs';
 
 import { RouterStore } from './router-store';
 import { RouterStoreModule } from './router-store.module';
@@ -18,6 +18,20 @@ class DummyAppComponent {}
 class DummyLoginComponent {}
 
 describe(`${RouterStore.name} selectors`, () => {
+  const afterNavigation = <TValue>(
+    observable$: Observable<TValue>
+  ): Promise<TValue> =>
+    firstValueFrom(
+      store.routerStoreEvent$.pipe(
+        withLatestFrom(observable$),
+        filter(
+          ([event]) =>
+            event.type === '@ngworker/router-component-store/navigated'
+        ),
+        map(([_, value]) => value)
+      )
+    );
+
   beforeEach(async () => {
     const routes: Routes = [
       {
@@ -51,16 +65,7 @@ describe(`${RouterStore.name} selectors`, () => {
   let store: RouterStore;
 
   it('exposes a selector for the current route', async () => {
-    const whenCurrentRoute = firstValueFrom(
-      store.routerStoreEvent$.pipe(
-        withLatestFrom(store.currentRoute$),
-        filter(
-          ([event]) =>
-            event.type === '@ngworker/router-component-store/navigated'
-        ),
-        map(([_, currentRoute]) => currentRoute)
-      )
-    );
+    const whenCurrentRoute = afterNavigation(store.currentRoute$);
 
     await router.navigateByUrl('/login/etyDDwAAQBAJ?ref=ngrx.io#test-fragment');
 
@@ -90,16 +95,7 @@ describe(`${RouterStore.name} selectors`, () => {
   });
 
   it('exposes a selector for the fragment', async () => {
-    const whenFragment = firstValueFrom(
-      store.routerStoreEvent$.pipe(
-        withLatestFrom(store.fragment$),
-        filter(
-          ([event]) =>
-            event.type === '@ngworker/router-component-store/navigated'
-        ),
-        map(([_, fragment]) => fragment)
-      )
-    );
+    const whenFragment = afterNavigation(store.fragment$);
 
     await router.navigateByUrl('/login/etyDDwAAQBAJ?ref=ngrx.io#test-fragment');
 
@@ -107,16 +103,7 @@ describe(`${RouterStore.name} selectors`, () => {
   });
 
   it('exposes a selector for query params', async () => {
-    const whenQueryParams = firstValueFrom(
-      store.routerStoreEvent$.pipe(
-        withLatestFrom(store.queryParams$),
-        filter(
-          ([event]) =>
-            event.type === '@ngworker/router-component-store/navigated'
-        ),
-        map(([_, queryParams]) => queryParams)
-      )
-    );
+    const whenQueryParams = afterNavigation(store.queryParams$);
 
     await router.navigateByUrl('/login/etyDDwAAQBAJ?ref=ngrx.io#test-fragment');
 
@@ -124,16 +111,7 @@ describe(`${RouterStore.name} selectors`, () => {
   });
 
   it('creates a selector for a specific query param', async () => {
-    const whenRef = firstValueFrom(
-      store.routerStoreEvent$.pipe(
-        withLatestFrom(store.selectQueryParam('ref')),
-        filter(
-          ([event]) =>
-            event.type === '@ngworker/router-component-store/navigated'
-        ),
-        map(([_, ref]) => ref)
-      )
-    );
+    const whenRef = afterNavigation(store.selectQueryParam('ref');
 
     await router.navigateByUrl('/login/etyDDwAAQBAJ?ref=ngrx.io#test-fragment');
 
@@ -141,16 +119,7 @@ describe(`${RouterStore.name} selectors`, () => {
   });
 
   it('exposes a selector for route params', async () => {
-    const whenRouteParams = firstValueFrom(
-      store.routerStoreEvent$.pipe(
-        withLatestFrom(store.routeParams$),
-        filter(
-          ([event]) =>
-            event.type === '@ngworker/router-component-store/navigated'
-        ),
-        map(([_, routeParams]) => routeParams)
-      )
-    );
+    const whenRouteParams = afterNavigation(store.routeParams$);
 
     await router.navigateByUrl('/login/etyDDwAAQBAJ?ref=ngrx.io#test-fragment');
 
@@ -158,16 +127,7 @@ describe(`${RouterStore.name} selectors`, () => {
   });
 
   it('creates a selector for a specific route param', async () => {
-    const whenId = firstValueFrom(
-      store.routerStoreEvent$.pipe(
-        withLatestFrom(store.selectRouteParam('id')),
-        filter(
-          ([event]) =>
-            event.type === '@ngworker/router-component-store/navigated'
-        ),
-        map(([_, id]) => id)
-      )
-    );
+    const whenId = afterNavigation(store.selectRouteParam('id');
 
     await router.navigateByUrl('/login/etyDDwAAQBAJ?ref=ngrx.io#test-fragment');
 
@@ -175,16 +135,7 @@ describe(`${RouterStore.name} selectors`, () => {
   });
 
   it('exposes a selector for route data', async () => {
-    const whenRouteData = firstValueFrom(
-      store.routerStoreEvent$.pipe(
-        withLatestFrom(store.routeData$),
-        filter(
-          ([event]) =>
-            event.type === '@ngworker/router-component-store/navigated'
-        ),
-        map(([_, routeData]) => routeData)
-      )
-    );
+    const whenRouteData = afterNavigation(store.routeData$);
 
     await router.navigateByUrl('/login/etyDDwAAQBAJ?ref=ngrx.io#test-fragment');
 
@@ -192,16 +143,7 @@ describe(`${RouterStore.name} selectors`, () => {
   });
 
   it('exposes a selector for the URL', async () => {
-    const whenUrl = firstValueFrom(
-      store.routerStoreEvent$.pipe(
-        withLatestFrom(store.url$),
-        filter(
-          ([event]) =>
-            event.type === '@ngworker/router-component-store/navigated'
-        ),
-        map(([_, url]) => url)
-      )
-    );
+    const whenUrl = afterNavigation(store.url$);
 
     await router.navigateByUrl('/login/etyDDwAAQBAJ?ref=ngrx.io#test-fragment');
 

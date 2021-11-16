@@ -18,7 +18,7 @@ class DummyAppComponent {}
 class DummyLoginComponent {}
 
 describe(`${RouterStore.name} selectors`, () => {
-  const afterNavigation = <TValue>(
+  const afterNavigated = <TValue>(
     observable$: Observable<TValue>
   ): Promise<TValue> =>
     firstValueFrom(
@@ -65,7 +65,7 @@ describe(`${RouterStore.name} selectors`, () => {
   let store: RouterStore;
 
   it('exposes a selector for the current route', async () => {
-    const whenCurrentRoute = afterNavigation(store.currentRoute$);
+    const whenCurrentRoute = afterNavigated(store.currentRoute$);
 
     await router.navigateByUrl('/login/etyDDwAAQBAJ?ref=ngrx.io#test-fragment');
 
@@ -95,7 +95,7 @@ describe(`${RouterStore.name} selectors`, () => {
   });
 
   it('exposes a selector for the fragment', async () => {
-    const whenFragment = afterNavigation(store.fragment$);
+    const whenFragment = afterNavigated(store.fragment$);
 
     await router.navigateByUrl('/login/etyDDwAAQBAJ?ref=ngrx.io#test-fragment');
 
@@ -103,7 +103,7 @@ describe(`${RouterStore.name} selectors`, () => {
   });
 
   it('exposes a selector for query params', async () => {
-    const whenQueryParams = afterNavigation(store.queryParams$);
+    const whenQueryParams = afterNavigated(store.queryParams$);
 
     await router.navigateByUrl('/login/etyDDwAAQBAJ?ref=ngrx.io#test-fragment');
 
@@ -111,7 +111,7 @@ describe(`${RouterStore.name} selectors`, () => {
   });
 
   it('creates a selector for a specific query param', async () => {
-    const whenRef = afterNavigation(store.selectQueryParam('ref');
+    const whenRef = afterNavigated(store.selectQueryParam('ref'));
 
     await router.navigateByUrl('/login/etyDDwAAQBAJ?ref=ngrx.io#test-fragment');
 
@@ -119,7 +119,7 @@ describe(`${RouterStore.name} selectors`, () => {
   });
 
   it('exposes a selector for route params', async () => {
-    const whenRouteParams = afterNavigation(store.routeParams$);
+    const whenRouteParams = afterNavigated(store.routeParams$);
 
     await router.navigateByUrl('/login/etyDDwAAQBAJ?ref=ngrx.io#test-fragment');
 
@@ -127,7 +127,7 @@ describe(`${RouterStore.name} selectors`, () => {
   });
 
   it('creates a selector for a specific route param', async () => {
-    const whenId = afterNavigation(store.selectRouteParam('id');
+    const whenId = afterNavigated(store.selectRouteParam('id'));
 
     await router.navigateByUrl('/login/etyDDwAAQBAJ?ref=ngrx.io#test-fragment');
 
@@ -135,7 +135,7 @@ describe(`${RouterStore.name} selectors`, () => {
   });
 
   it('exposes a selector for route data', async () => {
-    const whenRouteData = afterNavigation(store.routeData$);
+    const whenRouteData = afterNavigated(store.routeData$);
 
     await router.navigateByUrl('/login/etyDDwAAQBAJ?ref=ngrx.io#test-fragment');
 
@@ -143,7 +143,7 @@ describe(`${RouterStore.name} selectors`, () => {
   });
 
   it('exposes a selector for the URL', async () => {
-    const whenUrl = afterNavigation(store.url$);
+    const whenUrl = afterNavigated(store.url$);
 
     await router.navigateByUrl('/login/etyDDwAAQBAJ?ref=ngrx.io#test-fragment');
 

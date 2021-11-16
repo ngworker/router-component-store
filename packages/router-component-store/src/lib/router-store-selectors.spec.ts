@@ -141,7 +141,7 @@ describe(`${RouterStore.name} selectors`, () => {
   });
 
   it('exposes a selector for route params', async () => {
-    const whenQueryParams = firstValueFrom(
+    const whenRouteParams = firstValueFrom(
       store.routerStoreEvent$.pipe(
         withLatestFrom(store.routeParams$),
         filter(
@@ -154,6 +154,23 @@ describe(`${RouterStore.name} selectors`, () => {
 
     await router.navigateByUrl('/login/etyDDwAAQBAJ?ref=ngrx.io#test-fragment');
 
-    await expect(whenQueryParams).resolves.toEqual({ id: 'etyDDwAAQBAJ' });
+    await expect(whenRouteParams).resolves.toEqual({ id: 'etyDDwAAQBAJ' });
+  });
+
+  it('creates a selector for a specific route param', async () => {
+    const whenId = firstValueFrom(
+      store.routerStoreEvent$.pipe(
+        withLatestFrom(store.selectRouteParam('id')),
+        filter(
+          ([event]) =>
+            event.type === '@ngworker/router-component-store/navigated'
+        ),
+        map(([_, id]) => id)
+      )
+    );
+
+    await router.navigateByUrl('/login/etyDDwAAQBAJ?ref=ngrx.io#test-fragment');
+
+    await expect(whenId).resolves.toBe('etyDDwAAQBAJ');
   });
 });

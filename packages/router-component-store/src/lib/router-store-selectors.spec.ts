@@ -105,4 +105,21 @@ describe(`${RouterStore.name} selectors`, () => {
 
     await expect(whenFragment).resolves.toBe('test-fragment');
   });
+
+  it('exposes a selector for query params', async () => {
+    const whenQueryParams = firstValueFrom(
+      store.routerStoreEvent$.pipe(
+        withLatestFrom(store.queryParams$),
+        filter(
+          ([event]) =>
+            event.type === '@ngworker/router-component-store/navigated'
+        ),
+        map(([_, queryParams]) => queryParams)
+      )
+    );
+
+    await router.navigateByUrl('/login/etyDDwAAQBAJ?ref=ngrx.io#test-fragment');
+
+    await expect(whenQueryParams).resolves.toEqual({ ref: 'ngrx.io' });
+  });
 });

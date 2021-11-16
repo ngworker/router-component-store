@@ -139,4 +139,21 @@ describe(`${RouterStore.name} selectors`, () => {
 
     await expect(whenRef).resolves.toBe('ngrx.io');
   });
+
+  it('exposes a selector for route params', async () => {
+    const whenQueryParams = firstValueFrom(
+      store.routerStoreEvent$.pipe(
+        withLatestFrom(store.routeParams$),
+        filter(
+          ([event]) =>
+            event.type === '@ngworker/router-component-store/navigated'
+        ),
+        map(([_, routeParams]) => routeParams)
+      )
+    );
+
+    await router.navigateByUrl('/login/etyDDwAAQBAJ?ref=ngrx.io#test-fragment');
+
+    await expect(whenQueryParams).resolves.toEqual({ id: 'etyDDwAAQBAJ' });
+  });
 });

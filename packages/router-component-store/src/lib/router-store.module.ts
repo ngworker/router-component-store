@@ -45,5 +45,6 @@ export class RouterStoreModule {
   }
 }
 
-export const internalRouterStoreConfigToken =
-  new InjectionToken<RouterStoreConfig>('internalRouterStoreConfigToken');
+const internalRouterStoreConfigToken = new InjectionToken<RouterStoreConfig>(
+  'internalRouterStoreConfigToken'
+);

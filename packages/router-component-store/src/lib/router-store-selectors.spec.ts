@@ -50,15 +50,15 @@ describe(`${RouterStore.name} selectors`, () => {
   let router: Router;
   let store: RouterStore;
 
-  it('exposes currentRoute$ selector for selecting the current route', async () => {
+  it('exposes a selector for the current route', async () => {
     const whenCurrentRoute = firstValueFrom(
-      store.currentRoute$.pipe(
-        withLatestFrom(store.routerStoreEvent$),
+      store.routerStoreEvent$.pipe(
+        withLatestFrom(store.currentRoute$),
         filter(
-          ([_, event]) =>
+          ([event]) =>
             event.type === '@ngworker/router-component-store/navigated'
         ),
-        map(([currentRoute]) => currentRoute)
+        map(([_, currentRoute]) => currentRoute)
       )
     );
 
@@ -87,5 +87,22 @@ describe(`${RouterStore.name} selectors`, () => {
       fragment: 'test-fragment',
       children: [],
     });
+  });
+
+  it('exposes a selector for the fragment', async () => {
+    const whenFragment = firstValueFrom(
+      store.routerStoreEvent$.pipe(
+        withLatestFrom(store.fragment$),
+        filter(
+          ([event]) =>
+            event.type === '@ngworker/router-component-store/navigated'
+        ),
+        map(([_, fragment]) => fragment)
+      )
+    );
+
+    await router.navigateByUrl('/login/etyDDwAAQBAJ?ref=ngrx.io#test-fragment');
+
+    await expect(whenFragment).resolves.toBe('test-fragment');
   });
 });

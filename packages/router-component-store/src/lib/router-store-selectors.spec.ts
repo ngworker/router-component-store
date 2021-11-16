@@ -173,4 +173,21 @@ describe(`${RouterStore.name} selectors`, () => {
 
     await expect(whenId).resolves.toBe('etyDDwAAQBAJ');
   });
+
+  it('exposes a selector for route data', async () => {
+    const whenRouteData = firstValueFrom(
+      store.routerStoreEvent$.pipe(
+        withLatestFrom(store.routeData$),
+        filter(
+          ([event]) =>
+            event.type === '@ngworker/router-component-store/navigated'
+        ),
+        map(([_, routeData]) => routeData)
+      )
+    );
+
+    await router.navigateByUrl('/login/etyDDwAAQBAJ?ref=ngrx.io#test-fragment');
+
+    await expect(whenRouteData).resolves.toEqual({ testData: 'test-data' });
+  });
 });

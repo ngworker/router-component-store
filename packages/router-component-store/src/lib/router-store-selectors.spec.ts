@@ -122,4 +122,21 @@ describe(`${RouterStore.name} selectors`, () => {
 
     await expect(whenQueryParams).resolves.toEqual({ ref: 'ngrx.io' });
   });
+
+  it('creates a selector for a specific query param', async () => {
+    const whenRef = firstValueFrom(
+      store.routerStoreEvent$.pipe(
+        withLatestFrom(store.selectQueryParam('ref')),
+        filter(
+          ([event]) =>
+            event.type === '@ngworker/router-component-store/navigated'
+        ),
+        map(([_, ref]) => ref)
+      )
+    );
+
+    await router.navigateByUrl('/login/etyDDwAAQBAJ?ref=ngrx.io#test-fragment');
+
+    await expect(whenRef).resolves.toBe('ngrx.io');
+  });
 });

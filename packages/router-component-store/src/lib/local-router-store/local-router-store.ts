@@ -1,5 +1,5 @@
 import { Inject, inject, Injectable, InjectFlags, InjectionToken } from '@angular/core';
-import { ActivatedRoute, Data, Params, Router, RouterStateSnapshot } from '@angular/router';
+import { ActivatedRoute, ActivatedRouteSnapshot, Data, Params, Router } from '@angular/router';
 import { ComponentStore } from '@ngrx/component-store';
 import { MinimalRouterStateSerializer, RouterStateSerializer, SerializedRouterStateSnapshot } from '@ngrx/router-store';
 import { map, Observable } from 'rxjs';
@@ -10,34 +10,49 @@ interface LocalRouterStoreState {
 
 @Injectable()
 export class LocalRouterStore extends ComponentStore<LocalRouterStoreState> {
-  currentRoute$ = this.select(
-    this.select((state) => state.routerState.root),
-    (route) => {
-      while (route.firstChild) {
-        route = route.firstChild;
-      }
-
-      return route;
-    }
+  #routerState$: Observable<SerializedRouterStateSnapshot> = this.select(
+    (state) => state.routerState
   );
-  fragment$: Observable<string | null> = this.route.fragment;
-  queryParams$: Observable<Params> = this.route.queryParams;
-  routeData$: Observable<Data> = this.route.data;
-  routeParams$: Observable<Params> = this.route.params;
-  url$: Observable<string> = this.select((state) => state.routerState.url);
+  #rootRoute$: Observable<ActivatedRouteSnapshot> = this.select(
+    this.#routerState$,
+    (routerState) => routerState.root
+  );
+
+  currentRoute$ = this.select(this.#rootRoute$, (route) => {
+    while (route.firstChild) {
+      route = route.firstChild;
+    }
+
+    return route;
+  });
+  fragment$: Observable<string | null>;
+  queryParams$: Observable<Params>;
+  routeData$: Observable<Data>;
+  routeParams$: Observable<Params>;
+  url$: Observable<string> = this.select(
+    this.#routerState$,
+    (routerState) => routerState.url
+  );
 
   constructor(
-    private route: ActivatedRoute,
-    private router: Router,
+    route: ActivatedRoute,
+    router: Router,
     @Inject(serializerToken)
-    private serializer: RouterStateSerializer<SerializedRouterStateSnapshot>
+    serializer: RouterStateSerializer<SerializedRouterStateSnapshot>
   ) {
     super({
       routerState: serializer.serialize(router.routerState.snapshot),
     });
 
+    this.fragment$ = route.fragment;
+    this.queryParams$ = route.queryParams;
+    this.routeData$ = route.data;
+    this.routeParams$ = route.params;
+
     this.#updateRouterState(
-      this.router.events.pipe(map(() => this.router.routerState.snapshot))
+      router.events.pipe(
+        map(() => serializer.serialize(router.routerState.snapshot))
+      )
     );
   }
 
@@ -49,10 +64,10 @@ export class LocalRouterStore extends ComponentStore<LocalRouterStoreState> {
     return this.routeParams$.pipe(map((params) => params[param]));
   }
 
-  #updateRouterState = this.updater<RouterStateSnapshot>(
+  #updateRouterState = this.updater<SerializedRouterStateSnapshot>(
     (state, routerState): LocalRouterStoreState => ({
       ...state,
-      routerState: this.serializer.serialize(routerState),
+      routerState,
     })
   );
 }

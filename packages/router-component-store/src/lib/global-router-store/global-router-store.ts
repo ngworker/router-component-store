@@ -1,32 +1,40 @@
-import { Inject, inject, Injectable, InjectFlags, InjectionToken } from '@angular/core';
-import { ActivatedRouteSnapshot, Data, Params, Router } from '@angular/router';
+import { Injectable } from '@angular/core';
+import { Data, Params, Router } from '@angular/router';
 import { ComponentStore } from '@ngrx/component-store';
-import { MinimalRouterStateSerializer, RouterStateSerializer, SerializedRouterStateSnapshot } from '@ngrx/router-store';
 import { map, Observable } from 'rxjs';
 
+import {
+  MinimalActivatedRouteSnapshot,
+  MinimalRouterStateSerializer,
+  MinimalRouterStateSnapshot,
+} from '../minimal-router-state-serializer';
+
 interface GlobalRouterStoreState {
-  readonly routerState: SerializedRouterStateSnapshot;
+  readonly routerState: MinimalRouterStateSnapshot;
 }
 
 @Injectable({
   providedIn: 'root',
 })
 export class GlobalRouterStore extends ComponentStore<GlobalRouterStoreState> {
-  #routerState$: Observable<SerializedRouterStateSnapshot> = this.select(
+  #routerState$: Observable<MinimalRouterStateSnapshot> = this.select(
     (state) => state.routerState
   );
-  #rootRoute$: Observable<ActivatedRouteSnapshot> = this.select(
+  #rootRoute$: Observable<MinimalActivatedRouteSnapshot> = this.select(
     this.#routerState$,
     (routerState) => routerState.root
   );
 
-  currentRoute$ = this.select(this.#rootRoute$, (route) => {
-    while (route.firstChild) {
-      route = route.firstChild;
-    }
+  currentRoute$: Observable<MinimalActivatedRouteSnapshot> = this.select(
+    this.#rootRoute$,
+    (route) => {
+      while (route.firstChild) {
+        route = route.firstChild;
+      }
 
-    return route;
-  });
+      return route;
+    }
+  );
   fragment$: Observable<string | null> = this.select(
     this.#rootRoute$,
     (route) => route.fragment
@@ -48,11 +56,7 @@ export class GlobalRouterStore extends ComponentStore<GlobalRouterStoreState> {
     (routerState) => routerState.url
   );
 
-  constructor(
-    router: Router,
-    @Inject(serializerToken)
-    serializer: RouterStateSerializer<SerializedRouterStateSnapshot>
-  ) {
+  constructor(router: Router, serializer: MinimalRouterStateSerializer) {
     super({
       routerState: serializer.serialize(router.routerState.snapshot),
     });
@@ -72,20 +76,10 @@ export class GlobalRouterStore extends ComponentStore<GlobalRouterStoreState> {
     return this.routeParams$.pipe(map((params) => params[param]));
   }
 
-  #updateRouterState = this.updater<SerializedRouterStateSnapshot>(
+  #updateRouterState = this.updater<MinimalRouterStateSnapshot>(
     (state, routerState): GlobalRouterStoreState => ({
       ...state,
       routerState,
     })
   );
 }
-
-const serializerToken = new InjectionToken<RouterStateSerializer>(
-  'serializerToken',
-  {
-    factory: () =>
-      inject(RouterStateSerializer, InjectFlags.Optional) ??
-      new MinimalRouterStateSerializer(),
-    providedIn: 'root',
-  }
-);

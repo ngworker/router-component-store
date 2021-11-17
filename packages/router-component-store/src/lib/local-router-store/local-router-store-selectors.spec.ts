@@ -6,7 +6,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { filter, firstValueFrom, map, Observable, withLatestFrom } from 'rxjs';
 
 import { LocalRouterStore } from './local-router-store';
-import { RouterStore } from './router-store';
 
 @Component({
   template: '<router-outlet></router-outlet>',
@@ -21,7 +20,7 @@ class DummyLoginComponent {
   constructor(public store: LocalRouterStore) {}
 }
 
-describe(`${RouterStore.name} selectors`, () => {
+describe(`${LocalRouterStore.name} selectors`, () => {
   const afterNavigated = <TValue>(
     observable$: Observable<TValue>
   ): Promise<TValue> =>

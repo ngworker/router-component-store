@@ -69,9 +69,7 @@ describe(`${LocalRouterStore.name} selectors`, () => {
   it('exposes a selector for the current route', async () => {
     await router.navigateByUrl('/login/etyDDwAAQBAJ?ref=ngrx.io#test-fragment');
 
-    const currentRoute = await firstValueFrom(getStore().currentRoute$);
-
-    expect(currentRoute).toEqual({
+    await expect(firstValueFrom(getStore().currentRoute$)).resolves.toEqual({
       params: {
         id: 'etyDDwAAQBAJ',
       },

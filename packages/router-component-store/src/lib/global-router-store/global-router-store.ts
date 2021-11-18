@@ -8,6 +8,7 @@ import {
   MinimalRouterStateSerializer,
   MinimalRouterStateSnapshot,
 } from '../@ngrx/router-store/minimal_serializer';
+import { RouterComponentStore } from '../router-component-store';
 
 interface GlobalRouterStoreState {
   readonly routerState: MinimalRouterStateSnapshot;
@@ -16,7 +17,10 @@ interface GlobalRouterStoreState {
 @Injectable({
   providedIn: 'root',
 })
-export class GlobalRouterStore extends ComponentStore<GlobalRouterStoreState> {
+export class GlobalRouterStore
+  extends ComponentStore<GlobalRouterStoreState>
+  implements RouterComponentStore
+{
   #routerState$: Observable<MinimalRouterStateSnapshot> = this.select(
     (state) => state.routerState
   );
@@ -25,33 +29,31 @@ export class GlobalRouterStore extends ComponentStore<GlobalRouterStoreState> {
     (routerState) => routerState.root
   );
 
-  currentRoute$: Observable<MinimalActivatedRouteSnapshot> = this.select(
-    this.#rootRoute$,
-    (route) => {
+  readonly currentRoute$: Observable<MinimalActivatedRouteSnapshot> =
+    this.select(this.#rootRoute$, (route) => {
       while (route.firstChild) {
         route = route.firstChild;
       }
 
       return route;
-    }
-  );
-  fragment$: Observable<string | null> = this.select(
+    });
+  readonly fragment$: Observable<string | null> = this.select(
     this.#rootRoute$,
     (route) => route.fragment
   );
-  queryParams$: Observable<Params> = this.select(
+  readonly queryParams$: Observable<Params> = this.select(
     this.#rootRoute$,
     (route) => route.queryParams
   );
-  routeData$: Observable<Data> = this.select(
+  readonly routeData$: Observable<Data> = this.select(
     this.currentRoute$,
     (route) => route.data
   );
-  routeParams$: Observable<Params> = this.select(
+  readonly routeParams$: Observable<Params> = this.select(
     this.currentRoute$,
     (route) => route.params
   );
-  url$: Observable<string> = this.select(
+  readonly url$: Observable<string> = this.select(
     this.#routerState$,
     (routerState) => routerState.url
   );
@@ -69,11 +71,11 @@ export class GlobalRouterStore extends ComponentStore<GlobalRouterStoreState> {
   }
 
   selectQueryParam<TValue>(param: string): Observable<TValue> {
-    return this.queryParams$.pipe(map((params) => params[param]));
+    return this.select(this.queryParams$, (params) => params[param]);
   }
 
   selectRouteParam<TValue>(param: string): Observable<TValue> {
-    return this.routeParams$.pipe(map((params) => params[param]));
+    return this.select(this.routeParams$, (params) => params[param]);
   }
 
   #updateRouterState = this.updater<MinimalRouterStateSnapshot>(

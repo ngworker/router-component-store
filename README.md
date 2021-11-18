@@ -1,3 +1,3 @@
-# Angular Router-connecting NgRx ComponentStore
+# @ngworker/router-component-store
 
-An attempt to create an Angular Router-connecting NgRx component store.
+Angular Router-connecting NgRx component stores.

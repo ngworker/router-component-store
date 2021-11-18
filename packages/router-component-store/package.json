@@ -1,6 +1,8 @@
 {
   "name": "@ngworker/router-component-store",
   "version": "0.0.1",
+  "description": "Angular Router-connecting NgRx component stores.",
+  "license": "MIT",
   "peerDependencies": {
     "@angular/core": "^12.2.13",
     "@angular/router": "^12.2.13",
@@ -9,5 +11,32 @@
   },
   "dependencies": {
     "tslib": "^2.3.0"
+  },
+  "keywords": [
+    "ngrx",
+    "router",
+    "component-store",
+    "ngworker",
+    "angular",
+    "angular2"
+  ],
+  "author": {
+    "name": "Lars Gyrup Brink Nielsen",
+    "email": "larsbrinknielsen@gmail.com",
+    "url": "https://github.com/LayZeeDK"
+  },
+  "contributors": [],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/",
+    "tag": "unknown"
+  },
+  "bugs": {
+    "url": "https://github.com/LayZeeDK/ngrx-router-component-store/issue"
+  },
+  "homepage": "https://github.com/LayZeeDK/ngrx-router-component-store#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/LayZeeDK/ngrx-router-component-store"
   }
 }

@@ -7,7 +7,7 @@ import {
   MinimalActivatedRouteSnapshot,
   MinimalRouterStateSerializer,
   MinimalRouterStateSnapshot,
-} from '../minimal-router-state-serializer';
+} from '../@ngrx/router-store/minimal_serializer';
 
 interface GlobalRouterStoreState {
   readonly routerState: MinimalRouterStateSnapshot;

@@ -2,8 +2,10 @@
   "name": "@ngworker/router-component-store",
   "version": "0.0.1",
   "peerDependencies": {
-    "@angular/common": "^12.2.0",
-    "@angular/core": "^12.2.0"
+    "@angular/core": "^12.2.13",
+    "@angular/router": "^12.2.13",
+    "@ngrx/component-store": "^12.0.0",
+    "rxjs": "^7.0.1"
   },
   "dependencies": {
     "tslib": "^2.3.0"

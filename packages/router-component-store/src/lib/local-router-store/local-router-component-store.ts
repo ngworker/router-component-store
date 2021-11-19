@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Injector } from '@angular/core';
 import { ActivatedRoute, Data, Params, Router } from '@angular/router';
 import { ComponentStore } from '@ngrx/component-store';
 import { map, Observable } from 'rxjs';
@@ -12,6 +12,21 @@ import { RouterComponentStore } from '../router-component-store';
 
 interface LocalRouterState {
   readonly routerState: MinimalRouterStateSnapshot;
+}
+
+export function createLocalRouterStore(
+  injector: Injector
+): LocalRouterComponentStore {
+  return Injector.create({
+    name: 'LocalRouterStoreInjector',
+    parent: injector,
+    providers: [
+      {
+        provide: LocalRouterComponentStore,
+        useClass: LocalRouterComponentStore,
+      },
+    ],
+  }).get(LocalRouterComponentStore);
 }
 
 @Injectable()

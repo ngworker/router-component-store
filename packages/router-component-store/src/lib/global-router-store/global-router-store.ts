@@ -1,87 +1,44 @@
 import { Injectable } from '@angular/core';
-import { Data, Params, Router } from '@angular/router';
-import { ComponentStore } from '@ngrx/component-store';
-import { map, Observable } from 'rxjs';
+import { Data, Params } from '@angular/router';
+import { Observable } from 'rxjs';
 
-import {
-  MinimalActivatedRouteSnapshot,
-  MinimalRouterStateSerializer,
-  MinimalRouterStateSnapshot,
-} from '../@ngrx/router-store/minimal_serializer';
+import { MinimalActivatedRouteSnapshot } from '../@ngrx/router-store/minimal_serializer';
 import { RouterComponentStore } from '../router-component-store';
-
-interface GlobalRouterStoreState {
-  readonly routerState: MinimalRouterStateSnapshot;
-}
+import { GlobalRouterComponentStore } from './global-router-component-store';
 
 @Injectable({
   providedIn: 'root',
 })
-export class GlobalRouterStore
-  extends ComponentStore<GlobalRouterStoreState>
-  implements RouterComponentStore
-{
-  #routerState$: Observable<MinimalRouterStateSnapshot> = this.select(
-    (state) => state.routerState
-  );
-  #rootRoute$: Observable<MinimalActivatedRouteSnapshot> = this.select(
-    this.#routerState$,
-    (routerState) => routerState.root
-  );
+export class GlobalRouterStore implements RouterComponentStore {
+  #store: GlobalRouterComponentStore;
 
-  readonly currentRoute$: Observable<MinimalActivatedRouteSnapshot> =
-    this.select(this.#rootRoute$, (route) => {
-      while (route.firstChild) {
-        route = route.firstChild;
-      }
+  get currentRoute$(): Observable<MinimalActivatedRouteSnapshot> {
+    return this.#store.currentRoute$;
+  }
+  get fragment$(): Observable<string | null> {
+    return this.#store.fragment$;
+  }
+  get queryParams$(): Observable<Params> {
+    return this.#store.queryParams$;
+  }
+  get routeData$(): Observable<Data> {
+    return this.#store.routeData$;
+  }
+  get routeParams$(): Observable<Params> {
+    return this.#store.routeParams$;
+  }
+  get url$(): Observable<string> {
+    return this.#store.url$;
+  }
 
-      return route;
-    });
-  readonly fragment$: Observable<string | null> = this.select(
-    this.#rootRoute$,
-    (route) => route.fragment
-  );
-  readonly queryParams$: Observable<Params> = this.select(
-    this.#rootRoute$,
-    (route) => route.queryParams
-  );
-  readonly routeData$: Observable<Data> = this.select(
-    this.currentRoute$,
-    (route) => route.data
-  );
-  readonly routeParams$: Observable<Params> = this.select(
-    this.currentRoute$,
-    (route) => route.params
-  );
-  readonly url$: Observable<string> = this.select(
-    this.#routerState$,
-    (routerState) => routerState.url
-  );
-
-  constructor(router: Router, serializer: MinimalRouterStateSerializer) {
-    super({
-      routerState: serializer.serialize(router.routerState.snapshot),
-    });
-
-    this.#updateRouterState(
-      router.events.pipe(
-        map(() => serializer.serialize(router.routerState.snapshot))
-      )
-    );
+  constructor(store: GlobalRouterComponentStore) {
+    this.#store = store;
   }
 
   selectQueryParam<TValue>(param: string): Observable<TValue> {
-    return this.select(this.queryParams$, (params) => params[param]);
+    return this.#store.selectQueryParam(param);
   }
-
   selectRouteParam<TValue>(param: string): Observable<TValue> {
-    return this.select(this.routeParams$, (params) => params[param]);
+    return this.#store.selectRouteParam(param);
   }
-
-  #updateRouterState = this.updater<MinimalRouterStateSnapshot>(
-    (state, routerState): GlobalRouterStoreState => ({
-      ...state,
-      routerState,
-    })
-  );
 }

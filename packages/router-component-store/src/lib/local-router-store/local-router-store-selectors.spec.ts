@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { NavigationEnd, Router, Routes } from '@angular/router';
+import { Router, Routes } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { filter, firstValueFrom, map, Observable, withLatestFrom } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 
 import { LocalRouterStore } from './local-router-store';
 
@@ -21,17 +21,6 @@ class DummyLoginComponent {
 }
 
 describe(`${LocalRouterStore.name} selectors`, () => {
-  const afterNavigated = <TValue>(
-    observable$: Observable<TValue>
-  ): Promise<TValue> =>
-    firstValueFrom(
-      router.events.pipe(
-        withLatestFrom(observable$),
-        filter((event) => event instanceof NavigationEnd),
-        map(([_, value]) => value)
-      )
-    );
-
   const getStore = () =>
     (
       rootFixture.debugElement.query(By.directive(DummyLoginComponent))

@@ -10,21 +10,27 @@ import { LocalRouterComponentStore } from './local-router-component-store';
 export class LocalRouterStore implements RouterComponentStore {
   #store: LocalRouterComponentStore;
 
-  readonly currentRoute$: Observable<MinimalActivatedRouteSnapshot>;
-  readonly fragment$: Observable<string | null>;
-  readonly queryParams$: Observable<Params>;
-  readonly routeData$: Observable<Data>;
-  readonly routeParams$: Observable<Params>;
-  readonly url$: Observable<string>;
+  get currentRoute$(): Observable<MinimalActivatedRouteSnapshot> {
+    return this.#store.currentRoute$;
+  }
+  get fragment$(): Observable<string | null> {
+    return this.#store.fragment$;
+  }
+  get queryParams$(): Observable<Params> {
+    return this.#store.queryParams$;
+  }
+  get routeData$(): Observable<Data> {
+    return this.#store.routeData$;
+  }
+  get routeParams$(): Observable<Params> {
+    return this.#store.routeParams$;
+  }
+  get url$(): Observable<string> {
+    return this.#store.url$;
+  }
 
   constructor(store: LocalRouterComponentStore) {
     this.#store = store;
-    this.currentRoute$ = store.currentRoute$;
-    this.fragment$ = store.fragment$;
-    this.queryParams$ = store.queryParams$;
-    this.routeData$ = store.routeData$;
-    this.routeParams$ = store.routeParams$;
-    this.url$ = store.url$;
   }
 
   selectQueryParam<TValue>(param: string): Observable<TValue> {

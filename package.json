@@ -1,11 +1,9 @@
 {
-  "name": "ngrx-router-component-store",
-  "version": "0.0.0",
-  "license": "MIT",
+  "name": "",
+  "private": true,
   "scripts": {
     "postinstall": "node ./decorate-angular-cli.js && ngcc --properties es2015 browser module main"
   },
-  "private": true,
   "dependencies": {
     "@angular/animations": "^12.2.0",
     "@angular/common": "^12.2.0",

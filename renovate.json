@@ -48,7 +48,7 @@
     }
   ],
   "patch": {
-    "automerge": true,
+    "automerge": false,
     "enabled": true
   },
   "timezone": "Europe/Copenhagen"

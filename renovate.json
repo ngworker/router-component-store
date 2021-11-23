@@ -12,7 +12,7 @@
   },
   "packageRules": [
     {
-      "groupName": "Packages managed by Nx + Angular schematics",
+      "groupName": "nx",
       "matchPackageNames": [
         "@types/jest",
         "@types/node",

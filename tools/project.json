@@ -1,0 +1,16 @@
+{
+  "projectType": "library",
+  "root": "tools",
+  "sourceRoot": "tools",
+  "prefix": "ngw",
+  "targets": {
+    "migrate-nx": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "commands": ["node tools/scripts/migrate-nx.cjs"],
+        "parallel": false
+      }
+    }
+  },
+  "tags": []
+}

@@ -1,6 +1,7 @@
 {
   "version": 2,
   "projects": {
-    "router-component-store": "packages/router-component-store"
+    "router-component-store": "packages/router-component-store",
+    "tools": "tools"
   }
 }

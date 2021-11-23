@@ -1,5 +1,55 @@
 {
-  "extends": [
-    "config:base"
-  ]
+  "extends": ["config:base"],
+  "lockFileMaintenance": {
+    "automerge": true,
+    "enabled": true
+  },
+  "major": {
+    "dependencyDashboardApproval": true
+  },
+  "minor": {
+    "dependencyDashboardApproval": true
+  },
+  "packageRules": [
+    {
+      "groupName": "Packages managed by Nx + Angular schematics",
+      "matchPackageNames": [
+        "@types/jest",
+        "@types/node",
+        "@typescript-eslint/eslint-plugin",
+        "@typescript-eslint/parser",
+        "cypress",
+        "eslint",
+        "eslint-config-prettier",
+        "jest",
+        "jest-preset-angular",
+        "ng-packagr",
+        "postcss",
+        "prettier",
+        "rxjs",
+        "ts-jest",
+        "tslib",
+        "typescript",
+        "zone.js"
+      ],
+      "matchPackagePatterns": [
+        "^@angular/",
+        "^@angular-devkit/",
+        "^@angular-eslint/",
+        "^@ngrx/",
+        "^@nrwl/",
+        "^@schematics/",
+        "^postcss-"
+      ],
+      "postUpgradeTasks": {
+        "commands": ["nx run tools:migrate-nx"],
+        "executionMode": "branch"
+      }
+    }
+  ],
+  "patch": {
+    "automerge": true,
+    "enabled": true
+  },
+  "timezone": "Europe/Copenhagen"
 }

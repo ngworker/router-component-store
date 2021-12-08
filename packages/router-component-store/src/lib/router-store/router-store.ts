@@ -1,10 +1,4 @@
-import {
-  ErrorHandler,
-  EventEmitter,
-  Inject,
-  Injectable,
-  Type,
-} from '@angular/core';
+import { ErrorHandler, EventEmitter, Inject, Injectable, Type } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
   Data,
@@ -28,14 +22,8 @@ import {
 } from '@ngrx/router-store';
 import { filter, map, Observable, skipWhile, tap, withLatestFrom } from 'rxjs';
 
-import {
-  isSameUrl,
-  RouterTrigger,
-} from './@ngrx/router-store/router_store_module';
-import {
-  RouterStoreConfig,
-  routerStoreConfigToken,
-} from './router-store-config';
+import { isSameUrl, RouterTrigger } from './@ngrx/router-store/router_store_module';
+import { RouterStoreConfig, routerStoreConfigToken } from './router-store-config';
 import { routerStoreCancelType } from './router-store-events/router-store-cancel-event';
 import { routerStoreErrorType } from './router-store-events/router-store-error-event';
 import { RouterStoreEvent } from './router-store-events/router-store-event';
@@ -139,7 +127,7 @@ export class RouterStore extends ComponentStore<RouterStoreState> {
     this.#navigateIfNeeded(
       this.#selectRouterEvents(NavigationStart).pipe(
         withLatestFrom(this.#trigger$),
-        map(([_, trigger]) => trigger)
+        map(([, trigger]) => trigger)
       )
     );
     this.#syncRoutesRecognized(
@@ -161,7 +149,7 @@ export class RouterStore extends ComponentStore<RouterStoreState> {
     trigger$.pipe(
       withLatestFrom(this.url$ as Observable<string>),
       filter(([trigger]) => trigger !== RouterTrigger.ROUTER),
-      map(([_, url]) => url),
+      map(([, url]) => url),
       filter((url) => url !== null && !isSameUrl(this.router.url, url)),
       tap((url) => {
         this.patchState({

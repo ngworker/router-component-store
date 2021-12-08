@@ -18,6 +18,7 @@
   "packageRules": [
     {
       "groupName": "nx-ignore",
+      "enabled": false,
       "lockFileMaintenance": {
         "enabled": false
       },

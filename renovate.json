@@ -18,7 +18,8 @@
   "packageRules": [
     {
       "groupName": "nx-ignore",
-      "enabled": false,
+      "enabled": true,
+      "rangeStrategy": "pin",
       "excludePackageNames": ["@nrwl/workspace"],
       "matchPackageNames": [
         "@schematics/angular",

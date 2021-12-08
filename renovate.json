@@ -1,0 +1,88 @@
+{
+  "extends": ["config:base"],
+  "major": {
+    "dependencyDashboardApproval": true
+  },
+  "minor": {
+    "dependencyDashboardApproval": true
+  },
+  "patch": {
+    "automerge": false,
+    "enabled": true
+  },
+  "lockFileMaintenance": {
+    "automerge": true,
+    "enabled": true
+  },
+  "timezone": "Europe/Copenhagen",
+  "packageRules": [
+    {
+      "groupName": "nx-patch",
+      "major": {
+        "enabled": false
+      },
+      "minor": {
+        "enabled": false
+      },
+      "patch": {
+        "enabled": true
+      },
+      "lockFileMaintenance": {
+        "enabled": false
+      },
+      "matchPackageNames": [
+        "@schematics/angular",
+        "@types/jest",
+        "@types/node",
+        "@typescript-eslint/eslint-plugin",
+        "@typescript-eslint/parser",
+        "cypress",
+        "eslint",
+        "eslint-config-prettier",
+        "jest",
+        "jest-preset-angular",
+        "ng-packagr",
+        "postcss",
+        "prettier",
+        "rxjs",
+        "ts-jest",
+        "tslib",
+        "typescript",
+        "zone.js"
+      ],
+      "matchPackagePrefixes": [
+        "@angular/",
+        "@angular-devkit/",
+        "@angular-eslint/",
+        "@ngrx/",
+        "postcss-"
+      ]
+    },
+    {
+      "groupName": "nx-pin-nrwl",
+      "rangeStrategy": "pin",
+      "major": {
+        "enabled": false
+      },
+      "minor": {
+        "enabled": false
+      },
+      "patch": {
+        "enabled": false
+      },
+      "lockFileMaintenance": {
+        "enabled": true
+      },
+      "excludePackageNames": ["@nrwl/workspace"],
+      "matchPackagePrefixes": ["@nrwl/"]
+    },
+    {
+      "groupName": "nx-migrate",
+      "matchPackageNames": ["@nrwl/workspace"],
+      "postUpgradeTasks": {
+        "commands": ["nx run tools:migrate-nx"],
+        "executionMode": "branch"
+      }
+    }
+  ]
+}

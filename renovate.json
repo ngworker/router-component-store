@@ -12,7 +12,7 @@
   },
   "lockFileMaintenance": {
     "automerge": true,
-    "enabled": true
+    "enabled": false
   },
   "timezone": "Europe/Copenhagen",
   "packageRules": [

@@ -18,7 +18,6 @@
   "packageRules": [
     {
       "groupName": "nx-ignore",
-      "enabled": true,
       "rangeStrategy": "pin",
       "major": {
         "enabled": false

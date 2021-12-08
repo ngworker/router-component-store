@@ -1,4 +1,10 @@
-import { ErrorHandler, EventEmitter, Inject, Injectable, Type } from '@angular/core';
+import {
+  ErrorHandler,
+  EventEmitter,
+  Inject,
+  Injectable,
+  Type,
+} from '@angular/core';
 import {
   ActivatedRouteSnapshot,
   Data,
@@ -22,8 +28,14 @@ import {
 } from '@ngrx/router-store';
 import { filter, map, Observable, skipWhile, tap, withLatestFrom } from 'rxjs';
 
-import { isSameUrl, RouterTrigger } from './@ngrx/router-store/router_store_module';
-import { RouterStoreConfig, routerStoreConfigToken } from './router-store-config';
+import {
+  isSameUrl,
+  RouterTrigger,
+} from './@ngrx/router-store/router_store_module';
+import {
+  RouterStoreConfig,
+  routerStoreConfigToken,
+} from './router-store-config';
 import { routerStoreCancelType } from './router-store-events/router-store-cancel-event';
 import { routerStoreErrorType } from './router-store-events/router-store-error-event';
 import { RouterStoreEvent } from './router-store-events/router-store-event';

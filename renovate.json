@@ -12,12 +12,15 @@
   },
   "lockFileMaintenance": {
     "automerge": true,
-    "enabled": false
+    "enabled": true
   },
   "timezone": "Europe/Copenhagen",
   "packageRules": [
     {
       "groupName": "nx-ignore",
+      "lockFileMaintenance": {
+        "enabled": false
+      },
       "major": {
         "enabled": false
       },

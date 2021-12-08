@@ -17,8 +17,7 @@
   "timezone": "Europe/Copenhagen",
   "packageRules": [
     {
-      "groupName": "nx-ignore",
-      "rangeStrategy": "pin",
+      "groupName": "nx-patch-dependencies",
       "major": {
         "enabled": false
       },
@@ -26,9 +25,8 @@
         "enabled": false
       },
       "patch": {
-        "enabled": false
+        "enabled": true
       },
-      "excludePackageNames": ["@nrwl/workspace"],
       "matchPackageNames": [
         "@schematics/angular",
         "@types/jest",
@@ -54,12 +52,25 @@
         "@angular-devkit/",
         "@angular-eslint/",
         "@ngrx/",
-        "@nrwl/",
         "postcss-"
       ]
     },
     {
-      "groupName": "nx",
+      "groupName": "nx-ignore-dependencies",
+      "major": {
+        "enabled": false
+      },
+      "minor": {
+        "enabled": false
+      },
+      "patch": {
+        "enabled": false
+      },
+      "excludePackageNames": ["@nrwl/workspace"],
+      "matchPackagePrefixes": ["@nrwl/"]
+    },
+    {
+      "groupName": "nx-migrate",
       "matchPackageNames": ["@nrwl/workspace"],
       "postUpgradeTasks": {
         "commands": ["nx run tools:migrate-nx"],

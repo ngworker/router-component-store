@@ -51,7 +51,6 @@
     },
     {
       "groupName": "nx",
-      "enabled": false,
       "matchPackageNames": ["@nrwl/workspace"],
       "postUpgradeTasks": {
         "commands": ["nx run tools:migrate-nx"],

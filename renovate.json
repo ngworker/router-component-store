@@ -18,7 +18,6 @@
   "packageRules": [
     {
       "groupName": "nx-patch",
-      "rangeStrategy": "pin",
       "major": {
         "enabled": false
       },
@@ -27,6 +26,9 @@
       },
       "patch": {
         "enabled": true
+      },
+      "lockFileMaintenance": {
+        "enabled": false
       },
       "matchPackageNames": [
         "@schematics/angular",

@@ -59,7 +59,7 @@
     {
       "groupName": "nx",
       "major": {
-        "enabled": false
+        "enabled": true
       },
       "minor": {
         "enabled": true

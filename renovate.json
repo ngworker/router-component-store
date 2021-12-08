@@ -12,25 +12,13 @@
   },
   "lockFileMaintenance": {
     "automerge": true,
-    "enabled": false
+    "enabled": true
   },
   "timezone": "Europe/Copenhagen",
   "packageRules": [
     {
       "groupName": "nx-ignore",
       "enabled": false,
-      "lockFileMaintenance": {
-        "enabled": false
-      },
-      "major": {
-        "enabled": false
-      },
-      "minor": {
-        "enabled": false
-      },
-      "patch": {
-        "enabled": false
-      },
       "matchPackageNames": [
         "@schematics/angular",
         "@types/jest",
@@ -51,27 +39,18 @@
         "typescript",
         "zone.js"
       ],
-      "matchPackagePatterns": [
-        "^@angular/",
-        "^@angular-devkit/",
-        "^@angular-eslint/",
-        "^@ngrx/",
-        "^@nrwl/",
-        "^postcss-"
+      "matchPackagePrefixes": [
+        "@angular/",
+        "@angular-devkit/",
+        "@angular-eslint/",
+        "@ngrx/",
+        "@nrwl/",
+        "postcss-"
       ]
     },
     {
       "groupName": "nx:minor-and-patch",
       "enabled": true,
-      "major": {
-        "enabled": false
-      },
-      "minor": {
-        "enabled": true
-      },
-      "patch": {
-        "enabled": true
-      },
       "matchPackageNames": ["@nrwl/workspace"],
       "postUpgradeTasks": {
         "commands": ["nx run tools:migrate-nx"],

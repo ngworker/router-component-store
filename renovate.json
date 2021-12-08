@@ -62,6 +62,7 @@
     },
     {
       "groupName": "nx:minor-and-patch",
+      "enabled": true,
       "major": {
         "enabled": false
       },

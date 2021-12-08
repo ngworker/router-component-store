@@ -4646,7 +4646,7 @@ eslint-etc@^4.1.0, eslint-etc@^4.2.4:
     tsutils "^3.17.1"
     tsutils-etc "^1.3.4"
 
-eslint-plugin-ngrx@^1.46.3:
+eslint-plugin-ngrx@1.46.3:
   version "1.46.3"
   resolved "https://registry.yarnpkg.com/eslint-plugin-ngrx/-/eslint-plugin-ngrx-1.46.3.tgz#9a0b7617608f686b5358710edf90142ae4274de9"
   integrity sha512-l1X6glIiHE7Ts7zzUM2BfwP5yXWZ/aUXLap8IlX7eZMwMp1Jg/fLPg0DecnNZuW+RYBnNLddEzp03eGQ95wZqA==

@@ -13,14 +13,6 @@
   "packageRules": [
     {
       "groupName": "nx",
-      "major": {
-        "dependencyDashboardApproval": true,
-        "enabled": true
-      },
-      "minor": {
-        "dependencyDashboardApproval": true,
-        "enabled": true
-      },
       "matchPackageNames": [
         "@schematics/angular",
         "@types/jest",

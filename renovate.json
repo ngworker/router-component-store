@@ -20,6 +20,15 @@
       "groupName": "nx-ignore",
       "enabled": true,
       "rangeStrategy": "pin",
+      "major": {
+        "enabled": false
+      },
+      "minor": {
+        "enabled": false
+      },
+      "patch": {
+        "enabled": false
+      },
       "excludePackageNames": ["@nrwl/workspace"],
       "matchPackageNames": [
         "@schematics/angular",

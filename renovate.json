@@ -12,14 +12,14 @@
   },
   "packageRules": [
     {
-      "groupName": "nx:minor",
+      "groupName": "nx:major",
       "major": {
         "dependencyDashboardApproval": true,
-        "enabled": false
+        "enabled": true
       },
       "minor": {
         "dependencyDashboardApproval": true,
-        "enabled": true
+        "enabled": false
       },
       "matchPackageNames": [
         "@schematics/angular",
@@ -55,14 +55,14 @@
       }
     },
     {
-      "groupName": "nx:major",
+      "groupName": "nx:minor",
       "major": {
         "dependencyDashboardApproval": true,
-        "enabled": true
+        "enabled": false
       },
       "minor": {
         "dependencyDashboardApproval": true,
-        "enabled": false
+        "enabled": true
       },
       "matchPackageNames": [
         "@schematics/angular",

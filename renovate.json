@@ -60,6 +60,7 @@
     },
     {
       "groupName": "nx-pin-nrwl",
+      "rangeStrategy": "pin",
       "major": {
         "enabled": false
       },

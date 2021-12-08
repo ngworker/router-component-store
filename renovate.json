@@ -1,18 +1,32 @@
 {
   "extends": ["config:base"],
-  "lockFileMaintenance": {
-    "automerge": true,
-    "enabled": true
-  },
   "major": {
     "dependencyDashboardApproval": true
   },
   "minor": {
     "dependencyDashboardApproval": true
   },
+  "patch": {
+    "automerge": false,
+    "enabled": true
+  },
+  "lockFileMaintenance": {
+    "automerge": true,
+    "enabled": true
+  },
+  "timezone": "Europe/Copenhagen",
   "packageRules": [
     {
-      "groupName": "nx",
+      "groupName": "nx-ignore",
+      "major": {
+        "enabled": false
+      },
+      "minor": {
+        "enabled": false
+      },
+      "patch": {
+        "enabled": false
+      },
       "matchPackageNames": [
         "@schematics/angular",
         "@types/jest",
@@ -40,16 +54,24 @@
         "^@ngrx/",
         "^@nrwl/",
         "^postcss-"
-      ],
+      ]
+    },
+    {
+      "groupName": "nx",
+      "major": {
+        "enabled": false
+      },
+      "minor": {
+        "enabled": false
+      },
+      "patch": {
+        "enabled": true
+      },
+      "matchPackageNames": ["@nrwl/workspace"],
       "postUpgradeTasks": {
         "commands": ["nx run tools:migrate-nx"],
         "executionMode": "branch"
       }
     }
-  ],
-  "patch": {
-    "automerge": false,
-    "enabled": true
-  },
-  "timezone": "Europe/Copenhagen"
+  ]
 }

@@ -57,12 +57,29 @@
       ]
     },
     {
-      "groupName": "nx",
+      "groupName": "nx:minor",
       "major": {
         "enabled": false
       },
       "minor": {
         "enabled": true
+      },
+      "patch": {
+        "enabled": false
+      },
+      "matchPackageNames": ["@nrwl/workspace"],
+      "postUpgradeTasks": {
+        "commands": ["nx run tools:migrate-nx"],
+        "executionMode": "branch"
+      }
+    },
+    {
+      "groupName": "nx:patch",
+      "major": {
+        "enabled": false
+      },
+      "minor": {
+        "enabled": false
       },
       "patch": {
         "enabled": true

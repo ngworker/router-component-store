@@ -12,7 +12,58 @@
   },
   "packageRules": [
     {
-      "groupName": "nx",
+      "groupName": "nx:minor",
+      "major": {
+        "dependencyDashboardApproval": true,
+        "enabled": false
+      },
+      "minor": {
+        "dependencyDashboardApproval": true,
+        "enabled": true
+      },
+      "matchPackageNames": [
+        "@schematics/angular",
+        "@types/jest",
+        "@types/node",
+        "@typescript-eslint/eslint-plugin",
+        "@typescript-eslint/parser",
+        "cypress",
+        "eslint",
+        "eslint-config-prettier",
+        "jest",
+        "jest-preset-angular",
+        "ng-packagr",
+        "postcss",
+        "prettier",
+        "rxjs",
+        "ts-jest",
+        "tslib",
+        "typescript",
+        "zone.js"
+      ],
+      "matchPackagePatterns": [
+        "^@angular/",
+        "^@angular-devkit/",
+        "^@angular-eslint/",
+        "^@ngrx/",
+        "^@nrwl/",
+        "^postcss-"
+      ],
+      "postUpgradeTasks": {
+        "commands": ["nx run tools:migrate-nx"],
+        "executionMode": "branch"
+      }
+    },
+    {
+      "groupName": "nx:major",
+      "major": {
+        "dependencyDashboardApproval": true,
+        "enabled": true
+      },
+      "minor": {
+        "dependencyDashboardApproval": true,
+        "enabled": false
+      },
       "matchPackageNames": [
         "@schematics/angular",
         "@types/jest",

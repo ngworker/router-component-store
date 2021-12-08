@@ -17,7 +17,8 @@
   "timezone": "Europe/Copenhagen",
   "packageRules": [
     {
-      "groupName": "nx-patch-dependencies",
+      "groupName": "nx-patch",
+      "rangeStrategy": "pin",
       "major": {
         "enabled": false
       },
@@ -56,7 +57,7 @@
       ]
     },
     {
-      "groupName": "nx-ignore-dependencies",
+      "groupName": "nx-pin-nrwl",
       "major": {
         "enabled": false
       },

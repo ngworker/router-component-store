@@ -19,6 +19,7 @@
     {
       "groupName": "nx-ignore",
       "enabled": false,
+      "excludePackageNames": ["@nrwl/workspace"],
       "matchPackageNames": [
         "@schematics/angular",
         "@types/jest",

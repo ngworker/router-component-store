@@ -33,12 +33,13 @@
       "rules": {}
     },
     {
+      "files": ["*.ts"],
+      "extends": ["plugin:ngrx/component-store-strict"]
+    },
+    {
       "files": ["*.js", "*.jsx"],
       "extends": ["plugin:@nrwl/nx/javascript"],
       "rules": {}
     }
-  ],
-  "rules": {
-    "ngrx/updater-explicit-return-type": "error"
-  }
+  ]
 }

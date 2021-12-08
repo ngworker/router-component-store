@@ -50,7 +50,7 @@
       ]
     },
     {
-      "groupName": "nx:minor-and-patch",
+      "groupName": "nx",
       "enabled": true,
       "matchPackageNames": ["@nrwl/workspace"],
       "postUpgradeTasks": {

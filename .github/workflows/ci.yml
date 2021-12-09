@@ -74,5 +74,5 @@ jobs:
         # if: ${{ env.is-main-branch == 'true' }}
         uses: actions/upload-artifact@v2
         with:
-          name: '@ngworker/router-component-store'
+          name: ngworker-router-component-store
           path: dist/packages/router-component-store

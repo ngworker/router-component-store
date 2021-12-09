@@ -1,8 +1,11 @@
 {
-  "name": "",
+  "name": "root",
   "private": true,
   "scripts": {
-    "postinstall": "node ./decorate-angular-cli.js && ngcc --properties es2015 browser module main"
+    "postinstall": "node ./decorate-angular-cli.js && ngcc --properties es2015 browser module main",
+    "build": "nx build",
+    "lint": "nx workspace-lint && nx lint",
+    "test": "nx test"
   },
   "dependencies": {
     "@angular/animations": "^12.2.0",
@@ -55,5 +58,9 @@
     "prettier": "^2.3.1",
     "ts-jest": "27.0.5",
     "typescript": "~4.3.5"
+  },
+  "volta": {
+    "node": "14.18.2",
+    "yarn": "1.22.17"
   }
 }

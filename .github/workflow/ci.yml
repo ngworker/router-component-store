@@ -33,3 +33,38 @@ jobs:
 
       - name: Lint
         run: yarn lint
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out source code
+        uses: actions/checkout@v2
+      - name: Set up Node.js ${{ env.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ env.node-version }}
+          cache: yarn
+      - name: Install package dependencies
+        run: yarn install
+
+      - name: Test
+        run: yarn test
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out source code
+        uses: actions/checkout@v2
+      - name: Set up Node.js ${{ env.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ env.node-version }}
+          cache: yarn
+      - name: Install package dependencies
+        run: yarn install
+
+      - name: Build
+        run: yarn build

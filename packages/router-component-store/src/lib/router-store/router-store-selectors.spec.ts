@@ -28,7 +28,7 @@ describe(`${RouterStore.name} selectors`, () => {
           ([event]) =>
             event.type === '@ngworker/router-component-store/navigated'
         ),
-        map(([_, value]) => value)
+        map(([, value]) => value)
       )
     );
 

@@ -12,6 +12,7 @@ on:
   workflow_dispatch: {}
 
 env:
+  is-main-branch: ${{ github.ref_name == 'main' }}
   node-version: 14.x
   NODE_OPTIONS: --max-old-space-size=6144
 
@@ -68,3 +69,10 @@ jobs:
 
       - name: Build
         run: yarn build
+
+      - name: 'Merge: Upload package bundle'
+        # if: ${{ env.is-main-branch == 'true' }}
+        uses: actions/upload-artifact@v2
+          with:
+            name: '@ngworker/router-component-store'
+            path: dist/packages/router-component-store

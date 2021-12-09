@@ -1,0 +1,35 @@
+name: CI
+
+concurrency:
+  - group: ci@${{ github.ref_name }}
+  - cancel-in-progress: true
+
+on:
+  push:
+    branches:
+      - main
+  pull_request: {}
+  workflow_dispatch: {}
+
+env:
+  node-version: 14.x
+  NODE_OPTIONS: --max-old-space-size=6144
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out source code
+        uses: actions/checkout@v2
+      - name: Set up Node.js ${{ env.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ env.node-version }}
+          cache: yarn
+      - name: Install package dependencies
+        run: yarn install
+
+      - name: Lint
+        run: yarn lint

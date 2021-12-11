@@ -83,6 +83,12 @@
         "commands": ["nx run tools:migrate-nx"],
         "executionMode": "branch"
       }
+    },
+    {
+      "groupName": "packages-widen",
+      "includePaths": ["packages/**/package.json"],
+      "rangeStrategy": "widen",
+      "matchDepTypes": ["dependencies", "peerDependencies"]
     }
   ]
 }

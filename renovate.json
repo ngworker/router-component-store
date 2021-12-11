@@ -7,7 +7,7 @@
     "dependencyDashboardApproval": true
   },
   "patch": {
-    "automerge": false,
+    "automerge": true,
     "enabled": true
   },
   "lockFileMaintenance": {

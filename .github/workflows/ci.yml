@@ -17,6 +17,24 @@ env:
   NODE_OPTIONS: --max-old-space-size=6144
 
 jobs:
+  validate-renovate:
+    name: Validate Renovate configuration
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out source code
+        uses: actions/checkout@v2
+      - name: Set up Node.js ${{ env.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ env.node-version }}
+          cache: yarn
+      - name: Install package dependencies
+        run: yarn install
+
+      - name: Validate renovate configuration
+        run: yarn renovate:validate
+
   lint:
     name: Lint
     runs-on: ubuntu-latest

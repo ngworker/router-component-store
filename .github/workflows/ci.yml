@@ -32,7 +32,7 @@ jobs:
       - name: Install package dependencies
         run: npm install --global renovate
 
-      - name: Validate renovate configuration
+      - name: Validate Renovate configuration
         run: renovate-config-validator
 
   lint:

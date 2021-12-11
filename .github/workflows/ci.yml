@@ -30,7 +30,7 @@ jobs:
           node-version: lts/*
           cache: npm
       - name: Install package dependencies
-        run: npm install --global --save-dev renovate
+        run: npm install --global renovate
 
       - name: Validate renovate configuration
         run: renovate-config-validator

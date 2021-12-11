@@ -28,7 +28,7 @@
         "enabled": true
       },
       "lockFileMaintenance": {
-        "enabled": false
+        "enabled": true
       },
       "matchPackageNames": [
         "@schematics/angular",

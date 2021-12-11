@@ -86,7 +86,7 @@
     },
     {
       "groupName": "packages-widen",
-      "includePaths": ["packages/**/package.json"],
+      "matchPaths": ["packages/**/package.json"],
       "rangeStrategy": "widen",
       "matchDepTypes": ["dependencies", "peerDependencies"]
     }

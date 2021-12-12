@@ -5,6 +5,9 @@ concurrency:
   cancel-in-progress: ${{ github.ref_name != 'main' }}
 
 on:
+  push:
+    branches:
+      - renovate/nx-migrate
   pull_request:
     branches:
       - renovate/nx-migrate

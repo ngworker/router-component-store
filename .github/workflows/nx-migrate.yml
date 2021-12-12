@@ -29,6 +29,8 @@ jobs:
     steps:
       - name: Check out source code
         uses: actions/checkout@v2
+      - name: Fetch base branch
+        run: git fetch origin main
 
       - name: Set up Node.js ${{ env.node-version }}
         uses: actions/setup-node@v2

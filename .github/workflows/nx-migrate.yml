@@ -1,0 +1,45 @@
+name: Migrate Nx workspace
+
+concurrency:
+  group: nx-migrate@${{ github.ref_name }}
+  cancel-in-progress: ${{ github.ref_name != 'main' }}
+
+on:
+  pull_request:
+    branches:
+      - renovate/nx-migrate
+  workflow_dispatch: {}
+
+env:
+  is-main-branch: ${{ github.ref_name == 'main' }}
+  node-version: 14.x
+  NODE_OPTIONS: --max-old-space-size=6144
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out source code
+        uses: actions/checkout@v2
+        with:
+
+      - name: Set up Node.js ${{ env.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ env.node-version }}
+          cache: yarn
+      - name: Install package dependencies
+        run: yarn install
+
+      - name: Migrate Nx workspace
+        run: yarn nx run tools:migrate-nx
+
+      - name: Commit changes
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add .
+          git commit -m "feat(deps): migrate Nx-managed dependencies"
+          git push

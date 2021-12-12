@@ -8,7 +8,11 @@ on:
   pull_request:
     branches:
       - renovate/nx-migrate
-  workflow_dispatch: {}
+    types:
+      - labeled
+  workflow_dispatch:
+    branches:
+      - renovate/nx-migrate
 
 env:
   is-main-branch: ${{ github.ref_name == 'main' }}
@@ -16,8 +20,9 @@ env:
   NODE_OPTIONS: --max-old-space-size=6144
 
 jobs:
-  lint:
-    name: Lint
+  migrate:
+    name: Migrate Nx workspace
+    if: ${{ github.event.label.name == 'nx-migrate' || github.event_name == 'workflow_dispatch' }}
     runs-on: ubuntu-latest
 
     steps:

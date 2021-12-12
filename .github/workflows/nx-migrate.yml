@@ -8,8 +8,6 @@ on:
   pull_request:
     branches:
       - renovate/nx-migrate
-    types:
-      - labeled
   workflow_dispatch:
     branches:
       - renovate/nx-migrate
@@ -22,13 +20,12 @@ env:
 jobs:
   migrate:
     name: Migrate Nx workspace
-    if: ${{ github.event.label.name == 'nx-migrate' || github.event_name == 'workflow_dispatch' }}
+    # if: ${{ github.event.label.name == 'nx-migrate' || github.event_name == 'workflow_dispatch' }}
     runs-on: ubuntu-latest
 
     steps:
       - name: Check out source code
         uses: actions/checkout@v2
-        with:
 
       - name: Set up Node.js ${{ env.node-version }}
         uses: actions/setup-node@v2

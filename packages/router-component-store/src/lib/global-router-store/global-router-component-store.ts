@@ -70,6 +70,13 @@ export class GlobalRouterComponentStore
     );
   }
 
+  #updateRouterState = this.updater<MinimalRouterStateSnapshot>(
+    (state, routerState): GlobalRouterState => ({
+      ...state,
+      routerState,
+    })
+  );
+
   selectQueryParam<TValue>(param: string): Observable<TValue> {
     return this.select(this.queryParams$, (params) => params[param]);
   }
@@ -77,11 +84,4 @@ export class GlobalRouterComponentStore
   selectRouteParam<TValue>(param: string): Observable<TValue> {
     return this.select(this.routeParams$, (params) => params[param]);
   }
-
-  #updateRouterState = this.updater<MinimalRouterStateSnapshot>(
-    (state, routerState): GlobalRouterState => ({
-      ...state,
-      routerState,
-    })
-  );
 }

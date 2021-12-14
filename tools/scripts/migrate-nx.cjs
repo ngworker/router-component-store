@@ -1,12 +1,20 @@
 const child_process = require('child_process');
 const fs = require('fs');
 
+function formatFiles() {
+  runCommand('nx format');
+}
+
 function getNxVersion(packageConfiguration) {
   return packageConfiguration.devDependencies['@nrwl/workspace'] ?? '';
 }
 
 function installPackages() {
   runCommand('yarn install');
+}
+
+function setNxVersion(version, packageConfiguration) {
+  packageConfiguration.devDependencies['@nrwl/workspace'] = version;
 }
 
 function runCommand(command) {
@@ -39,7 +47,7 @@ function updatePackageJson() {
   const packageJson = JSON.parse(fs.readFileSync(packageJsonFilename, 'utf8'));
   const toNxVersion = getNxVersion(packageJson);
 
-  const baseBranch = 'main';
+  const baseBranch = 'origin/main';
   const baseBranchPackageJson = JSON.parse(
     child_process
       .execSync(`git cat-file -p ${baseBranch}:${packageJsonFilename}`)
@@ -47,6 +55,9 @@ function updatePackageJson() {
       .trim()
   );
   const fromNxVersion = getNxVersion(baseBranchPackageJson);
+
+  setNxVersion(fromNxVersion, packageJson);
+  fs.writeFileSync(packageJsonFilename, JSON.stringify(packageJson, null, 2));
 
   runCommand(
     `nx migrate @nrwl/workspace@${toNxVersion} --from=@nrwl/workspace@${fromNxVersion}`
@@ -56,3 +67,4 @@ function updatePackageJson() {
 updatePackageJson();
 installPackages();
 runMigrations();
+formatFiles();

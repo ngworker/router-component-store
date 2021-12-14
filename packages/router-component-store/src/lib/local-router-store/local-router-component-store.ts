@@ -82,6 +82,13 @@ export class LocalRouterComponentStore
     );
   }
 
+  #updateRouterState = this.updater<MinimalRouterStateSnapshot>(
+    (state, routerState): LocalRouterState => ({
+      ...state,
+      routerState,
+    })
+  );
+
   selectQueryParam<TValue>(param: string): Observable<TValue> {
     return this.select(this.queryParams$, (params) => params[param]);
   }
@@ -89,11 +96,4 @@ export class LocalRouterComponentStore
   selectRouteParam<TValue>(param: string): Observable<TValue> {
     return this.select(this.routeParams$, (params) => params[param]);
   }
-
-  #updateRouterState = this.updater<MinimalRouterStateSnapshot>(
-    (state, routerState): LocalRouterState => ({
-      ...state,
-      routerState,
-    })
-  );
 }

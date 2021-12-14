@@ -7,7 +7,10 @@ import {
   RouterStateSerializer,
 } from '@ngrx/router-store';
 
-import { RouterStoreConfig, routerStoreConfigToken } from './router-store-config';
+import {
+  RouterStoreConfig,
+  routerStoreConfigToken,
+} from './router-store-config';
 
 function createRouterConfig(config: RouterStoreConfig): RouterStoreConfig {
   return {

@@ -1,5 +1,9 @@
 import { InjectionToken, Type } from '@angular/core';
-import { NavigationActionTiming, RouterState, RouterStateSerializer } from '@ngrx/router-store';
+import {
+  NavigationActionTiming,
+  RouterState,
+  RouterStateSerializer,
+} from '@ngrx/router-store';
 
 export interface RouterStoreConfig {
   readonly serializer?: Type<RouterStateSerializer>;

@@ -1,22 +1,14 @@
 {
-  "extends": ["config:base", ":semanticPrefixChore"],
+  "extends": [
+    "config:base",
+    ":automergeMinor",
+    ":semanticPrefixChore",
+    ":rebaseStalePrs"
+  ],
   "major": {
     "dependencyDashboardApproval": true
   },
-  "minor": {
-    "automerge": true,
-    "enabled": true
-  },
-  "patch": {
-    "automerge": true,
-    "enabled": true
-  },
-  "lockFileMaintenance": {
-    "automerge": true,
-    "enabled": true
-  },
   "platformAutomerge": true,
-  "rebaseWhen": "behind-base-branch",
   "timezone": "Europe/Copenhagen",
   "packageRules": [
     {
@@ -41,6 +33,7 @@
     },
     {
       "groupName": "nx-patch",
+      "extends": [":automergePatch"],
       "major": {
         "enabled": false
       },
@@ -83,7 +76,7 @@
     },
     {
       "groupName": "nx-pin-nrwl",
-      "rangeStrategy": "pin",
+      "extends": [":pinVersions"],
       "major": {
         "enabled": false
       },
@@ -93,7 +86,12 @@
       "patch": {
         "enabled": false
       },
+      "pin": {
+        "automerge": true,
+        "enabled": true
+      },
       "lockFileMaintenance": {
+        "automerge": true,
         "enabled": true
       },
       "excludePackageNames": ["@nrwl/workspace"],
@@ -101,6 +99,7 @@
     },
     {
       "groupName": "nx-migrate",
+      "addLabels": ["automerge"],
       "matchPackageNames": ["@nrwl/workspace"]
     },
     {

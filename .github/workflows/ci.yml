@@ -13,7 +13,6 @@ on:
 
 env:
   is-main-branch: ${{ github.ref_name == 'main' }}
-  node-version: 14.x
   NODE_OPTIONS: --max-old-space-size=6144
 
 jobs:
@@ -27,8 +26,8 @@ jobs:
       - name: Set up Node.js LTS
         uses: actions/setup-node@v2
         with:
-          node-version: lts/*
           cache: npm
+          node-version: lts/*
       - name: Install Renovate
         run: npm install --global renovate
 
@@ -45,8 +44,8 @@ jobs:
       - name: Set up Node.js ${{ env.node-version }}
         uses: actions/setup-node@v2
         with:
-          node-version: ${{ env.node-version }}
           cache: yarn
+          node-version-file: .nvmrc
       - name: Install package dependencies
         run: yarn install
 
@@ -62,8 +61,8 @@ jobs:
       - name: Set up Node.js ${{ env.node-version }}
         uses: actions/setup-node@v2
         with:
-          node-version: ${{ env.node-version }}
           cache: yarn
+          node-version-file: .nvmrc
       - name: Install package dependencies
         run: yarn install
 
@@ -80,8 +79,8 @@ jobs:
       - name: Set up Node.js ${{ env.node-version }}
         uses: actions/setup-node@v2
         with:
-          node-version: ${{ env.node-version }}
           cache: yarn
+          node-version-file: .nvmrc
       - name: Install package dependencies
         run: yarn install
 

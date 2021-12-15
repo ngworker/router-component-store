@@ -78,11 +78,7 @@
     },
     {
       "groupName": "nx-migrate",
-      "matchPackageNames": ["@nrwl/workspace"],
-      "postUpgradeTasks": {
-        "commands": ["nx run tools:migrate-nx"],
-        "executionMode": "branch"
-      }
+      "matchPackageNames": ["@nrwl/workspace"]
     },
     {
       "groupName": "packages-widen",

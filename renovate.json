@@ -19,6 +19,22 @@
   "packageRules": [
     {
       "groupName": "node",
+      "extends": [
+        ":combinePatchMinorReleases",
+        ":separateMultipleMajorReleases"
+      ],
+      "major": {
+        "enabled": true
+      },
+      "minor": {
+        "enabled": true
+      },
+      "patch": {
+        "enabled": true
+      },
+      "lockFileMaintenance": {
+        "enabled": true
+      },
       "matchPackageNames": ["node", "yarn"]
     },
     {

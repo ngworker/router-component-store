@@ -15,6 +15,8 @@
     "automerge": true,
     "enabled": true
   },
+  "platformAutomerge": true,
+  "rebaseWhen": "behind-base-branch",
   "timezone": "Europe/Copenhagen",
   "packageRules": [
     {

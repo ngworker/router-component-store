@@ -13,7 +13,6 @@ on:
       - renovate/nx-migrate
 
 env:
-  node-version: 14.x
   NODE_OPTIONS: --max-old-space-size=6144
 
 jobs:
@@ -34,11 +33,11 @@ jobs:
       - name: Check out head branch
         run: git checkout -
 
-      - name: Set up Node.js ${{ env.node-version }}
+      - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: ${{ env.node-version }}
           cache: yarn
+          node-version-file: .nvmrc
       - name: Install package dependencies
         run: yarn install
 

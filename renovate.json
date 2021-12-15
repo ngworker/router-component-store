@@ -4,8 +4,8 @@
     "dependencyDashboardApproval": true
   },
   "minor": {
-    "enabled": true,
-    "automerge": true
+    "automerge": true,
+    "enabled": true
   },
   "patch": {
     "automerge": true,
@@ -17,6 +17,10 @@
   },
   "timezone": "Europe/Copenhagen",
   "packageRules": [
+    {
+      "groupName": "node",
+      "matchPackageNames": ["node", "yarn"]
+    },
     {
       "groupName": "nx-patch",
       "major": {

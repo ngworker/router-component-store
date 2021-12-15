@@ -6382,15 +6382,16 @@ eslint-etc@^5.1.0:
     tsutils "^3.17.1"
     tsutils-etc "^1.4.1"
 
-eslint-plugin-ngrx@2.0.2:
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-ngrx/-/eslint-plugin-ngrx-2.0.2.tgz#ed13ec82a7877c17d85deb071197505f83e2c409"
-  integrity sha512-eEKnYjQPpRwom579OooeJPTNeDLrJMa2heDV3WFyCYzBpfikLqbnUEn3grMOO7zOC07dBtSHORAUjqlc15UYGQ==
+eslint-plugin-ngrx@2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-ngrx/-/eslint-plugin-ngrx-2.0.3.tgz#4000fa22bc6358b42d095974cc2269306b49f793"
+  integrity sha512-xP1zCqzI+ogBSL4yyLluMS+f6NLiUgIg5pNTlHMKCAcg9L2uzvefPQUffq0YdOqS4CZrmShGi4+5K5Bde6aVWA==
   dependencies:
     "@angular-devkit/schematics" "^13.0.3"
     "@typescript-eslint/experimental-utils" "^5.4.0"
     eslint-etc "^5.1.0"
     semver "^7.3.5"
+    strip-json-comments "3.1.1"
 
 eslint-scope@5.1.1, eslint-scope@^5.1.0, eslint-scope@^5.1.1:
   version "5.1.1"
@@ -11951,7 +11952,7 @@ strip-indent@^3.0.0:
   dependencies:
     min-indent "^1.0.0"
 
-strip-json-comments@^3.1.0, strip-json-comments@^3.1.1:
+strip-json-comments@3.1.1, strip-json-comments@^3.1.0, strip-json-comments@^3.1.1:
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/strip-json-comments/-/strip-json-comments-3.1.1.tgz#31f1281b3832630434831c310c01cccda8cbe006"
   integrity sha512-6fPc+R4ihwqP6N/aIv2f1gMH8lOVtWQHoqC4yK6oSDVVocumAsfCqjkXnqiYMhmMwS/mEHLp7Vehlt3ql6lEig==

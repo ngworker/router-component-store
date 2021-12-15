@@ -62,6 +62,11 @@
     "ts-jest": "27.0.5",
     "typescript": "4.4.4"
   },
+  "engines": {
+    "node": "14.18.2",
+    "npm": "Use Yarn v1 instead of npm",
+    "yarn": "1.22.17"
+  },
   "volta": {
     "node": "14.18.2",
     "yarn": "1.22.17"

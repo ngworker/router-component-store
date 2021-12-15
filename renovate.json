@@ -99,7 +99,6 @@
     },
     {
       "groupName": "nx-migrate",
-      "labels": ["automerge"],
       "matchPackageNames": ["@nrwl/workspace"]
     },
     {

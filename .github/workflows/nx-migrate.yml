@@ -61,6 +61,7 @@ jobs:
 
   automerge:
     name: Automerge
+    if: ${{ needs.migrate.result == 'success' }}
     needs: migrate
     runs-on: ubuntu-latest
 

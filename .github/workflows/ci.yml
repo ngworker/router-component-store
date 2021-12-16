@@ -17,7 +17,7 @@ env:
 
 jobs:
   validate-renovate:
-    name: Validate Renovate configuration
+    name: 'Validate Renovate configuration @await'
     runs-on: ubuntu-latest
 
     steps:
@@ -35,7 +35,7 @@ jobs:
         run: renovate-config-validator
 
   lint:
-    name: Lint
+    name: 'Lint @await'
     runs-on: ubuntu-latest
 
     steps:
@@ -52,7 +52,7 @@ jobs:
       - name: Lint
         run: yarn lint
   test:
-    name: Test
+    name: 'Test @await'
     runs-on: ubuntu-latest
 
     steps:
@@ -70,7 +70,7 @@ jobs:
         run: yarn test
 
   build:
-    name: Build
+    name: 'Build @await'
     runs-on: ubuntu-latest
 
     steps:

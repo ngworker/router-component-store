@@ -2,7 +2,7 @@ name: Migrate Nx workspace
 
 concurrency:
   group: nx-migrate@${{ github.ref_name }}
-  cancel-in-progress: ${{ github.ref_name != 'main' }}
+  cancel-in-progress: false
 
 on:
   push:

@@ -51,13 +51,3 @@ jobs:
           git add .
           git commit -m "feat(deps): migrate Nx-managed dependencies"
           git push
-      - name: Enable automerge
-        uses: actions/github-script@v5
-        with:
-          script: |
-            github.rest.issues.addLabels({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: context.issue.number,
-              labels: ['automerge'],
-            });

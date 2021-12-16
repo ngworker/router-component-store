@@ -58,6 +58,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Check out source code
+        uses: actions/checkout@v2
       - name: Enable automerge
         run: gh pr merge --squash --auto
         env:

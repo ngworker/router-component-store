@@ -59,6 +59,6 @@ jobs:
 
     steps:
       - name: Enable automerge
-        run: gh pr merge --auto
+        run: gh pr merge --squash --auto
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

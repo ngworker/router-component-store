@@ -99,7 +99,8 @@
     },
     {
       "groupName": "nx-migrate",
-      "matchPackageNames": ["@nrwl/workspace"]
+      "matchPackageNames": ["@nrwl/workspace"],
+      "prCreation": "not-pending"
     },
     {
       "groupName": "packages-widen",

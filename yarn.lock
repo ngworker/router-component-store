@@ -3238,17 +3238,6 @@
   dependencies:
     xregexp "4.4.1"
 
-"@renovatebot/parser-utils@1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@renovatebot/parser-utils/-/parser-utils-1.0.0.tgz#ff29ca07adc0f9d2f1221675d3ded444d6e5a20d"
-  integrity sha512-OTIsj9XY/OPNl6zhPt6QwUDcpJK1e1oS51xwXgM5Vj+O/nnQu6Ydw7bhnu9b6vEfFxwtuyU2A0B4sBS/ZNyppQ==
-  dependencies:
-    "@thi.ng/zipper" "1.0.3"
-    "@types/moo" "0.5.5"
-    deep-freeze-es6 "1.4.1"
-    klona "2.0.5"
-    moo "0.5.1"
-
 "@renovatebot/ruby-semver@1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@renovatebot/ruby-semver/-/ruby-semver-1.0.0.tgz#79b5b8edbfa09b9c7c99a1c60b0fc68af7bae9b4"
@@ -7197,6 +7186,17 @@ globby@^11.0.1, globby@^11.0.3, globby@^11.0.4:
     ignore "^5.1.4"
     merge2 "^1.3.0"
     slash "^3.0.0"
+
+good-enough-parser@1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/good-enough-parser/-/good-enough-parser-1.1.0.tgz#cd6c63d512227f52b95cb6e6b3be9c2a72bd7086"
+  integrity sha512-0tqIaXxE9LlHgihxfZJQNYFq+Dvbu9hZOh19lek4MSC0WJWLLSONCkpCZHTB+vya223fMcJJVIRNgbLTg14/XQ==
+  dependencies:
+    "@thi.ng/zipper" "1.0.3"
+    "@types/moo" "0.5.5"
+    deep-freeze-es6 "1.4.1"
+    klona "2.0.5"
+    moo "0.5.1"
 
 got@11.8.3, got@^11.7.0:
   version "11.8.3"
@@ -11247,17 +11247,16 @@ remark@13.0.0:
     remark-stringify "^9.0.0"
     unified "^9.1.0"
 
-renovate@31.7.0:
-  version "31.7.0"
-  resolved "https://registry.yarnpkg.com/renovate/-/renovate-31.7.0.tgz#e63d20975bb0864d9abbd89d63d42bf5e0333eec"
-  integrity sha512-+GpoAMw8rc1nDzU8YS45OkjM+AuJxYOHzeF5RC9iHrGQCxC533NBZwSpcc0+eRWs/oaE5LCeo5z7JnxubD6WKA==
+renovate@31.9.1:
+  version "31.9.1"
+  resolved "https://registry.yarnpkg.com/renovate/-/renovate-31.9.1.tgz#e3ff0423c05f3d6ac261ab64a2e788cbef1f0fc3"
+  integrity sha512-+kMAfutV90pt12VSHX2HSx+ZP9tm81Vc3z08WHOP5S6pBJMmU59hs83apGy+a9wJOW1w5YqUhWorhjAkOvbiuw==
   dependencies:
     "@aws-sdk/client-ec2" "3.35.0"
     "@aws-sdk/client-ecr" "3.38.0"
     "@breejs/later" "4.1.0"
     "@iarna/toml" "2.2.5"
     "@renovate/pep440" "1.0.0"
-    "@renovatebot/parser-utils" "1.0.0"
     "@renovatebot/ruby-semver" "1.0.0"
     "@sindresorhus/is" "4.2.0"
     "@yarnpkg/core" "2.4.0"
@@ -11288,6 +11287,7 @@ renovate@31.7.0:
     git-url-parse "11.6.0"
     github-url-from-git "1.5.0"
     global-agent "2.2.0"
+    good-enough-parser "1.1.0"
     got "11.8.3"
     handlebars "4.7.7"
     handy-redis "2.3.1"

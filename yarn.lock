@@ -7136,13 +7136,12 @@ glob@^6.0.1:
     once "^1.3.0"
     path-is-absolute "^1.0.0"
 
-global-agent@2.2.0:
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/global-agent/-/global-agent-2.2.0.tgz#566331b0646e6bf79429a16877685c4a1fbf76dc"
-  integrity sha512-+20KpaW6DDLqhG7JDiJpD1JvNvb8ts+TNl7BPOYcURqCrXqnN1Vf+XVOrkKJAFPqfX+oEhsdzOj1hLWkBTdNJg==
+global-agent@3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/global-agent/-/global-agent-3.0.0.tgz#ae7cd31bd3583b93c5a16437a1afe27cc33a1ab6"
+  integrity sha512-PT6XReJ+D07JvGoxQMkT6qji/jVNfX/h364XHZOWeRzy64sSFr+xJ5OX7LI3b4MPQzdL4H8Y8M0xzPpsVMwA8Q==
   dependencies:
     boolean "^3.0.1"
-    core-js "^3.6.5"
     es6-error "^4.1.1"
     matcher "^3.0.0"
     roarr "^2.15.3"
@@ -9719,10 +9718,10 @@ node-gyp@^8.2.0, node-gyp@^8.4.1:
     tar "^6.1.2"
     which "^2.0.2"
 
-node-html-parser@3.3.6:
-  version "3.3.6"
-  resolved "https://registry.yarnpkg.com/node-html-parser/-/node-html-parser-3.3.6.tgz#fdbb3ba16d1252d7197ec39f0260d9c10ef33590"
-  integrity sha512-VkWDHvNgFGB3mbQGMyzqRE1i/BG7TKX9wRXC8e/v8kL0kZR/Oy6RjYxXH91K6/+m3g8iQ8dTqRy75lTYoA2Cjg==
+node-html-parser@5.1.0:
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/node-html-parser/-/node-html-parser-5.1.0.tgz#753f5a60cdfe6d027c15857cb817df592c18c998"
+  integrity sha512-l6C1Gf1o7YuxeMGa17PypEez/rj+ii3q4/NZG37nRmWSLDjHyB0WNrlE4h2UW92D0JSfUSfu+lOvxThttVe7Jw==
   dependencies:
     css-select "^4.1.3"
     he "1.2.0"
@@ -10171,10 +10170,10 @@ parent-module@^1.0.0:
   dependencies:
     callsites "^3.0.0"
 
-parse-diff@0.8.1:
-  version "0.8.1"
-  resolved "https://registry.yarnpkg.com/parse-diff/-/parse-diff-0.8.1.tgz#d8d3d11a97da7a0dc6c657bbb72024c0738359cd"
-  integrity sha512-0QG0HqwXCC/zMohOlaxkQmV1igZq1LQ6xsv/ziex6TDbY0GFxr3TDJN+/aHjWH3s2WTysSW3Bhs9Yfh6DOelFA==
+parse-diff@0.9.0:
+  version "0.9.0"
+  resolved "https://registry.yarnpkg.com/parse-diff/-/parse-diff-0.9.0.tgz#2e71b5dc5d8f4b9c19c471fd6325646dc9f21724"
+  integrity sha512-Jn+VZORAezkfOXR6B40EZcXxdJBamtgBpfeoFH6hxD+p0e74nVaCL9SWlQj1ggc8b6AexgPKlDiiE0CMMZDSbQ==
 
 parse-entities@^2.0.0:
   version "2.0.0"
@@ -11247,10 +11246,10 @@ remark@13.0.0:
     remark-stringify "^9.0.0"
     unified "^9.1.0"
 
-renovate@31.12.0:
-  version "31.12.0"
-  resolved "https://registry.yarnpkg.com/renovate/-/renovate-31.12.0.tgz#08f00d2af394c62a0c1ba3f30cf969d9cf4aa711"
-  integrity sha512-CFjS7xcbOo7zyFpNYtHJYRQGW/KIiS4DOg41WB788WaD2neCDB3gZOU/Wzky80bgaQKRHWpbCTJQgNSplYmvgQ==
+renovate@31.13.0:
+  version "31.13.0"
+  resolved "https://registry.yarnpkg.com/renovate/-/renovate-31.13.0.tgz#81518bc07290125620a6281c3c68ac5b084c23c0"
+  integrity sha512-tOJqzttUiHVFQS576PIFN3HPwhUkF5EKzpjdcA133TpZeaeCRod4nzB7hqKK4fgwCvSO8En2oVp/H9Bz8oDQIQ==
   dependencies:
     "@aws-sdk/client-ec2" "3.35.0"
     "@aws-sdk/client-ecr" "3.38.0"
@@ -11286,7 +11285,7 @@ renovate@31.12.0:
     fs-extra "10.0.0"
     git-url-parse "11.6.0"
     github-url-from-git "1.5.0"
-    global-agent "2.2.0"
+    global-agent "3.0.0"
     good-enough-parser "1.1.0"
     got "11.8.3"
     handlebars "4.7.7"
@@ -11305,12 +11304,12 @@ renovate@31.12.0:
     minimatch "3.0.4"
     moo "0.5.1"
     nanoid "3.1.30"
-    node-html-parser "3.3.6"
+    node-html-parser "5.1.0"
     openpgp "5.0.1"
     p-all "3.0.0"
     p-map "4.0.0"
     p-queue "6.6.2"
-    parse-diff "0.8.1"
+    parse-diff "0.9.0"
     parse-link-header "1.0.1"
     redis "3.1.2"
     registry-auth-token "4.2.1"

@@ -2831,7 +2831,12 @@
     "@angular-devkit/schematics" "13.0.4"
     jsonc-parser "3.0.0"
 
-"@sindresorhus/is@4.2.0", "@sindresorhus/is@^4.0.0":
+"@sindresorhus/is@4.2.1":
+  version "4.2.1"
+  resolved "https://registry.yarnpkg.com/@sindresorhus/is/-/is-4.2.1.tgz#b88b5724283db80b507cd612caee9a1947412a20"
+  integrity sha512-BrzrgtaqEre0qfvI8sMTaEvx+bayuhPmfe2rfeUGPPHYr/PLxCOqkOe4TQTDPb+qcqgNcsAtXV/Ew74mcDIE8w==
+
+"@sindresorhus/is@^4.0.0":
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/@sindresorhus/is/-/is-4.2.0.tgz#667bfc6186ae7c9e0b45a08960c551437176e1ca"
   integrity sha512-VkE3KLBmJwcCaVARtQpfuKcKv8gcBmUubrfHGF84dXuuW6jgsRYxPtzcIhPyK9WAPpRt2/xY6zkD9MnRaJzSyw==
@@ -8775,10 +8780,10 @@ map-obj@^4.0.0:
   resolved "https://registry.yarnpkg.com/map-obj/-/map-obj-4.3.0.tgz#9304f906e93faae70880da102a9f1df0ea8bb05a"
   integrity sha512-hdN1wVrZbb29eBGiGjJbeP8JbKjq1urkHJ/LIP/NY48MZ1QVXUsQBV1G1zvYFHn1XE06cwjBsOI2K3Ulnj1YXQ==
 
-markdown-it@12.3.0:
-  version "12.3.0"
-  resolved "https://registry.yarnpkg.com/markdown-it/-/markdown-it-12.3.0.tgz#11490c61b412b8f41530319c005ecdcd4367171f"
-  integrity sha512-T345UZZ6ejQWTjG6PSEHplzNy5m4kF6zvUpHVDv8Snl/pEU0OxIK0jGg8YLVNwJvT8E0YJC7/2UvssJDk/wQCQ==
+markdown-it@12.3.1:
+  version "12.3.1"
+  resolved "https://registry.yarnpkg.com/markdown-it/-/markdown-it-12.3.1.tgz#f9d51948202590215f4f6cf96d605a480b950e46"
+  integrity sha512-xu6ZyQc/W1mWRwBOZT5ePVVn77MhHYkWwiAMgy/oBwUwSD2fS5xND3oIN44RCqVMgpNbhKtzZs9B75mC7FHwTQ==
   dependencies:
     argparse "^2.0.1"
     entities "~2.1.0"
@@ -10795,10 +10800,10 @@ remark@13.0.0:
     remark-stringify "^9.0.0"
     unified "^9.1.0"
 
-renovate@31.26.0:
-  version "31.26.0"
-  resolved "https://registry.yarnpkg.com/renovate/-/renovate-31.26.0.tgz#f24a31d5ac7ea956fb7cfefea57c00ba2bdec4da"
-  integrity sha512-wm97Zu2yLNugfMvX1+TwPQf0YQ1hZuBdkAJbgk6V6wRiFPFhlXBC1uubplRUDDSAp9gozy2nPsxr69E6DMuIPw==
+renovate@31.26.1:
+  version "31.26.1"
+  resolved "https://registry.yarnpkg.com/renovate/-/renovate-31.26.1.tgz#60c0fec6ee4565c93a6af67bf3c27dfb048e3c1d"
+  integrity sha512-yPDEzywHs7WVIPQspshtljonK3tKPx65JuFTJ72O0drRKj47bmKXP19vqGfnbtLmLAV75iyaSgaGe8dOh0eAvA==
   dependencies:
     "@aws-sdk/client-ec2" "3.46.0"
     "@aws-sdk/client-ecr" "3.46.0"
@@ -10806,7 +10811,7 @@ renovate@31.26.0:
     "@iarna/toml" "2.2.5"
     "@renovatebot/pep440" "1.1.0"
     "@renovatebot/ruby-semver" "1.0.0"
-    "@sindresorhus/is" "4.2.0"
+    "@sindresorhus/is" "4.2.1"
     "@yarnpkg/core" "3.1.0"
     "@yarnpkg/parsers" "2.4.1"
     auth-header "1.0.0"
@@ -10847,7 +10852,7 @@ renovate@31.26.0:
     json-stringify-pretty-compact "3.0.0"
     json5 "2.2.0"
     luxon "2.3.0"
-    markdown-it "12.3.0"
+    markdown-it "12.3.1"
     markdown-table "2.0.0"
     marshal "0.5.2"
     minimatch "3.0.4"

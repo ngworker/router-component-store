@@ -2129,6 +2129,11 @@
   resolved "https://registry.yarnpkg.com/@breejs/later/-/later-4.1.0.tgz#9246907f46cc9e9c9af37d791ab468d98921bcc1"
   integrity sha512-QgGnZ9b7o4k0Ai1ZbTJWwZpZcFK9d+Gb+DyNt4UT9x6IEIs5HVu0iIlmgzGqN+t9MoJSpSPo9S/Mm51UtHr3JA==
 
+"@cheap-glitch/mi-cron@1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@cheap-glitch/mi-cron/-/mi-cron-1.0.1.tgz#111f4ce746c269aedf74533ac806881763a68f99"
+  integrity sha512-kxl7vhg+SUgyHRn22qVbR9MfSm5CzdlYZDJTbGemqFFi/Jmno/hdoQIvBIPoqFY9dcPyxzOUNRRFn6x88UQMpw==
+
 "@chevrotain/types@^9.1.0":
   version "9.1.0"
   resolved "https://registry.yarnpkg.com/@chevrotain/types/-/types-9.1.0.tgz#689f2952be5ad9459dae3c8e9209c0f4ec3c5ec4"
@@ -9185,7 +9190,12 @@ nan@^2.14.0, nan@^2.15.0:
   resolved "https://registry.yarnpkg.com/nan/-/nan-2.15.0.tgz#3f34a473ff18e15c1b5626b62903b5ad6e665fee"
   integrity sha512-8ZtvEnA2c5aYCZYd1cvgdnU6cqwixRoYg70xPLWUws5ORTa/lnw+u4amixRS/Ac5U5mQVgp9pnlSUnbNWFaWZQ==
 
-nanoid@3.1.30, nanoid@^3.1.30:
+nanoid@3.1.31:
+  version "3.1.31"
+  resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-3.1.31.tgz#f5b58a1ce1b7604da5f0605757840598d8974dc6"
+  integrity sha512-ZivnJm0o9bb13p2Ot5CpgC2rQdzB9Uxm/mFZweqm5eMViqOJe3PV6LU2E30SiLgheesmcPrjquqraoolONSA0A==
+
+nanoid@^3.1.30:
   version "3.1.30"
   resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-3.1.30.tgz#63f93cc548d2a113dc5dfbc63bfa09e2b9b64362"
   integrity sha512-zJpuPDwOv8D2zq2WRoMe1HsfZthVewpel9CAvTfc/2mBD1uUT/agc5f7GHGWXlYkFvi1mVxe4IjvP2HNrop7nQ==
@@ -10828,14 +10838,15 @@ remark@13.0.0:
     remark-stringify "^9.0.0"
     unified "^9.1.0"
 
-renovate@31.28.5:
-  version "31.28.5"
-  resolved "https://registry.yarnpkg.com/renovate/-/renovate-31.28.5.tgz#120d3056aa510cffeb97ae1198ff9725d6bafff0"
-  integrity sha512-zRwY+kX9L4/jaerv74xbcFAb8p2SVy4efA7vnDT+D/urwJgqG8FxwlJxJV3A16reklh4OB9atnM/z4y0V3xaEQ==
+renovate@31.31.0:
+  version "31.31.0"
+  resolved "https://registry.yarnpkg.com/renovate/-/renovate-31.31.0.tgz#6f1b3542fbeb1e738233ccf1f421db601bba645e"
+  integrity sha512-O7LtRF9rKKbxzTqb37eM6TEjtHDwCIMFQd6hVLQDJc7jVFta170AAt1+/73ULTRYRhGDAesk++mVRkE36pCsEQ==
   dependencies:
     "@aws-sdk/client-ec2" "3.47.0"
     "@aws-sdk/client-ecr" "3.47.0"
     "@breejs/later" "4.1.0"
+    "@cheap-glitch/mi-cron" "1.0.1"
     "@iarna/toml" "2.2.5"
     "@renovatebot/pep440" "2.0.0"
     "@renovatebot/ruby-semver" "1.0.0"
@@ -10885,7 +10896,7 @@ renovate@31.28.5:
     marshal "0.5.2"
     minimatch "3.0.4"
     moo "0.5.1"
-    nanoid "3.1.30"
+    nanoid "3.1.31"
     node-html-parser "5.2.0"
     openpgp "5.0.1"
     p-all "3.0.0"

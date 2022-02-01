@@ -2939,10 +2939,10 @@
     "@angular-devkit/schematics" "13.0.4"
     jsonc-parser "3.0.0"
 
-"@sindresorhus/is@4.3.0":
-  version "4.3.0"
-  resolved "https://registry.yarnpkg.com/@sindresorhus/is/-/is-4.3.0.tgz#344fd9bf808a84567ba563d00cc54b2f428dbab1"
-  integrity sha512-wwOvh0eO3PiTEivGJWiZ+b946SlMSb4pe+y+Ur/4S87cwo09pYi+FWHHnbrM3W9W7cBYKDqQXcrFYjYUCOJUEQ==
+"@sindresorhus/is@4.4.0":
+  version "4.4.0"
+  resolved "https://registry.yarnpkg.com/@sindresorhus/is/-/is-4.4.0.tgz#e277e5bdbdf7cb1e20d320f02f5e2ed113cd3185"
+  integrity sha512-QppPM/8l3Mawvh4rn9CNEYIU9bxpXUCRMaX9yUpvBk1nMKusLKpfXGDEKExKaPhLzcn3lzil7pR6rnJ11HgeRQ==
 
 "@sindresorhus/is@^4.0.0":
   version "4.2.0"
@@ -10941,10 +10941,10 @@ remark@13.0.0:
     remark-stringify "^9.0.0"
     unified "^9.1.0"
 
-renovate@31.65.0:
-  version "31.65.0"
-  resolved "https://registry.yarnpkg.com/renovate/-/renovate-31.65.0.tgz#10c997e50db9cb743e3e036332dc274c2deb9192"
-  integrity sha512-Wg0NGiD5B/kD1ICYqF6du+WEKLQNIcoAyDq7+WHFfMcZ2vG2vw/5j9cp8nilq6Ml084uBI8wFf5wxLXSDR81sw==
+renovate@31.65.1:
+  version "31.65.1"
+  resolved "https://registry.yarnpkg.com/renovate/-/renovate-31.65.1.tgz#37bf3da278033421fad82353bb2ffa5ed8cb150d"
+  integrity sha512-KfoMhlSywGb5+Hm3f0JeQMekxJiLuWVII3AX1bbfqvr+S9aDwiCghS2dZNcj7QuBxZCVQq1BMVhvhKmX2NM2Vg==
   dependencies:
     "@aws-sdk/client-ec2" "3.47.0"
     "@aws-sdk/client-ecr" "3.47.0"
@@ -10953,7 +10953,7 @@ renovate@31.65.0:
     "@iarna/toml" "2.2.5"
     "@renovatebot/pep440" "2.0.0"
     "@renovatebot/ruby-semver" "1.1.2"
-    "@sindresorhus/is" "4.3.0"
+    "@sindresorhus/is" "4.4.0"
     "@yarnpkg/core" "3.1.0"
     "@yarnpkg/parsers" "2.4.1"
     auth-header "1.0.0"

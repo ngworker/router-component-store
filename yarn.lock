@@ -5207,19 +5207,12 @@ debug@2.6.9:
   dependencies:
     ms "2.0.0"
 
-debug@4, debug@^4.0.0, debug@^4.1.0, debug@^4.1.1, debug@^4.3.1, debug@^4.3.2, debug@^4.3.3:
+debug@4, debug@4.3.3, debug@^4.0.0, debug@^4.1.0, debug@^4.1.1, debug@^4.3.1, debug@^4.3.2, debug@^4.3.3:
   version "4.3.3"
   resolved "https://registry.yarnpkg.com/debug/-/debug-4.3.3.tgz#04266e0b70a98d4462e6e288e38259213332b664"
   integrity sha512-/zxw5+vh1Tfv+4Qn7a5nsbcJKPaSvCDhojn6FEl9vupwK2VCSDtEiEtqr8DFtzYFOdz63LBkxec7DYuc2jon6Q==
   dependencies:
     ms "2.1.2"
-
-debug@4.1.1:
-  version "4.1.1"
-  resolved "https://registry.yarnpkg.com/debug/-/debug-4.1.1.tgz#3b72260255109c6b589cee050f1d516139664791"
-  integrity sha512-pYAIzeRo8J6KPEaJ0VWOh5Pzkbw/RetuzehGM7QRRX5he4fPHx2rdKMB256ehJCkX+XRQm16eZLqLNS8RSZXZw==
-  dependencies:
-    ms "^2.1.1"
 
 debug@4.3.2:
   version "4.3.2"
@@ -8923,12 +8916,12 @@ markdown-table@2.0.0:
   dependencies:
     repeat-string "^1.0.0"
 
-marshal@0.5.2:
-  version "0.5.2"
-  resolved "https://registry.yarnpkg.com/marshal/-/marshal-0.5.2.tgz#4a6e6a20c5f59053a5b86d7fac7ad28081214b36"
-  integrity sha512-f6zOFkXq8k8AJbACRR06s4RFCP19ugCFLn9fX4v01yinL634v8gzSf8mVVHrXFhn6GpMKXR0n8LU2wIUL+c32Q==
+marshal@0.5.3:
+  version "0.5.3"
+  resolved "https://registry.yarnpkg.com/marshal/-/marshal-0.5.3.tgz#76f9b3a2e1730619d648cbfade50df2bf939da93"
+  integrity sha512-5aTnm2yZtgrSqoXQDTOGwB7B7M0HkvsDGR+EvPVq8nJ0YSQgQ42S0UAJ+o6FKRYS+YGTpz0RYDKuG6RIicSRCg==
   dependencies:
-    debug "4.1.1"
+    debug "4.3.3"
 
 matcher@^3.0.0:
   version "3.0.0"
@@ -10941,10 +10934,10 @@ remark@13.0.0:
     remark-stringify "^9.0.0"
     unified "^9.1.0"
 
-renovate@31.65.1:
-  version "31.65.1"
-  resolved "https://registry.yarnpkg.com/renovate/-/renovate-31.65.1.tgz#37bf3da278033421fad82353bb2ffa5ed8cb150d"
-  integrity sha512-KfoMhlSywGb5+Hm3f0JeQMekxJiLuWVII3AX1bbfqvr+S9aDwiCghS2dZNcj7QuBxZCVQq1BMVhvhKmX2NM2Vg==
+renovate@31.65.3:
+  version "31.65.3"
+  resolved "https://registry.yarnpkg.com/renovate/-/renovate-31.65.3.tgz#47b486cca88631faea6579471db1dfeff29cf931"
+  integrity sha512-dJC14rdz6PvySdvREYUeb21h0qeuU+M0E3f4PEiHrqQyuwtyyMevift7lV6r/ZXUCG+OwsCc6bF9SCK3Y0tsDw==
   dependencies:
     "@aws-sdk/client-ec2" "3.47.0"
     "@aws-sdk/client-ecr" "3.47.0"
@@ -10996,7 +10989,7 @@ renovate@31.65.1:
     luxon "2.3.0"
     markdown-it "12.3.2"
     markdown-table "2.0.0"
-    marshal "0.5.2"
+    marshal "0.5.3"
     minimatch "3.0.4"
     moo "0.5.1"
     nanoid "3.2.0"

@@ -2533,32 +2533,37 @@
   resolved "https://registry.yarnpkg.com/@ngtools/webpack/-/webpack-13.0.4.tgz#9389c95fdbefb48fe061a30d81aab2f83bbf2081"
   integrity sha512-kH0kYOQvbv6SnVdcdi21AbJo17H1HSGlCy/8C1ujLdgtT6enKMnx9onYIoZSmb5U98GqYc+DV/W0HwpHwRcOoQ==
 
-"@node-redis/bloom@^1.0.0":
+"@node-redis/bloom@1.0.1":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@node-redis/bloom/-/bloom-1.0.1.tgz#144474a0b7dc4a4b91badea2cfa9538ce0a1854e"
   integrity sha512-mXEBvEIgF4tUzdIN89LiYsbi6//EdpFA7L8M+DHCvePXg+bfHWi+ct5VI6nHUFQE5+ohm/9wmgihCH3HSkeKsw==
 
-"@node-redis/client@^1.0.2":
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/@node-redis/client/-/client-1.0.2.tgz#7f09fb739675728fbc6e73536f7cd1be99bf7b8f"
-  integrity sha512-C+gkx68pmTnxfV+y4pzasvCH3s4UGHNOAUNhdJxGI27aMdnXNDZct7ffDHBL7bAZSGv9FSwCP5PeYvEIEKGbiA==
+"@node-redis/client@1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@node-redis/client/-/client-1.0.3.tgz#ece282b7ee07283d744e6ab1fa72f2d47641402c"
+  integrity sha512-IXNgOG99PHGL3NxN3/e8J8MuX+H08I+OMNmheGmZBXngE0IntaCQwwrd7NzmiHA+zH3SKHiJ+6k3P7t7XYknMw==
   dependencies:
     cluster-key-slot "1.1.0"
     generic-pool "3.8.2"
     redis-parser "3.0.0"
     yallist "4.0.0"
 
-"@node-redis/json@^1.0.2":
+"@node-redis/graph@1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@node-redis/graph/-/graph-1.0.0.tgz#baf8eaac4a400f86ea04d65ec3d65715fd7951ab"
+  integrity sha512-mRSo8jEGC0cf+Rm7q8mWMKKKqkn6EAnA9IA2S3JvUv/gaWW/73vil7GLNwion2ihTptAm05I9LkepzfIXUKX5g==
+
+"@node-redis/json@1.0.2":
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/@node-redis/json/-/json-1.0.2.tgz#8ad2d0f026698dc1a4238cc3d1eb099a3bee5ab8"
   integrity sha512-qVRgn8WfG46QQ08CghSbY4VhHFgaTY71WjpwRBGEuqGPfWwfRcIf3OqSpR7Q/45X+v3xd8mvYjywqh0wqJ8T+g==
 
-"@node-redis/search@^1.0.2":
+"@node-redis/search@1.0.2":
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/@node-redis/search/-/search-1.0.2.tgz#8cfc91006ea787df801d41410283e1f59027f818"
   integrity sha512-gWhEeji+kTAvzZeguUNJdMSZNH2c5dv3Bci8Nn2f7VGuf6IvvwuZDSBOuOlirLVgayVuWzAG7EhwaZWK1VDnWQ==
 
-"@node-redis/time-series@^1.0.1":
+"@node-redis/time-series@1.0.1":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@node-redis/time-series/-/time-series-1.0.1.tgz#703149f8fa4f6fff377c61a0873911e7c1ba5cc3"
   integrity sha512-+nTn6EewVj3GlUXPuD3dgheWqo219jTxlo6R+pg24OeVvFHx9aFGGiyOgj3vBPhWUdRZ0xMcujXV5ki4fbLyMw==
@@ -10808,16 +10813,17 @@ redis-parser@3.0.0:
   dependencies:
     redis-errors "^1.0.0"
 
-redis@4.0.2:
-  version "4.0.2"
-  resolved "https://registry.yarnpkg.com/redis/-/redis-4.0.2.tgz#096cf716842731a24f34c7c3a996c143e2b133bb"
-  integrity sha512-Ip1DJ/lwuvtJz9AZ6pl1Bv33fWzk5d3iQpGzsXpi04ErkT4fq0pfGOm4k/p9DHmPGieEIOWvJ9xmIeQMooLybg==
+redis@4.0.3:
+  version "4.0.3"
+  resolved "https://registry.yarnpkg.com/redis/-/redis-4.0.3.tgz#f60931175de6f5b5727240a08e58a9ed5cf0f9de"
+  integrity sha512-SJMRXvgiQUYN0HaWwWv002J5ZgkhYXOlbLomzcrL3kP42yRNZ8Jx5nvLYhVpgmf10xcDpanFOxxJkphu2eyIFQ==
   dependencies:
-    "@node-redis/bloom" "^1.0.0"
-    "@node-redis/client" "^1.0.2"
-    "@node-redis/json" "^1.0.2"
-    "@node-redis/search" "^1.0.2"
-    "@node-redis/time-series" "^1.0.1"
+    "@node-redis/bloom" "1.0.1"
+    "@node-redis/client" "1.0.3"
+    "@node-redis/graph" "1.0.0"
+    "@node-redis/json" "1.0.2"
+    "@node-redis/search" "1.0.2"
+    "@node-redis/time-series" "1.0.1"
 
 reflect-metadata@^0.1.2:
   version "0.1.13"
@@ -10934,10 +10940,10 @@ remark@13.0.0:
     remark-stringify "^9.0.0"
     unified "^9.1.0"
 
-renovate@31.68.4:
-  version "31.68.4"
-  resolved "https://registry.yarnpkg.com/renovate/-/renovate-31.68.4.tgz#c0469cf304eecfbbcf0d2b04f809ddf53facc70b"
-  integrity sha512-fVD9i7XrqryJzjWG5KRBZGAf9LM1WBKshgeoBcDdIgAH7NYZOiIbq7HJ9GZawqs5o7k+CqJ7X44EjOtXR1E/Fg==
+renovate@31.68.5:
+  version "31.68.5"
+  resolved "https://registry.yarnpkg.com/renovate/-/renovate-31.68.5.tgz#a17ca12f08b727dae171bb38c48e98298b4d62b7"
+  integrity sha512-NJS8JXl6xLLSataExECg0BJi349AVjUa4apOH/2WFzMP2+cjpPQqLAa1GJMmqfha+LkhiP//owEKE8Zx8WrrEA==
   dependencies:
     "@aws-sdk/client-ec2" "3.47.0"
     "@aws-sdk/client-ecr" "3.47.0"
@@ -10999,7 +11005,7 @@ renovate@31.68.4:
     p-map "4.0.0"
     p-queue "6.6.2"
     parse-link-header "2.0.0"
-    redis "4.0.2"
+    redis "4.0.3"
     registry-auth-token "4.2.1"
     remark "13.0.0"
     remark-github "10.1.0"

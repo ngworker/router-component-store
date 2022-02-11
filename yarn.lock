@@ -4796,10 +4796,10 @@ combined-stream@^1.0.6, combined-stream@^1.0.8, combined-stream@~1.0.6:
   dependencies:
     delayed-stream "~1.0.0"
 
-commander@8.3.0, commander@^8.0.0:
-  version "8.3.0"
-  resolved "https://registry.yarnpkg.com/commander/-/commander-8.3.0.tgz#4837ea1b2da67b9c616a67afbb0fafee567bca66"
-  integrity sha512-OkTL9umf+He2DZkUq8f8J9of7yL6RJKI24dVITBmNfZBmri9zYZQrKkuXiKhyfPSu8tUhnVBB1iKXevvnlR4Ww==
+commander@9.0.0:
+  version "9.0.0"
+  resolved "https://registry.yarnpkg.com/commander/-/commander-9.0.0.tgz#86d58f24ee98126568936bd1d3574e0308a99a40"
+  integrity sha512-JJfP2saEKbQqvW+FI93OYUB4ByV5cizMpFMiiJI8xDbBvQvSkIk0VvQdn1CZ8mqAO8Loq2h0gYTYtDFUZUeERw==
 
 commander@^2.19.0, commander@^2.20.0:
   version "2.20.3"
@@ -4810,6 +4810,11 @@ commander@^5.1.0:
   version "5.1.0"
   resolved "https://registry.yarnpkg.com/commander/-/commander-5.1.0.tgz#46abbd1652f8e059bddaef99bbdcb2ad9cf179ae"
   integrity sha512-P0CysNDQ7rtVw4QIQtm+MRxV66vKFSvlsQvGYXZWR3qFU0jlMKHZZZgw8e+8DSah4UDKMqnknRDQz+xuQXQ/Zg==
+
+commander@^8.0.0:
+  version "8.3.0"
+  resolved "https://registry.yarnpkg.com/commander/-/commander-8.3.0.tgz#4837ea1b2da67b9c616a67afbb0fafee567bca66"
+  integrity sha512-OkTL9umf+He2DZkUq8f8J9of7yL6RJKI24dVITBmNfZBmri9zYZQrKkuXiKhyfPSu8tUhnVBB1iKXevvnlR4Ww==
 
 common-tags@^1.8.0:
   version "1.8.2"
@@ -10940,10 +10945,10 @@ remark@13.0.0:
     remark-stringify "^9.0.0"
     unified "^9.1.0"
 
-renovate@31.74.1:
-  version "31.74.1"
-  resolved "https://registry.yarnpkg.com/renovate/-/renovate-31.74.1.tgz#359e022b2d346af8cb850eb754d2683db48c2c5d"
-  integrity sha512-XXCVlY6lu03OWqzGA65TEF73a7ktU8P6dkQ4QA6DWomYYth5JGRXG77ECKT3HyikAlyDg5rlJY5JHo5T5xse1g==
+renovate@31.77.1:
+  version "31.77.1"
+  resolved "https://registry.yarnpkg.com/renovate/-/renovate-31.77.1.tgz#bb81b7e545df93e32ddae180ec6997c3992c6a51"
+  integrity sha512-MtegiGD5NFeQPIja6HCTG4+IEEun9bll4jXtKwove9/bKAbIFO4j+mzu6TIqgZceWEvRtNjrU/ZMuWq/m7/9BA==
   dependencies:
     "@aws-sdk/client-ec2" "3.47.0"
     "@aws-sdk/client-ecr" "3.47.0"
@@ -10962,7 +10967,7 @@ renovate@31.74.1:
     chalk "4.1.2"
     changelog-filename-regex "2.0.1"
     clean-git-ref "2.0.1"
-    commander "8.3.0"
+    commander "9.0.0"
     conventional-commits-detector "1.0.3"
     crypto-random-string "3.3.1"
     deepmerge "4.2.2"

@@ -9292,10 +9292,10 @@ nan@^2.14.0, nan@^2.15.0:
   resolved "https://registry.yarnpkg.com/nan/-/nan-2.15.0.tgz#3f34a473ff18e15c1b5626b62903b5ad6e665fee"
   integrity sha512-8ZtvEnA2c5aYCZYd1cvgdnU6cqwixRoYg70xPLWUws5ORTa/lnw+u4amixRS/Ac5U5mQVgp9pnlSUnbNWFaWZQ==
 
-nanoid@3.2.0:
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-3.2.0.tgz#62667522da6673971cca916a6d3eff3f415ff80c"
-  integrity sha512-fmsZYa9lpn69Ad5eDn7FMcnnSR+8R34W9qJEijxYhTbfOWzr22n1QxCMzXLK+ODyW2973V3Fux959iQoUxzUIA==
+nanoid@3.3.0:
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-3.3.0.tgz#5906f776fd886c66c24f3653e0c46fcb1d4ad6b0"
+  integrity sha512-JzxqqT5u/x+/KOFSd7JP15DOo9nOoHpx6DYatqIHUW2+flybkm+mdcraotSQR5WcnZr+qhGVh8Ted0KdfSMxlg==
 
 nanoid@^3.1.30:
   version "3.1.30"
@@ -10995,10 +10995,10 @@ remark@13.0.0:
     remark-stringify "^9.0.0"
     unified "^9.1.0"
 
-renovate@31.89.8:
-  version "31.89.8"
-  resolved "https://registry.yarnpkg.com/renovate/-/renovate-31.89.8.tgz#7839953da931d95cdfa585d552eebb7f94904b22"
-  integrity sha512-JTRbc4Ij0Y1RFy5XuB96bXlmiU5Kr0sGTNvLCH9+abxPabsJf9rSF1uLLMrctX2Zgr7hpQgPK5En2P4WZqvRvQ==
+renovate@31.89.9:
+  version "31.89.9"
+  resolved "https://registry.yarnpkg.com/renovate/-/renovate-31.89.9.tgz#c4aed3b1c1677172912d8d1b00f24cf75d426aa7"
+  integrity sha512-4/ElXeZPFtsdLtQQVzLLNqt+hAu+nxba72DYs7KRa2vE1Kwauih+Hr07h0VOBjjNhDOCYbsjWLWjGzUvlutQhg==
   dependencies:
     "@aws-sdk/client-ec2" "3.50.0"
     "@aws-sdk/client-ecr" "3.50.0"
@@ -11053,7 +11053,7 @@ renovate@31.89.8:
     marshal "0.5.3"
     minimatch "3.1.1"
     moo "0.5.1"
-    nanoid "3.2.0"
+    nanoid "3.3.0"
     node-html-parser "5.2.0"
     openpgp "5.1.0"
     p-all "3.0.0"

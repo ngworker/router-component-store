@@ -2886,10 +2886,10 @@
     write-file-atomic "^3.0.3"
     write-yaml-file "^4.2.0"
 
-"@renovatebot/pep440@2.0.0":
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/@renovatebot/pep440/-/pep440-2.0.0.tgz#c9faec210d3eefed9c556f796dc1ff00ab55c979"
-  integrity sha512-9dw67KZW+k1VzzlScH10/4ukaqyYR8TQm3QHBD4EkbUt2NPYlalXvdIjvx9tk15h4xubglDgYpsEMQkfEHMbvA==
+"@renovatebot/pep440@2.1.0":
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/@renovatebot/pep440/-/pep440-2.1.0.tgz#a883a2a9ab57390b63af27e5920948c71d8911b0"
+  integrity sha512-iG3kP5kVDzghATS4DQ6C7pMRiJVyyLAOBQmnYweZcfZa9AEx/lbIx8S6D84YGLniAnHm++//xWg+vi6fiH43Bw==
 
 "@renovatebot/ruby-semver@1.1.2":
   version "1.1.2"
@@ -10995,17 +10995,17 @@ remark@13.0.0:
     remark-stringify "^9.0.0"
     unified "^9.1.0"
 
-renovate@31.89.10:
-  version "31.89.10"
-  resolved "https://registry.yarnpkg.com/renovate/-/renovate-31.89.10.tgz#51643c994dfd7d3ad4b0d2f276f17be7d0cc7e8c"
-  integrity sha512-mELXHAMNWwtYqQzpNrkEx3+wuj9T/1OTEaBlpiipzVtCsK0FnR+rW6oTMceE8MI2BFUkDR7Pb8XW5PLS72U9kA==
+renovate@31.89.11:
+  version "31.89.11"
+  resolved "https://registry.yarnpkg.com/renovate/-/renovate-31.89.11.tgz#e53562e253cc5acd6e0e10290f98c0539edb9c51"
+  integrity sha512-+YsGoo+y6MDZsgqxgHxF2KEdpYD1aXl9MhoTPLJ3JWAzFiMsfcNGyAAuKKwiafc5qcWdx0oU7V8QRPOB2v/kQA==
   dependencies:
     "@aws-sdk/client-ec2" "3.50.0"
     "@aws-sdk/client-ecr" "3.50.0"
     "@breejs/later" "4.1.0"
     "@cheap-glitch/mi-cron" "1.0.1"
     "@iarna/toml" "2.2.5"
-    "@renovatebot/pep440" "2.0.0"
+    "@renovatebot/pep440" "2.1.0"
     "@renovatebot/ruby-semver" "1.1.2"
     "@sindresorhus/is" "4.4.0"
     "@yarnpkg/core" "3.1.0"

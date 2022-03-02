@@ -6600,10 +6600,10 @@ fresh@0.5.2:
   resolved "https://registry.yarnpkg.com/fresh/-/fresh-0.5.2.tgz#3d8cadd90d976569fa835ab1f8e4b23a105605a7"
   integrity sha1-PYyt2Q2XZWn6g1qx+OSyOhBWBac=
 
-fs-extra@10.0.0:
-  version "10.0.0"
-  resolved "https://registry.yarnpkg.com/fs-extra/-/fs-extra-10.0.0.tgz#9ff61b655dde53fb34a82df84bb214ce802e17c1"
-  integrity sha512-C5owb14u9eJwizKGdchcDUQeFtlSHHthBk8pbX9Vc1PFZrLombudjDnNns88aYslCyF6IY5SUw3Roz6xShcEIQ==
+fs-extra@10.0.1:
+  version "10.0.1"
+  resolved "https://registry.yarnpkg.com/fs-extra/-/fs-extra-10.0.1.tgz#27de43b4320e833f6867cc044bfce29fdf0ef3b8"
+  integrity sha512-NbdoVMZso2Lsrn/QwLXOy6rm0ufY2zEOKCDzJR/0kBsb0E6qed0P3iYK+Ath3BfvXEeu4JhEtXLgILx5psUfag==
   dependencies:
     graceful-fs "^4.2.0"
     jsonfile "^6.0.1"
@@ -10717,10 +10717,10 @@ raw-body@2.4.0:
     iconv-lite "0.4.24"
     unpipe "1.0.0"
 
-re2@1.17.3:
-  version "1.17.3"
-  resolved "https://registry.yarnpkg.com/re2/-/re2-1.17.3.tgz#8cceb48f52c45b860b1f67cee8a44726f7d05e9a"
-  integrity sha512-Dp5iWVR8W3C7Nm9DziMY4BleMPRb/pe6kvfbzLv80dVYaXRc9jRnwwNqU0oE/taRm0qYR1+Qrtzk9rPjS9ecaQ==
+re2@1.17.4:
+  version "1.17.4"
+  resolved "https://registry.yarnpkg.com/re2/-/re2-1.17.4.tgz#7bf29290bdde963014e77bd2c2e799a6d788386e"
+  integrity sha512-xyZ4h5PqE8I9tAxTh3G0UttcK5ufrcUxReFjGzfX61vtanNbS1XZHjnwRSyPcLgChI4KLxVgOT/ioZXnUAdoTA==
   dependencies:
     install-artifact-from-github "^1.3.0"
     nan "^2.15.0"
@@ -10976,10 +10976,10 @@ remark@13.0.0:
     remark-stringify "^9.0.0"
     unified "^9.1.0"
 
-renovate@31.97.0:
-  version "31.97.0"
-  resolved "https://registry.yarnpkg.com/renovate/-/renovate-31.97.0.tgz#c513e406a92f4336fcffc646c70fd4adf097b40d"
-  integrity sha512-YNlPmA+Hs9PbE/EI2l5dniBYdR21Ks9XXNpdavJan8Wmu9eHl8eZqyOgSyA/40kNCA+mHahAa8OEYwcgO/4vyw==
+renovate@31.97.1:
+  version "31.97.1"
+  resolved "https://registry.yarnpkg.com/renovate/-/renovate-31.97.1.tgz#81d5d92d251329fdeb1811a1ce048df5b347d5b2"
+  integrity sha512-83FQjyIn8/lplX8b0JIp4nPeY3+7u7lDTZa5wO38F5QK5/D3ij02YMWydLVN6V/0sPSyrCWLHq3UnMnakRxc/Q==
   dependencies:
     "@aws-sdk/client-ec2" "3.50.0"
     "@aws-sdk/client-ecr" "3.50.0"
@@ -11014,7 +11014,7 @@ renovate@31.97.0:
     fast-safe-stringify "2.1.1"
     find-packages "8.0.12"
     find-up "5.0.0"
-    fs-extra "10.0.0"
+    fs-extra "10.0.1"
     git-url-parse "11.6.0"
     github-url-from-git "1.5.0"
     global-agent "3.0.0"
@@ -11057,7 +11057,7 @@ renovate@31.97.0:
     validate-npm-package-name "3.0.0"
     xmldoc "1.1.2"
   optionalDependencies:
-    re2 "1.17.3"
+    re2 "1.17.4"
 
 repeat-string@^1.0.0:
   version "1.6.1"

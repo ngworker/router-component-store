@@ -58,6 +58,7 @@ function updatePackageJson() {
 
   setNxVersion(fromNxVersion, packageJson);
   fs.writeFileSync(packageJsonFilename, JSON.stringify(packageJson, null, 2));
+  installPackages();
 
   runCommand(
     `yarn nx migrate @nrwl/workspace@${toNxVersion} --from=@nrwl/workspace@${fromNxVersion}`

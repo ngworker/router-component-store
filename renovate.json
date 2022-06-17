@@ -59,6 +59,7 @@
         "jest",
         "jest-preset-angular",
         "ng-packagr",
+        "nx",
         "postcss",
         "prettier",
         "rxjs",
@@ -100,7 +101,7 @@
     },
     {
       "groupName": "nx-migrate",
-      "matchPackageNames": ["@nrwl/workspace"],
+      "matchPackageNames": ["@nrwl/workspace", "nx"],
       "prCreation": "not-pending"
     },
     {

@@ -1,5 +1,5 @@
 name: Set up Node.js and Yarn
-description: Use Volta to set up pinned versions of Node.js and Yarn. Cache the Yarn cache directory and install dependencies.
+description: Use Volta to set up pinned versions of Node.js and Yarn. Cache the Yarn cache directory.
 author: LayZeeDK
 
 runs:
@@ -18,6 +18,3 @@ runs:
         key: ${{ runner.os }}-yarn-${{ hashFiles('yarn.lock') }}
         restore-keys: |
           ${{ runner.os }}-yarn-
-    - name: Install package dependencies
-      shell: bash
-      run: yarn install --frozen-lockfile --no-interactive

@@ -38,6 +38,8 @@ jobs:
 
       - name: Set up Node.js and install dependencies
         uses: ./.github/actions/setup-node
+      - name: Install package dependencies
+        run: yarn install --no-interactive
 
       - name: Migrate Nx workspace
         run: yarn nx run tools:migrate-nx

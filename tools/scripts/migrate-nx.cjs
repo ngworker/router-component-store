@@ -2,7 +2,7 @@ const child_process = require('child_process');
 const fs = require('fs');
 
 function formatFiles() {
-  runCommand('nx format');
+  runCommand('yarn nx format');
 }
 
 function getNxVersion(packageConfiguration) {
@@ -10,7 +10,7 @@ function getNxVersion(packageConfiguration) {
 }
 
 function installPackages() {
-  runCommand('yarn install');
+  runCommand('yarn install --no-interactive');
 }
 
 function setNxVersion(version, packageConfiguration) {
@@ -37,7 +37,7 @@ function runMigrations() {
   console.log('Migrations available:');
   console.log(fs.readFileSync(migrationsFilename, 'utf8'));
 
-  runCommand(`nx migrate --run-migrations=${migrationsFilename}`);
+  runCommand(`yarn nx migrate --run-migrations=${migrationsFilename}`);
   fs.unlinkSync(migrationsFilename);
 }
 
@@ -60,7 +60,7 @@ function updatePackageJson() {
   fs.writeFileSync(packageJsonFilename, JSON.stringify(packageJson, null, 2));
 
   runCommand(
-    `nx migrate @nrwl/workspace@${toNxVersion} --from=@nrwl/workspace@${fromNxVersion}`
+    `yarn nx migrate @nrwl/workspace@${toNxVersion} --from=@nrwl/workspace@${fromNxVersion}`
   );
 }
 

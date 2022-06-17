@@ -36,13 +36,8 @@ jobs:
       - name: Check out head branch
         run: git checkout -
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          cache: yarn
-          node-version-file: .nvmrc
-      - name: Install package dependencies
-        run: yarn install
+      - name: Set up Node.js and install dependencies
+        uses: ./.github/actions/setup-node
 
       - name: Migrate Nx workspace
         run: yarn nx run tools:migrate-nx

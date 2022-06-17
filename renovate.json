@@ -15,6 +15,7 @@
       "groupName": "node",
       "extends": [
         ":combinePatchMinorReleases",
+        ":automergeMinor",
         ":separateMultipleMajorReleases"
       ],
       "major": {

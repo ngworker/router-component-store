@@ -41,6 +41,9 @@ jobs:
       - name: Install package dependencies
         run: yarn install --no-interactive
 
+      - name: Debug Nx
+        run: yarn nx report
+
       - name: Migrate Nx workspace
         run: yarn nx run tools:migrate-nx
 

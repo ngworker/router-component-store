@@ -41,6 +41,9 @@ jobs:
       - name: Install package dependencies
         run: yarn install --no-interactive
 
+      - name: Debug package.json
+        run: cat package.json
+
       - name: Debug Nx
         run: yarn nx report
 

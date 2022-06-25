@@ -6073,10 +6073,10 @@ eslint-etc@^5.1.0:
     tsutils "^3.17.1"
     tsutils-etc "^1.4.1"
 
-eslint-plugin-ngrx@2.1.2:
-  version "2.1.2"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-ngrx/-/eslint-plugin-ngrx-2.1.2.tgz#1024a726dc82166e538748f842c5aa35a737ea25"
-  integrity sha512-bz/3ZAtvaoVMROl1AkS2O91mKVzwWksD3nRkfd2fXldIKLh22/BLMZrjH5mR6NlCpUcnVdDV1DtUXCnmu1idVA==
+eslint-plugin-ngrx@2.1.3:
+  version "2.1.3"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-ngrx/-/eslint-plugin-ngrx-2.1.3.tgz#15a04f3d51e069e043295611eae092c2d5e6ebfb"
+  integrity sha512-53dvQDay6pkof/f3JoEsRu1GcMNGvXc9M1BM5MtvUp01xRCzgoW+pJiyaEPyFRZHUPobuw5kOqQs1BQsDgV5mw==
   dependencies:
     "@angular-devkit/schematics" "^13.0.3"
     "@typescript-eslint/experimental-utils" "^5.4.0"

@@ -63,12 +63,12 @@
     "typescript": "4.4.4"
   },
   "engines": {
-    "node": "16.17.0",
+    "node": "16.17.1",
     "npm": "Use Yarn v1 instead of npm",
     "yarn": "1.22.19"
   },
   "volta": {
-    "node": "16.17.0",
+    "node": "16.17.1",
     "yarn": "1.22.19"
   }
 }

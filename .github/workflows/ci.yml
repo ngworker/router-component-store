@@ -1,8 +1,18 @@
 name: CI
 
 concurrency:
-  group: ci@${{ github.ref_name }}
-  cancel-in-progress: ${{ github.ref_name != 'main' }}
+  # Group concurrency on workflow, then:
+  # - Is merge run? Group on branch name (`refs/heads/main`)
+  # - Is pull request? Group on pull request branch name, for example `feat/add-awesome-feature`
+  group: >-
+    ${{ github.workflow }}-${{
+      github.event_name == 'push'
+        && github.ref
+        || github.head_ref
+    }}
+  # Run merge workflows in sequence to prevent parallel deployments and releases
+  # Cancel stale pull request runs in progress for the same branch
+  cancel-in-progress: ${{ github.event_name != 'push' }}
 
 on:
   push:
@@ -11,7 +21,7 @@ on:
   pull_request: {}
 
 env:
-  is-main-branch: ${{ github.ref_name == 'main' }}
+  is-main-branch: ${{ github.event_name == 'push' && github.ref_name == 'main' }}
   NODE_OPTIONS: --max-old-space-size=6144
 
 jobs:

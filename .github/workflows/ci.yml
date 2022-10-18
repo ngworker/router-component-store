@@ -16,26 +16,8 @@ env:
   NODE_OPTIONS: --max-old-space-size=6144
 
 jobs:
-  validate-renovate:
-    name: 'Validate Renovate configuration @await'
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Check out source code
-        uses: actions/checkout@v2
-      - name: Set up Node.js LTS
-        uses: actions/setup-node@v2
-        with:
-          cache: npm
-          node-version: lts/*
-      - name: Install Renovate
-        run: npm install --global renovate
-
-      - name: Validate Renovate configuration
-        run: renovate-config-validator
-
   lint:
-    name: 'Lint @await'
+    name: Lint
     runs-on: ubuntu-latest
 
     steps:
@@ -49,7 +31,7 @@ jobs:
       - name: Lint
         run: yarn lint
   test:
-    name: 'Test @await'
+    name: Test
     runs-on: ubuntu-latest
 
     steps:
@@ -64,7 +46,7 @@ jobs:
         run: yarn test
 
   build:
-    name: 'Build @await'
+    name: Build
     runs-on: ubuntu-latest
 
     steps:

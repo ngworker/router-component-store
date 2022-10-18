@@ -6,7 +6,6 @@
     "build": "nx build",
     "lint": "nx workspace-lint && nx lint --max-warnings=0",
     "nx": "nx",
-    "renovate:validate": "renovate-config-validator",
     "test": "nx test"
   },
   "dependencies": {

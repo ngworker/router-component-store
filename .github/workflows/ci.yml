@@ -1,5 +1,11 @@
 name: CI
 
+on:
+  push:
+    branches:
+      - main
+  pull_request: {}
+
 concurrency:
   # Group concurrency on workflow, then:
   # - Is merge run? Group on branch name (`refs/heads/main`)
@@ -13,12 +19,6 @@ concurrency:
   # Run merge workflows in sequence to prevent parallel deployments and releases
   # Cancel stale pull request runs in progress for the same branch
   cancel-in-progress: ${{ github.event_name != 'push' }}
-
-on:
-  push:
-    branches:
-      - main
-  pull_request: {}
 
 env:
   is-main-branch: ${{ github.event_name == 'push' && github.ref_name == 'main' }}

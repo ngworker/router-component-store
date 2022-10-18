@@ -22,7 +22,7 @@ jobs:
 
     steps:
       - name: Check out source code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Set up Node.js and install dependencies
         uses: ./.github/actions/setup-node
       - name: Install package dependencies
@@ -36,7 +36,7 @@ jobs:
 
     steps:
       - name: Check out source code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Set up Node.js and install dependencies
         uses: ./.github/actions/setup-node
       - name: Install package dependencies
@@ -51,7 +51,7 @@ jobs:
 
     steps:
       - name: Check out source code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Set up Node.js and install dependencies
         uses: ./.github/actions/setup-node
       - name: Install package dependencies
@@ -62,7 +62,7 @@ jobs:
 
       - name: 'Merge: Upload package bundle'
         if: ${{ env.is-main-branch == 'true' }}
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: ngworker-router-component-store
           path: dist/packages/router-component-store

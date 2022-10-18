@@ -6,7 +6,7 @@ runs:
   using: composite
   steps:
     - name: Set up Node.js and Yarn
-      uses: volta-cli/action@v1
+      uses: volta-cli/action@v4
     - name: Get Yarn cache directory path
       id: yarn-cache-dir-path
       shell: bash

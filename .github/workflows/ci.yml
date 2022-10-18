@@ -21,7 +21,7 @@ concurrency:
   cancel-in-progress: ${{ github.event_name != 'push' }}
 
 env:
-  is-main-branch: ${{ github.event_name == 'push' && github.ref_name == 'main' }}
+  is-merge-to-main: ${{ github.event_name == 'push' && github.ref_name == 'main' }}
   NODE_OPTIONS: --max-old-space-size=6144
 
 jobs:
@@ -70,7 +70,7 @@ jobs:
         run: yarn build
 
       - name: '[Merge] Upload package bundle'
-        if: ${{ env.is-main-branch == 'true' }}
+        if: ${{ env.is-merge-to-main == 'true' }}
         uses: actions/upload-artifact@v3
         with:
           name: ngworker-router-component-store

@@ -69,7 +69,7 @@ jobs:
       - name: Build
         run: yarn build
 
-      - name: 'Merge: Upload package bundle'
+      - name: '[Merge] Upload package bundle'
         if: ${{ env.is-main-branch == 'true' }}
         uses: actions/upload-artifact@v3
         with:

@@ -2,21 +2,19 @@ import { Injectable } from '@angular/core';
 import { Data, Params, Router } from '@angular/router';
 import { ComponentStore } from '@ngrx/component-store';
 import { map, Observable } from 'rxjs';
-
 import {
   MinimalActivatedRouteSnapshot,
   MinimalRouterStateSerializer,
-  MinimalRouterStateSnapshot,
+  MinimalRouterStateSnapshot
 } from '../@ngrx/router-store/minimal_serializer';
 import { RouterComponentStore } from '../router-component-store';
+
 
 interface GlobalRouterState {
   readonly routerState: MinimalRouterStateSnapshot;
 }
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class GlobalRouterComponentStore
   extends ComponentStore<GlobalRouterState>
   implements RouterComponentStore

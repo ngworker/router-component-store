@@ -30,7 +30,7 @@ A `RouterStore` service has the following public properties:
 
 A `RouterStore` service is provided by using either `provideGlobalRouterStore` or `provideLocalRouterStore`.
 
-The _global_ `RouterStore` service is never destroyed but can be injected in any class.
+The _global_ `RouterStore` service is provided in a root environment injector and is never destroyed but can be injected in any class.
 
 A _local_ `RouterStore` requires a component-level provider, follows the
 lifecycle of that component, and can be injected in declarables as well as
@@ -39,7 +39,7 @@ other component-level services.
 ### Global router store
 
 An application-wide router store. Can be injected in any class. Provide
-in the root environmnet injector by using `provideGlobalRouterStore`.
+in a root environmnet injector by using `provideGlobalRouterStore`.
 
 Usage:
 

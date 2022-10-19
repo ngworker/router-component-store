@@ -3,9 +3,8 @@ import { Data, Params } from '@angular/router';
 import { Observable } from 'rxjs';
 import { MinimalActivatedRouteSnapshot } from './@ngrx/router-store/minimal_serializer';
 
-
 @Injectable()
-export abstract class RouterComponentStore {
+export abstract class RouterStore {
   abstract readonly currentRoute$: Observable<MinimalActivatedRouteSnapshot>;
   abstract readonly fragment$: Observable<string | null>;
   abstract readonly queryParams$: Observable<Params>;

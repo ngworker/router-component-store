@@ -1,10 +1,10 @@
 import { ClassProvider, Provider } from '@angular/core';
-import { RouterComponentStore } from '../router-component-store';
+import { RouterStore } from '../router-store';
 import { GlobalRouterStore } from './global-router-store';
 
 export function provideGlobalRouterStore(): Provider {
   const globalRouterStoreProvider: ClassProvider = {
-    provide: RouterComponentStore,
+    provide: RouterStore,
     useClass: GlobalRouterStore,
   };
 

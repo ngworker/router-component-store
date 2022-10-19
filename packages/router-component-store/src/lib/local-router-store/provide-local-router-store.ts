@@ -1,10 +1,10 @@
 import { ClassProvider, Provider } from '@angular/core';
-import { RouterComponentStore } from '../router-component-store';
+import { RouterStore } from '../router-store';
 import { LocalRouterStore } from './local-router-store';
 
 export function provideLocalRouterStore(): Provider {
   const localRouterStoreProvider: ClassProvider = {
-    provide: RouterComponentStore,
+    provide: RouterStore,
     useClass: LocalRouterStore,
   };
 

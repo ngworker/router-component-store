@@ -7,7 +7,7 @@ import {
   MinimalRouterStateSerializer,
   MinimalRouterStateSnapshot,
 } from '../@ngrx/router-store/minimal_serializer';
-import { RouterComponentStore } from '../router-component-store';
+import { RouterStore } from '../router-store';
 
 interface GlobalRouterState {
   readonly routerState: MinimalRouterStateSnapshot;
@@ -16,7 +16,7 @@ interface GlobalRouterState {
 @Injectable()
 export class GlobalRouterStore
   extends ComponentStore<GlobalRouterState>
-  implements RouterComponentStore
+  implements RouterStore
 {
   #routerState$: Observable<MinimalRouterStateSnapshot> = this.select(
     (state) => state.routerState

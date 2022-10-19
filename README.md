@@ -15,7 +15,7 @@ Published with partial Ivy compilation.
 
 ## API
 
-A `RouterComponentStore` service has the following public properties:
+A `RouterStore` service has the following public properties:
 
 | API                                                         | Description                                |
 | ----------------------------------------------------------- | ------------------------------------------ |
@@ -28,11 +28,11 @@ A `RouterComponentStore` service has the following public properties:
 | selectQueryParam<TValue>(param: string): Observable<TValue> | Select the specified query parameter.      |
 | selectRouteParam<TValue>(param: string): Observable<TValue> | Select the specified route paramter.       |
 
-The `RouterComponentStore` dependency is provided either by using either `provideGlobalRouterStore` or `provideLocalRouterStore`.
+A `RouterStore` service is provided either by using either `provideGlobalRouterStore` or `provideLocalRouterStore`.
 
-The _global_ `RouterComponentStore` is never destroyed but can be injected in any class.
+The _global_ `RouterStore` service is never destroyed but can be injected in any class.
 
-The _local_ `RouterComponentStore` requires a component-level provider, follows the
+A _local_ `RouterStore` requires a component-level provider, follows the
 lifecycle of that component, and can be injected in declarables as well as
 other component-level services.
 
@@ -58,7 +58,7 @@ export class AppModule {}
 ```ts
 // hero.service.ts
 // (...)
-import { RouterComponentStore } from '@ngworker/router-component-store';
+import { RouterStore } from '@ngworker/router-component-store';
 
 @Injectable({
   providedIn: 'root',
@@ -66,14 +66,14 @@ import { RouterComponentStore } from '@ngworker/router-component-store';
 export class HeroService {
   activeHeroId$: Observable<string> = this.routerStore.selectQueryParam('id');
 
-  constructor(private routerStore: RouterComponentStore) {}
+  constructor(private routerStore: RouterStore) {}
 }
 ```
 
 ```ts
 // hero-detail.component.ts
 // (...)
-import { RouterComponentStore } from '@ngworker/router-component-store';
+import { RouterStore } from '@ngworker/router-component-store';
 
 @Component({
   // (...)
@@ -81,7 +81,7 @@ import { RouterComponentStore } from '@ngworker/router-component-store';
 export class HeroDetailComponent {
   heroId$: Observable<string> = this.routerStore.selectQueryParam('id');
 
-  constructor(private routerStore: RouterComponentStore) {}
+  constructor(private routerStore: RouterStore) {}
 }
 ```
 
@@ -98,7 +98,7 @@ Usage:
 // (...)
 import {
   provideLocalRouterStore,
-  RouterComponentStore,
+  RouterStore,
 } from '@ngworker/router-component-store';
 
 @Component({
@@ -108,6 +108,6 @@ import {
 export class HeroDetailComponent {
   heroId$: Observable<string> = this.routerStore.selectQueryParam('id');
 
-  constructor(private routerStore: RouterComponentStore) {}
+  constructor(private routerStore: RouterStore) {}
 }
 ```

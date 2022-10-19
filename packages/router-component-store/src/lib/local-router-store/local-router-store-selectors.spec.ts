@@ -4,7 +4,7 @@ import { By } from '@angular/platform-browser';
 import { Router, Routes } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { firstValueFrom } from 'rxjs';
-import { RouterComponentStore } from '../router-component-store';
+import { RouterStore } from '../router-store';
 import { LocalRouterStore } from './local-router-store';
 import { provideLocalRouterStore } from './provide-local-router-store';
 
@@ -18,7 +18,7 @@ class DummyAppComponent {}
   viewProviders: [provideLocalRouterStore()],
 })
 class DummyLoginComponent {
-  constructor(public store: RouterComponentStore) {}
+  constructor(public store: RouterStore) {}
 }
 
 describe(`${LocalRouterStore.name} selectors`, () => {

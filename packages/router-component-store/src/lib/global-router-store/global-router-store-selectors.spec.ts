@@ -3,10 +3,8 @@ import { TestBed } from '@angular/core/testing';
 import { Router, Routes } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { firstValueFrom } from 'rxjs';
-import { RouterComponentStore } from '../router-component-store';
-import {
-  GlobalRouterStore
-} from './global-router-store';
+import { RouterStore } from '../router-store';
+import { GlobalRouterStore } from './global-router-store';
 import { provideGlobalRouterStore } from './provide-global-router-store';
 
 @Component({
@@ -44,11 +42,11 @@ describe(`${GlobalRouterStore.name} selectors`, () => {
     rootFixture.autoDetectChanges(true);
 
     router = TestBed.inject(Router);
-    store = TestBed.inject(RouterComponentStore);
+    store = TestBed.inject(RouterStore);
   });
 
   let router: Router;
-  let store: RouterComponentStore;
+  let store: RouterStore;
 
   it('exposes a selector for the current route', async () => {
     await router.navigateByUrl('/login/etyDDwAAQBAJ?ref=ngrx.io#test-fragment');

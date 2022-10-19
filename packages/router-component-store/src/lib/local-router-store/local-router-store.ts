@@ -1,13 +1,18 @@
-import { Injectable, Injector } from '@angular/core';
+import { ClassProvider, Injectable, Provider } from '@angular/core';
 import { Data, Params } from '@angular/router';
 import { Observable } from 'rxjs';
-
 import { MinimalActivatedRouteSnapshot } from '../@ngrx/router-store/minimal_serializer';
 import { RouterComponentStore } from '../router-component-store';
-import {
-  createLocalRouterStore,
-  LocalRouterComponentStore,
-} from './local-router-component-store';
+import { LocalRouterComponentStore } from './local-router-component-store';
+
+export function provideLocalRouterStore(): Provider {
+  const localRouterStoreProvider: ClassProvider = {
+    provide: RouterComponentStore,
+    useClass: LocalRouterStore,
+  };
+
+  return [localRouterStoreProvider, LocalRouterComponentStore];
+}
 
 @Injectable()
 export class LocalRouterStore implements RouterComponentStore {
@@ -32,11 +37,8 @@ export class LocalRouterStore implements RouterComponentStore {
     return this.#store.url$;
   }
 
-  constructor(injector: Injector) {
-    // we're resolving from the injector because we don't want the consumer to
-    // have to provide the `LocalComponentRouterStore` in addition to the
-    // `LocalRouterStore`
-    this.#store = createLocalRouterStore(injector);
+  constructor(store: LocalRouterComponentStore) {
+    this.#store = store;
   }
 
   selectQueryParam<TValue>(param: string): Observable<TValue> {

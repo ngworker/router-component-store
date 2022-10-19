@@ -28,7 +28,7 @@ A `RouterStore` service has the following public properties:
 | selectQueryParam<TValue>(param: string): Observable<TValue> | Select the specified query parameter.      |
 | selectRouteParam<TValue>(param: string): Observable<TValue> | Select the specified route paramter.       |
 
-A `RouterStore` service is provided either by using either `provideGlobalRouterStore` or `provideLocalRouterStore`.
+A `RouterStore` service is provided by using either `provideGlobalRouterStore` or `provideLocalRouterStore`.
 
 The _global_ `RouterStore` service is never destroyed but can be injected in any class.
 

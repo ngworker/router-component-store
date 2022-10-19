@@ -28,7 +28,7 @@
     "@ngrx/router-store": "12.0.0",
     "@ngrx/store": "12.0.0",
     "@nrwl/angular": "13.1.4",
-    "rxjs": "7.0.1",
+    "rxjs": "7.2.0",
     "tslib": "2.3.1",
     "zone.js": "0.11.4"
   },

@@ -36,7 +36,7 @@ A _local_ `RouterStore` requires a component-level provider, follows the
 lifecycle of that component, and can be injected in declarables as well as
 other component-level services.
 
-### Global router component store
+### Global router store
 
 An application-wide router store. Can be injected in any class. Provide
 in the root environmnet injector by using `provideGlobalRouterStore`.
@@ -85,7 +85,7 @@ export class HeroDetailComponent {
 }
 ```
 
-### Local router component store
+### Local router store
 
 A component-level router store. Can be injected in any directive, component,
 pipe, or component-level service. Explicitly provided in a component sub-tree

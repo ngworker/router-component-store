@@ -1,6 +1,5 @@
 import { ClassProvider, Provider } from '@angular/core';
 import { RouterComponentStore } from '../router-component-store';
-import { GlobalRouterComponentStore } from './global-router-component-store';
 import { GlobalRouterStore } from './global-router-store';
 
 export function provideGlobalRouterStore(): Provider {
@@ -9,5 +8,5 @@ export function provideGlobalRouterStore(): Provider {
     useClass: GlobalRouterStore,
   };
 
-  return [globalRouterStoreProvider, GlobalRouterComponentStore];
+  return globalRouterStoreProvider;
 }

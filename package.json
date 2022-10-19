@@ -3,10 +3,11 @@
   "private": true,
   "scripts": {
     "postinstall": "node ./decorate-angular-cli.js && ngcc --properties es2015 browser module main",
-    "build": "nx build",
-    "lint": "nx workspace-lint && nx lint --max-warnings=0",
+    "build": "nx run-many --target=build --all",
+    "ci": "yarn lint && yarn test && yarn build",
+    "lint": "nx workspace-lint && nx run-many --target=lint --all --max-warnings=0",
     "nx": "nx",
-    "test": "nx test"
+    "test": "nx run-many --target=test --all"
   },
   "engines": {
     "node": "14.20.1",

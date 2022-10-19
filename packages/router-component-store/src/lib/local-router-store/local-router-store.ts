@@ -1,41 +1,83 @@
 import { Injectable } from '@angular/core';
-import { Data, Params } from '@angular/router';
-import { Observable } from 'rxjs';
-import { MinimalActivatedRouteSnapshot } from '../@ngrx/router-store/minimal_serializer';
+import { ActivatedRoute, Data, Params, Router } from '@angular/router';
+import { ComponentStore } from '@ngrx/component-store';
+import { map, Observable } from 'rxjs';
+import {
+  MinimalActivatedRouteSnapshot,
+  MinimalRouterStateSerializer,
+  MinimalRouterStateSnapshot,
+} from '../@ngrx/router-store/minimal_serializer';
 import { RouterComponentStore } from '../router-component-store';
-import { LocalRouterComponentStore } from './local-router-component-store';
+
+interface LocalRouterState {
+  readonly routerState: MinimalRouterStateSnapshot;
+}
 
 @Injectable()
-export class LocalRouterStore implements RouterComponentStore {
-  #store: LocalRouterComponentStore;
+export class LocalRouterStore
+  extends ComponentStore<LocalRouterState>
+  implements RouterComponentStore
+{
+  #routerState$: Observable<MinimalRouterStateSnapshot> = this.select(
+    (state) => state.routerState
+  );
+  #rootRoute$: Observable<MinimalActivatedRouteSnapshot> = this.select(
+    this.#routerState$,
+    (routerState) => routerState.root
+  );
 
-  get currentRoute$(): Observable<MinimalActivatedRouteSnapshot> {
-    return this.#store.currentRoute$;
-  }
-  get fragment$(): Observable<string | null> {
-    return this.#store.fragment$;
-  }
-  get queryParams$(): Observable<Params> {
-    return this.#store.queryParams$;
-  }
-  get routeData$(): Observable<Data> {
-    return this.#store.routeData$;
-  }
-  get routeParams$(): Observable<Params> {
-    return this.#store.routeParams$;
-  }
-  get url$(): Observable<string> {
-    return this.#store.url$;
+  currentRoute$: Observable<MinimalActivatedRouteSnapshot> = this.select(
+    this.#rootRoute$,
+    (route) => {
+      while (route.firstChild) {
+        route = route.firstChild;
+      }
+
+      return route;
+    }
+  );
+  fragment$: Observable<string | null>;
+  queryParams$: Observable<Params>;
+  routeData$: Observable<Data>;
+  routeParams$: Observable<Params>;
+  url$: Observable<string> = this.select(
+    this.#routerState$,
+    (routerState) => routerState.url
+  );
+
+  constructor(
+    route: ActivatedRoute,
+    router: Router,
+    serializer: MinimalRouterStateSerializer
+  ) {
+    super({
+      routerState: serializer.serialize(router.routerState.snapshot),
+    });
+
+    this.fragment$ = route.fragment;
+    this.queryParams$ = route.queryParams;
+    this.routeData$ = route.data;
+    this.routeParams$ = route.params;
+
+    this.#updateRouterState(
+      router.events.pipe(
+        map(() => serializer.serialize(router.routerState.snapshot))
+      )
+    );
   }
 
-  constructor(store: LocalRouterComponentStore) {
-    this.#store = store;
-  }
+  #updateRouterState = this.updater<MinimalRouterStateSnapshot>(
+    (state, routerState): LocalRouterState => ({
+      ...state,
+      routerState,
+    })
+  );
 
   selectQueryParam<TValue>(param: string): Observable<TValue> {
-    return this.#store.selectQueryParam(param);
+    return this.select(this.queryParams$, (params) => params[param]);
   }
+
   selectRouteParam<TValue>(param: string): Observable<TValue> {
-    return this.#store.selectRouteParam(param);
+    return this.select(this.routeParams$, (params) => params[param]);
   }
 }

@@ -75,3 +75,4 @@ jobs:
         with:
           name: ngworker-router-component-store
           path: dist/packages/router-component-store
+          if-no-files-found: error

@@ -1,47 +1,6 @@
 {
   "version": 2,
   "projects": {
-    "router-component-store": {
-      "projectType": "library",
-      "root": "packages/router-component-store",
-      "sourceRoot": "packages/router-component-store/src",
-      "prefix": "ngw",
-      "targets": {
-        "build": {
-          "executor": "@nrwl/angular:package",
-          "outputs": ["dist/packages/router-component-store"],
-          "options": {
-            "project": "packages/router-component-store/ng-package.json"
-          },
-          "configurations": {
-            "production": {
-              "tsConfig": "packages/router-component-store/tsconfig.lib.prod.json"
-            },
-            "development": {
-              "tsConfig": "packages/router-component-store/tsconfig.lib.json"
-            }
-          },
-          "defaultConfiguration": "production"
-        },
-        "test": {
-          "executor": "@nrwl/jest:jest",
-          "outputs": ["coverage/packages/router-component-store"],
-          "options": {
-            "jestConfig": "packages/router-component-store/jest.config.js",
-            "passWithNoTests": true
-          }
-        },
-        "lint": {
-          "executor": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": [
-              "packages/router-component-store/src/**/*.ts",
-              "packages/router-component-store/src/**/*.html"
-            ]
-          }
-        }
-      },
-      "tags": []
-    }
+    "router-component-store": "packages/router-component-store"
   }
 }

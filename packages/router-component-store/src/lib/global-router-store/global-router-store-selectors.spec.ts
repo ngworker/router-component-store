@@ -5,9 +5,9 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { firstValueFrom } from 'rxjs';
 import { RouterComponentStore } from '../router-component-store';
 import {
-  GlobalRouterStore,
-  provideGlobalRouterStore,
+  GlobalRouterStore
 } from './global-router-store';
+import { provideGlobalRouterStore } from './provide-global-router-store';
 
 @Component({
   template: '<router-outlet></router-outlet>',

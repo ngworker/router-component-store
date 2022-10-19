@@ -5,10 +5,8 @@ import { Router, Routes } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { firstValueFrom } from 'rxjs';
 import { RouterComponentStore } from '../router-component-store';
-import {
-  LocalRouterStore,
-  provideLocalRouterStore,
-} from './local-router-store';
+import { LocalRouterStore } from './local-router-store';
+import { provideLocalRouterStore } from './provide-local-router-store';
 
 @Component({
   template: '<router-outlet></router-outlet>',

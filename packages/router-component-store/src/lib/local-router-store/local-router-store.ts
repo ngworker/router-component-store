@@ -1,18 +1,9 @@
-import { ClassProvider, Injectable, Provider } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Data, Params } from '@angular/router';
 import { Observable } from 'rxjs';
 import { MinimalActivatedRouteSnapshot } from '../@ngrx/router-store/minimal_serializer';
 import { RouterComponentStore } from '../router-component-store';
 import { LocalRouterComponentStore } from './local-router-component-store';
-
-export function provideLocalRouterStore(): Provider {
-  const localRouterStoreProvider: ClassProvider = {
-    provide: RouterComponentStore,
-    useClass: LocalRouterStore,
-  };
-
-  return [localRouterStoreProvider, LocalRouterComponentStore];
-}
 
 @Injectable()
 export class LocalRouterStore implements RouterComponentStore {

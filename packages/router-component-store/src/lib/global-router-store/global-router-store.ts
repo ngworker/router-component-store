@@ -1,18 +1,9 @@
-import { ClassProvider, Injectable, Provider } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Data, Params } from '@angular/router';
 import { Observable } from 'rxjs';
 import { MinimalActivatedRouteSnapshot } from '../@ngrx/router-store/minimal_serializer';
 import { RouterComponentStore } from '../router-component-store';
 import { GlobalRouterComponentStore } from './global-router-component-store';
-
-export function provideGlobalRouterStore(): Provider {
-  const globalRouterStoreProvider: ClassProvider = {
-    provide: RouterComponentStore,
-    useClass: GlobalRouterStore,
-  };
-
-  return [globalRouterStoreProvider, GlobalRouterComponentStore];
-}
 
 @Injectable()
 export class GlobalRouterStore implements RouterComponentStore {

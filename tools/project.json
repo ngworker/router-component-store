@@ -1,8 +1,0 @@
-{
-  "projectType": "library",
-  "root": "tools",
-  "sourceRoot": "tools",
-  "prefix": "ngw",
-  "targets": {},
-  "tags": []
-}

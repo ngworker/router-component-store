@@ -3,6 +3,7 @@
   "dest": "../../dist/packages/router-component-store",
   "lib": {
     "entryFile": "src/index.ts",
+    "umdId": "ngworker.routerComponentStore",
     "umdModuleIds": {
       "@ngrx/component-store": "ngrx.componentStore"
     }

@@ -10,6 +10,10 @@
 - Remove `GlobalRouterStore`
 - Add `provideGlobalRouterStore`
 
+## Bug fixes
+
+- Fix [#272](https://github.com/ngworker/router-component-store/issues/272): Class constructor ComponentStore cannot be invoked without 'new'
+
 ## **BREAKING CHANGES**
 
 ### Require RxJS 7.2

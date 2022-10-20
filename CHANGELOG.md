@@ -1,8 +1,8 @@
 # Router Component Store changelog
 
-## 0.1.0 (2022-10-20)
+## 0.1.1 (2022-10-21)
 
-## Features
+### Features
 
 - Add `RouterStore`
 - Remove `LocalRouterStore`
@@ -10,21 +10,21 @@
 - Remove `GlobalRouterStore`
 - Add `provideGlobalRouterStore`
 
-## Bug fixes
+### Bug fixes
 
 - Fix [#272](https://github.com/ngworker/router-component-store/issues/272): Class constructor ComponentStore cannot be invoked without 'new'
 
-## **BREAKING CHANGES**
+### **BREAKING CHANGES**
 
-### Require RxJS 7.2
+#### Require RxJS 7.2
 
 We now require at least RxJS version 7.2 to import operators from the primary entry point of the `rxjs` package.
 
-### LocalRouterStore is removed
+#### LocalRouterStore is removed
 
 `LocalRouterStore` is replaced by `RouterStore` and `provideLocalRouterStore`.
 
-#### Migration
+##### Migration
 
 Use `provideLocalRouterStore()` as component-level provider and inject `RouterStore` instead of `LocalRouterStore`.
 
@@ -67,11 +67,11 @@ export class HeroDetailComponent {
 }
 ```
 
-### GlobalRouterStore is removed
+#### GlobalRouterStore is removed
 
 `GlobalRouterStore` is replaced by `RouterStore` and `provideGlobalRouterStore`.
 
-#### Migration
+##### Migration
 
 Add `provideGlobalRouterStore()` to your root environment injector and inject `RouterStore` instead of `GlobalRouterStore`.
 

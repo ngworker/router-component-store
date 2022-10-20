@@ -43,7 +43,7 @@ in a root environment injector by using `provideGlobalRouterStore`.
 
 Usage:
 
-```ts
+```typescript
 // app.module.ts
 // (...)
 import { provideGlobalRouterStore } from '@ngworker/router-component-store';
@@ -55,7 +55,7 @@ import { provideGlobalRouterStore } from '@ngworker/router-component-store';
 export class AppModule {}
 ```
 
-```ts
+```typescript
 // hero.service.ts
 // (...)
 import { RouterStore } from '@ngworker/router-component-store';
@@ -70,7 +70,7 @@ export class HeroService {
 }
 ```
 
-```ts
+```typescript
 // hero-detail.component.ts
 // (...)
 import { RouterStore } from '@ngworker/router-component-store';
@@ -93,7 +93,7 @@ using `Component.providers` or `Component.viewProviders`.
 
 Usage:
 
-```ts
+```typescript
 // hero-detail.component.ts
 // (...)
 import {

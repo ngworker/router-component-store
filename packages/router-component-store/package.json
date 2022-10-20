@@ -1,6 +1,6 @@
 {
   "name": "@ngworker/router-component-store",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Angular Router-connecting NgRx component stores.",
   "license": "MIT",
   "peerDependencies": {
@@ -17,8 +17,7 @@
     "router",
     "component-store",
     "ngworker",
-    "angular",
-    "angular2"
+    "angular"
   ],
   "author": {
     "name": "Lars Gyrup Brink Nielsen",
@@ -28,8 +27,7 @@
   "contributors": [],
   "publishConfig": {
     "access": "public",
-    "registry": "https://registry.npmjs.org/",
-    "tag": "unknown"
+    "registry": "https://registry.npmjs.org/"
   },
   "bugs": {
     "url": "https://github.com/ngworker/router-component-store/issue"

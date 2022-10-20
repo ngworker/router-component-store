@@ -109,16 +109,17 @@ export class AppModule {}
 ```typescript
 // hero.service.ts
 // (...)
-import { RouterStore } from "@ngworker/router-component-store";
+import { RouterStore } from '@ngworker/router-component-store';
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
 export class HeroService {
-  activeHeroId$: Observable<string> = this.routerStore.selectQueryParam("id");
+  activeHeroId$: Observable<string> = this.routerStore.selectQueryParam('id');
 
   constructor(private routerStore: RouterStore) {}
 }
+```
 
 ## 0.0.2 (2021-11-20)
 
@@ -132,4 +133,3 @@ export class HeroService {
 
 - add `GlobalRouterStore`
 - add `LocalRouterStore`
-```

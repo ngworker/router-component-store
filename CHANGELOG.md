@@ -1,4 +1,4 @@
-# Changelog
+# Router Component Store changelog
 
 ## 0.0.2 (2021-11-20)
 

@@ -4,8 +4,9 @@ import { By } from '@angular/platform-browser';
 import { Router, Routes } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { firstValueFrom } from 'rxjs';
-
+import { RouterStore } from '../router-store';
 import { LocalRouterStore } from './local-router-store';
+import { provideLocalRouterStore } from './provide-local-router-store';
 
 @Component({
   template: '<router-outlet></router-outlet>',
@@ -14,10 +15,10 @@ class DummyAppComponent {}
 
 @Component({
   template: '',
-  viewProviders: [LocalRouterStore],
+  viewProviders: [provideLocalRouterStore()],
 })
 class DummyLoginComponent {
-  constructor(public store: LocalRouterStore) {}
+  constructor(public store: RouterStore) {}
 }
 
 describe(`${LocalRouterStore.name} selectors`, () => {

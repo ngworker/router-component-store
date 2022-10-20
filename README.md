@@ -39,7 +39,7 @@ other component-level services.
 ### Global router store
 
 An application-wide router store. Can be injected in any class. Provide
-in a root environmnet injector by using `provideGlobalRouterStore`.
+in a root environment injector by using `provideGlobalRouterStore`.
 
 Usage:
 

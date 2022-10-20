@@ -68,6 +68,8 @@ jobs:
 
       - name: Build
         run: yarn build
+      - name: Bundle readme
+        run: cp README.md dist/packages/router-component-store/
 
       - name: '[Merge] Upload package bundle'
         if: ${{ env.is-merge-to-main == 'true' }}

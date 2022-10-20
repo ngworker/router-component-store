@@ -1,6 +1,8 @@
-# @ngworker/router-component-store
+# Router Component Store
 
-Angular Router-connecting NgRx component stores.
+[`@ngworker/router-component-store`](https://www.npmjs.com/package/@ngworker/router-component-store)
+
+An Angular Router-connecting NgRx component store.
 
 ## Compatibility
 

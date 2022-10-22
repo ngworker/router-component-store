@@ -22,13 +22,10 @@
       }
     }
   },
-  "targetDependencies": {
-    "build": [
-      {
-        "target": "build",
-        "projects": "dependencies"
-      }
-    ]
+  "targetDefaults": {
+    "build": {
+      "dependsOn": ["^build"]
+    }
   },
   "generators": {
     "@nrwl/angular:application": {
@@ -49,10 +46,5 @@
     }
   },
   "defaultProject": "router-component-store",
-  "$schema": "./node_modules/nx/schemas/nx-schema.json",
-  "targetDefaults": {
-    "build": {
-      "dependsOn": ["^build"]
-    }
-  }
+  "$schema": "./node_modules/nx/schemas/nx-schema.json"
 }

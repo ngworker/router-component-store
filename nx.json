@@ -5,7 +5,6 @@
     "defaultBase": "main"
   },
   "cli": {
-    "defaultCollection": "@nrwl/angular",
     "packageManager": "yarn"
   },
   "implicitDependencies": {
@@ -49,5 +48,11 @@
       "style": "css"
     }
   },
-  "defaultProject": "router-component-store"
+  "defaultProject": "router-component-store",
+  "$schema": "./node_modules/nx/schemas/nx-schema.json",
+  "targetDefaults": {
+    "build": {
+      "dependsOn": ["^build"]
+    }
+  }
 }

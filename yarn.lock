@@ -181,7 +181,7 @@
     "@angular-eslint/bundled-angular-compiler" "14.0.4"
     "@typescript-eslint/utils" "5.36.2"
 
-"@angular/cli@~14.0.0":
+"@angular/cli@14.0.7":
   version "14.0.7"
   resolved "https://registry.yarnpkg.com/@angular/cli/-/cli-14.0.7.tgz#7a2d51f92491e82ec56a337502b1701f0511c51e"
   integrity sha512-tABt1EDwBHm0ngsutdkXXWgPgHzapGLC7rSPHXStMc24ngViFZpXGzBCpompjHvXNt6bjklmJmuRvjS6+ktBZA==

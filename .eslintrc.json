@@ -1,13 +1,7 @@
 {
   "root": true,
   "ignorePatterns": ["**/*"],
-  "parser": "@typescript-eslint/parser",
-  "parserOptions": {
-    "ecmaVersion": 2019,
-    "project": "./tsconfig.base.json",
-    "sourceType": "module"
-  },
-  "plugins": ["@nrwl/nx", "ngrx"],
+  "plugins": ["@nrwl/nx", "@ngrx"],
   "overrides": [
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
@@ -34,7 +28,7 @@
     },
     {
       "files": ["*.ts"],
-      "extends": ["plugin:ngrx/component-store-strict"]
+      "extends": ["plugin:@ngrx/component-store-strict"]
     },
     {
       "files": ["*.js", "*.jsx"],

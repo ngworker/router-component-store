@@ -1,6 +1,5 @@
 {
   "projectType": "library",
-  "root": "packages/router-component-store",
   "sourceRoot": "packages/router-component-store/src",
   "prefix": "ngw",
   "targets": {
@@ -24,7 +23,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/packages/router-component-store"],
       "options": {
-        "jestConfig": "packages/router-component-store/jest.config.js",
+        "jestConfig": "packages/router-component-store/jest.config.ts",
         "passWithNoTests": true
       }
     },

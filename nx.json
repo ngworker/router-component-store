@@ -1,4 +1,5 @@
 {
+  "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "extends": "nx/presets/npm.json",
   "npmScope": "ngworker",
   "affected": {
@@ -45,6 +46,5 @@
       "style": "css"
     }
   },
-  "defaultProject": "router-component-store",
-  "$schema": "./node_modules/nx/schemas/nx-schema.json"
+  "defaultProject": "router-component-store"
 }

@@ -88,7 +88,7 @@ async function setup({
   `,
 })
 class ClassicRoutedComponent {
-  id$: Observable<string>;
+  id$: Observable<string | undefined>;
   url$: Observable<string>;
 
   constructor(routerStore: RouterStore) {

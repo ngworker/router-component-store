@@ -87,7 +87,7 @@ async function setup({
   `,
 })
 class StandaloneRoutedComponent {
-  id$: Observable<string>;
+  id$: Observable<string | undefined>;
   url$: Observable<string>;
 
   constructor(routerStore: RouterStore) {

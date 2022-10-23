@@ -5,7 +5,7 @@ import { map, Observable } from 'rxjs';
 import {
   MinimalActivatedRouteSnapshot,
   MinimalRouterStateSerializer,
-  MinimalRouterStateSnapshot,
+  MinimalRouterStateSnapshot
 } from '../@ngrx/router-store/minimal_serializer';
 import { RouterStore } from '../router-store';
 
@@ -73,11 +73,11 @@ export class LocalRouterStore
     })
   );
 
-  selectQueryParam<TValue>(param: string): Observable<TValue> {
+  selectQueryParam(param: string): Observable<string | undefined> {
     return this.select(this.queryParams$, (params) => params[param]);
   }
 
-  selectRouteParam<TValue>(param: string): Observable<TValue> {
+  selectRouteParam(param: string): Observable<string | undefined> {
     return this.select(this.routeParams$, (params) => params[param]);
   }
 }

@@ -8,10 +8,10 @@ An Angular Router-connecting NgRx component store.
 
 Required peer dependencies:
 
-- Angular >=12.2
-- NgRx Component Store >=12.0
-- RxJS >=7.2
-- TypeScript >=4.3
+- Angular >=14.0
+- NgRx Component Store >=14.0
+- RxJS >=7.4
+- TypeScript >=4.6
 
 Published with partial Ivy compilation.
 

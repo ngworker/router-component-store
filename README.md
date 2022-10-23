@@ -28,7 +28,7 @@ A `RouterStore` service has the following public properties:
 | routeParams$: Observable<Params>                            | Select the current route parameters.       |
 | url$: Observable<string>                                    | Select the current URL.                    |
 | selectQueryParam<TValue>(param: string): Observable<TValue> | Select the specified query parameter.      |
-| selectRouteParam<TValue>(param: string): Observable<TValue> | Select the specified route paramter.       |
+| selectRouteParam<TValue>(param: string): Observable<TValue> | Select the specified route parameter.      |
 
 A `RouterStore` service is provided by using either `provideGlobalRouterStore` or `provideLocalRouterStore`.
 
@@ -40,10 +40,22 @@ other component-level services.
 
 ### Global router store
 
-An application-wide router store. Can be injected in any class. Provide
-in a root environment injector by using `provideGlobalRouterStore`.
+An application-wide router store that can be injected in any class. Use
+`provideGlobalRouterStore` to provide it in a root environment injector.
 
-Usage:
+Providing in a standalone Angular application:
+
+```typescript
+// main.ts
+// (...)
+import { provideGlobalRouterStore } from '@ngworker/router-component-store';
+
+bootstrapApplication(AppComponent, {
+  providers: [provideGlobalRouterStore()],
+}).catch((error) => console.error(error));
+```
+
+Providing in a classic Angular application:
 
 ```typescript
 // app.module.ts
@@ -57,6 +69,8 @@ import { provideGlobalRouterStore } from '@ngworker/router-component-store';
 export class AppModule {}
 ```
 
+Usage in service:
+
 ```typescript
 // hero.service.ts
 // (...)
@@ -66,11 +80,13 @@ import { RouterStore } from '@ngworker/router-component-store';
   providedIn: 'root',
 })
 export class HeroService {
-  activeHeroId$: Observable<string> = this.routerStore.selectQueryParam('id');
+  activeHeroId$: Observable<string> = this.routerStore.selectRouteParam('id');
 
   constructor(private routerStore: RouterStore) {}
 }
 ```
+
+Usage in component:
 
 ```typescript
 // hero-detail.component.ts
@@ -81,7 +97,7 @@ import { RouterStore } from '@ngworker/router-component-store';
   // (...)
 })
 export class HeroDetailComponent {
-  heroId$: Observable<string> = this.routerStore.selectQueryParam('id');
+  heroId$: Observable<string> = this.routerStore.selectRouteParam('id');
 
   constructor(private routerStore: RouterStore) {}
 }
@@ -93,7 +109,7 @@ A component-level router store. Can be injected in any directive, component,
 pipe, or component-level service. Explicitly provided in a component sub-tree
 using `Component.providers` or `Component.viewProviders`.
 
-Usage:
+Usage in component:
 
 ```typescript
 // hero-detail.component.ts
@@ -108,7 +124,7 @@ import {
   providers: [provideLocalRouterStore()],
 })
 export class HeroDetailComponent {
-  heroId$: Observable<string> = this.routerStore.selectQueryParam('id');
+  heroId$: Observable<string> = this.routerStore.selectRouteParam('id');
 
   constructor(private routerStore: RouterStore) {}
 }

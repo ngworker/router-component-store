@@ -22,18 +22,57 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+/**
+ * @license
+ * Copyright Google LLC All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
+ */
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 
+/**
+ * Contains the information about a route associated with a component loaded in
+ * an outlet at a particular moment in time. MinimalActivatedRouteSnapshot can
+ * also be used to traverse the router state tree.
+ */
 export interface MinimalActivatedRouteSnapshot {
+  /**
+   * The configuration used to match this route.
+   */
   readonly routeConfig: ActivatedRouteSnapshot['routeConfig'];
+  /**
+   * The URL segments matched by this route.
+   */
   readonly url: ActivatedRouteSnapshot['url'];
+  /**
+   * The matrix parameters scoped to this route.
+   */
   readonly params: ActivatedRouteSnapshot['params'];
+  /**
+   * The query parameters shared by all the routes.
+   */
   readonly queryParams: ActivatedRouteSnapshot['queryParams'];
+  /**
+   * The URL fragment shared by all the routes.
+   */
   readonly fragment: ActivatedRouteSnapshot['fragment'];
+  /**
+   * The static and resolved data of this route.
+   */
   readonly data: ActivatedRouteSnapshot['data'];
+  /**
+   * The outlet name of the route.
+   */
   readonly outlet: ActivatedRouteSnapshot['outlet'];
+  /**
+   * The first child of this route in the router state tree
+   */
   readonly firstChild?: MinimalActivatedRouteSnapshot;
+  /**
+   * The children of this route in the router state tree.
+   */
   readonly children: MinimalActivatedRouteSnapshot[];
 }
 

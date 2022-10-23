@@ -10,11 +10,11 @@
     "test": "nx run-many --target=test --all"
   },
   "engines": {
-    "node": "14.20.1",
+    "node": "16.18.0",
     "yarn": "1.22.19"
   },
   "volta": {
-    "node": "14.20.1",
+    "node": "16.18.0",
     "yarn": "1.22.19"
   },
   "dependencies": {

@@ -28,7 +28,7 @@ A `RouterStore` service has the following public properties:
 | routeParams$: Observable<Params>                            | Select the current route parameters.       |
 | url$: Observable<string>                                    | Select the current URL.                    |
 | selectQueryParam<TValue>(param: string): Observable<TValue> | Select the specified query parameter.      |
-| selectRouteParam<TValue>(param: string): Observable<TValue> | Select the specified route paramter.       |
+| selectRouteParam<TValue>(param: string): Observable<TValue> | Select the specified route parameter.      |
 
 A `RouterStore` service is provided by using either `provideGlobalRouterStore` or `provideLocalRouterStore`.
 

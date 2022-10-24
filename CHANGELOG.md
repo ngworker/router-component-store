@@ -1,5 +1,88 @@
 # Router Component Store changelog
 
+## 0.2.0 (2022-10-24)
+
+### Features
+
+- Remove type parameter from `selectQueryParam`
+- Specify observable type returned from `selectQueryParam`
+- Remove type parameter from `selectRouteParam`
+- Specify observable type returned from `selectRouteParam`
+
+### **BREAKING CHANGES**
+
+#### Stricter signature for selectQueryParam
+
+Signature before:
+
+```typescript
+selectQueryParam<TValue>(param: string): Observable<TValue>;
+```
+
+Signature after:
+
+```typescript
+selectQueryParam(param: string): Observable<string | undefined>;
+```
+
+##### Migration
+
+Loose types now yield compilation errors. Remove the type parameter to use the
+actual emitted type of `string | undefined` and optionally use operators to
+change or narrow the type.
+
+Before:
+
+```typescript
+// Actual emitted values are of type `string | undefined` regardless of what we specify
+const filter$ = routerStore.selectQueryParam<string | null>('filter');
+```
+
+After:
+
+```typescript
+// Emitted values are implicitly of type `string | undefined` and are only changeable through operators
+const filter$ = routerStore
+  .selectQueryParam('filter')
+  .pipe(map((filter) => filter ?? null));
+```
+
+#### Stricter signature for selectRouteParam
+
+Signature before:
+
+```typescript
+selectRouteParam<TValue>(param: string): Observable<TValue>;
+```
+
+Signature after:
+
+```typescript
+selectRouteParam(param: string): Observable<string | undefined>;
+```
+
+##### Migration
+
+Loose types now yield compilation errors. Remove the type parameter to use the
+actual emitted type of `string | undefined` and optionally use operators to
+change or narrow the type.
+
+Before:
+
+```typescript
+// Actual emitted values are of type `string | undefined` regardless of what we specify
+const id$ = routerStore.selectRouteParam<number>('id');
+```
+
+After:
+
+```typescript
+// Emitted values are implicitly of type `string | undefined` and are only changeable through operators
+const id$ = routerStore.selectRouteParam('id').pipe(
+  map(id => id === undefined ? undefined : Number(id),
+);
+```
+
 ## 0.1.1 (2022-10-21)
 
 ### Features

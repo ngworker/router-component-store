@@ -5,7 +5,7 @@ import { map, Observable } from 'rxjs';
 import {
   MinimalActivatedRouteSnapshot,
   MinimalRouterStateSerializer,
-  MinimalRouterStateSnapshot
+  MinimalRouterStateSnapshot,
 } from '../@ngrx/router-store/minimal_serializer';
 import { RouterStore } from '../router-store';
 

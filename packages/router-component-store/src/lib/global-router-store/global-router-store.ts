@@ -77,11 +77,11 @@ export class GlobalRouterStore
     })
   );
 
-  selectQueryParam<TValue>(param: string): Observable<TValue> {
+  selectQueryParam(param: string): Observable<string | undefined> {
     return this.select(this.queryParams$, (params) => params[param]);
   }
 
-  selectRouteParam<TValue>(param: string): Observable<TValue> {
+  selectRouteParam(param: string): Observable<string | undefined> {
     return this.select(this.routeParams$, (params) => params[param]);
   }
 }

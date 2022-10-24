@@ -65,7 +65,7 @@ export abstract class RouterStore {
    * @example <caption>Usage</caption>
    * const order$ = routerStore.selectQueryParam('order');
    */
-  abstract selectQueryParam<TValue>(param: string): Observable<TValue>;
+  abstract selectQueryParam(param: string): Observable<string | undefined>;
   /**
    * Select the specified route parameter.
    *
@@ -74,5 +74,5 @@ export abstract class RouterStore {
    * @example <caption>Usage</caption>
    * const id$ = routerStore.selectRouteParam('id');
    */
-  abstract selectRouteParam<TValue>(param: string): Observable<TValue>;
+  abstract selectRouteParam(param: string): Observable<string | undefined>;
 }

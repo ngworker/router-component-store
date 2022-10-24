@@ -9,7 +9,20 @@
 - Remove type parameter from `selectRouteParam`
 - Specify observable type returned from `selectRouteParam`
 
+### Bug fixes
+
+- Fixes [#272](https://github.com/ngworker/router-component-store/issues/272) by building the package using Angular 14. Standalone components and applications are now fully supported, including in component tests.
+
 ### **BREAKING CHANGES**
+
+#### Compatibility
+
+To fully support standalone Angular applications and components, we now require at least the following peer dependencies.
+
+- Require Angular 14.0
+- Require `@ngrx/component-store` 14.0
+- Require RxJS 7.4
+- Require TypeScript 4.6
 
 #### Stricter signature for selectQueryParam
 

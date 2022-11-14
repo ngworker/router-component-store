@@ -5,6 +5,13 @@
     "ghcr.io/devcontainers/features/github-cli": {},
     "ghcr.io/devcontainers/features/powershell": {}
   },
+  "mounts": [
+    {
+      "source": "router-component-store_node_modules",
+      "target": "${containerWorkspaceFolder}/node_modules",
+      "type": "volume"
+    }
+  ],
   "waitFor": "onCreateCommand",
   "updateContentCommand": "yarn install --non-interactive --frozen-lockfile",
   "postAttachCommand": {

@@ -67,6 +67,10 @@ export interface MinimalActivatedRouteSnapshot {
    */
   readonly outlet: ActivatedRouteSnapshot['outlet'];
   /**
+   * The resolved route title.
+   */
+  readonly title: ActivatedRouteSnapshot['title'];
+  /**
    * The first child of this route in the router state tree
    */
   readonly firstChild?: MinimalActivatedRouteSnapshot;
@@ -101,12 +105,17 @@ export class MinimalRouterStateSerializer {
       data: route.data,
       url: route.url,
       outlet: route.outlet,
+      title: route.title,
       routeConfig: route.routeConfig
         ? {
             path: route.routeConfig.path,
             pathMatch: route.routeConfig.pathMatch,
             redirectTo: route.routeConfig.redirectTo,
             outlet: route.routeConfig.outlet,
+            title:
+              typeof route.routeConfig.title === 'string'
+                ? route.routeConfig.title
+                : undefined,
           }
         : null,
       queryParams: route.queryParams,

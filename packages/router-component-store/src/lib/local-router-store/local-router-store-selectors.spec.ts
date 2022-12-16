@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Router, Routes } from '@angular/router';
@@ -18,7 +18,7 @@ class DummyAppComponent {}
   viewProviders: [provideLocalRouterStore()],
 })
 class DummyLoginComponent {
-  constructor(public store: RouterStore) {}
+  routerStore = inject(RouterStore);
 }
 
 describe(`${LocalRouterStore.name} selectors`, () => {
@@ -26,7 +26,7 @@ describe(`${LocalRouterStore.name} selectors`, () => {
     (
       rootFixture.debugElement.query(By.directive(DummyLoginComponent))
         .componentInstance as DummyLoginComponent
-    ).store;
+    ).routerStore;
 
   beforeEach(async () => {
     const routes: Routes = [

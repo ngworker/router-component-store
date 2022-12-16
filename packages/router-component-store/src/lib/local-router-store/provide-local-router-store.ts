@@ -26,9 +26,9 @@ import { LocalRouterStore } from './local-router-store';
  *   providers: [provideLocalRouterStore()],
  * })
  * export class HeroDetailComponent {
- *   heroId$: Observable<string> = this.routerStore.selectQueryParam('id');
+ *   #routerStore = inject(RouterStore);
  *
- *   constructor(private routerStore: RouterStore) {}
+ *   heroId$: Observable<string | undefined> = this.#routerStore.selectQueryParam('id');
  * }
  */
 export function provideLocalRouterStore(): Provider {

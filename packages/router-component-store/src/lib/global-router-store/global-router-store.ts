@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Data, Params, Router } from '@angular/router';
 import { ComponentStore } from '@ngrx/component-store';
 import { map, Observable } from 'rxjs';
@@ -55,10 +55,7 @@ export class GlobalRouterStore
     (routerState) => routerState.url
   );
 
-  constructor(
-    @Inject(Router) router: Router,
-    serializer: MinimalRouterStateSerializer
-  ) {
+  constructor(router: Router, serializer: MinimalRouterStateSerializer) {
     super({
       routerState: serializer.serialize(router.routerState.snapshot),
     });

@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { ActivatedRoute, Data, Params, Router } from '@angular/router';
 import { ComponentStore } from '@ngrx/component-store';
 import { map, Observable } from 'rxjs';
@@ -46,8 +46,8 @@ export class LocalRouterStore
   );
 
   constructor(
-    @Inject(ActivatedRoute) route: ActivatedRoute,
-    @Inject(Router) router: Router,
+    route: ActivatedRoute,
+    router: Router,
     serializer: MinimalRouterStateSerializer
   ) {
     super({

@@ -80,9 +80,10 @@ import { RouterStore } from '@ngworker/router-component-store';
   providedIn: 'root',
 })
 export class HeroService {
-  activeHeroId$: Observable<string> = this.routerStore.selectRouteParam('id');
+  #routerStore = inject(RouterStore);
 
-  constructor(private routerStore: RouterStore) {}
+  activeHeroId$: Observable<string | undefined> =
+    this.#routerStore.selectRouteParam('id');
 }
 ```
 
@@ -97,9 +98,10 @@ import { RouterStore } from '@ngworker/router-component-store';
   // (...)
 })
 export class HeroDetailComponent {
-  heroId$: Observable<string> = this.routerStore.selectRouteParam('id');
+  #routerStore = inject(RouterStore);
 
-  constructor(private routerStore: RouterStore) {}
+  heroId$: Observable<string | undefined> =
+    this.#routerStore.selectRouteParam('id');
 }
 ```
 
@@ -124,8 +126,9 @@ import {
   providers: [provideLocalRouterStore()],
 })
 export class HeroDetailComponent {
-  heroId$: Observable<string> = this.routerStore.selectRouteParam('id');
+  #routerStore = inject(RouterStore);
 
-  constructor(private routerStore: RouterStore) {}
+  heroId$: Observable<string | undefined> =
+    this.#routerStore.selectRouteParam('id');
 }
 ```

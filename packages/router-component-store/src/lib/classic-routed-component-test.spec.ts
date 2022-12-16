@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, NgModule } from '@angular/core';
+import { Component, inject, NgModule } from '@angular/core';
 import { ComponentFixtureAutoDetect, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Router, RouterModule } from '@angular/router';
@@ -88,13 +88,11 @@ async function setup({
   `,
 })
 class ClassicRoutedComponent {
-  id$: Observable<string | undefined>;
-  url$: Observable<string>;
+  #routerStore = inject(RouterStore);
 
-  constructor(routerStore: RouterStore) {
-    this.id$ = routerStore.selectRouteParam('id');
-    this.url$ = routerStore.url$;
-  }
+  id$: Observable<string | undefined> =
+    this.#routerStore.selectRouteParam('id');
+  url$: Observable<string> = this.#routerStore.url$;
 }
 
 @NgModule({

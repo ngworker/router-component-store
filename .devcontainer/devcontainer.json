@@ -1,0 +1,87 @@
+{
+  "name": "Node.js on Debian",
+  "image": "mcr.microsoft.com/devcontainers/typescript-node:16-bullseye",
+  "features": {
+    "ghcr.io/devcontainers/features/github-cli": {},
+    "ghcr.io/devcontainers/features/powershell": {}
+  },
+  "mounts": [
+    {
+      "source": "router-component-store_node_modules",
+      "target": "${containerWorkspaceFolder}/node_modules",
+      "type": "volume"
+    }
+  ],
+  "waitFor": "onCreateCommand",
+  "updateContentCommand": "yarn install --non-interactive --frozen-lockfile",
+  "postAttachCommand": {
+    // "developmentServer": "yarn start"
+  },
+  "portsAttributes": {
+    // "4200": {
+    //   "label": "Development server",
+    //   "onAutoForward": "openPreview"
+    // }
+  },
+  "forwardPorts": [
+    // 4200
+  ],
+  "containerEnv": {
+    "NODE_OPTIONS": "--max-old-space-size=6144"
+  },
+  "hostRequirements": {
+    "cpus": 4,
+    "memory": "8gb",
+    "storage": "32gb"
+  },
+  "customizations": {
+    "codespaces": {
+      "openFiles": ["README.md"]
+    },
+    "vscode": {
+      "extensions": [
+        "Angular.ng-template",
+        "dbaeumer.vscode-eslint",
+        "EditorConfig.EditorConfig",
+        "esbenp.prettier-vscode",
+        "GitHub.vscode-pull-request-github",
+        "nrwl.angular-console",
+        "WallabyJs.wallaby-vscode"
+      ],
+      "settings": {
+        "editor.codeActionsOnSave": {
+          "source.organizeImports": true
+        },
+        "editor.formatOnSave": true,
+        "editor.rulers": [80],
+        "[css]": {
+          "editor.defaultFormatter": "esbenp.prettier-vscode"
+        },
+        "[html]": {
+          "editor.defaultFormatter": "esbenp.prettier-vscode"
+        },
+        "[javascript]": {
+          "editor.defaultFormatter": "esbenp.prettier-vscode"
+        },
+        "[json]": {
+          "editor.defaultFormatter": "esbenp.prettier-vscode"
+        },
+        "[jsonc]": {
+          "editor.defaultFormatter": "esbenp.prettier-vscode"
+        },
+        "[md]": {
+          "editor.defaultFormatter": "esbenp.prettier-vscode"
+        },
+        "[scss]": {
+          "editor.defaultFormatter": "esbenp.prettier-vscode"
+        },
+        "[typescript]": {
+          "editor.defaultFormatter": "esbenp.prettier-vscode"
+        },
+        "[yaml]": {
+          "editor.defaultFormatter": "esbenp.prettier-vscode"
+        }
+      }
+    }
+  }
+}

@@ -129,3 +129,13 @@ export class HeroDetailComponent {
   constructor(private routerStore: RouterStore) {}
 }
 ```
+
+## Contribute
+
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://github.com/codespaces/new?hide_repo_select=true&ref=main&repo=427784584)
+
+[![Open in the github.dev web editor](https://img.shields.io/badge/github.dev-Open_in_web_editor-2f363d?logo=github&logoColor=black)](https://github.dev/ngworker/router-component-store)
+
+[![Open in StackBlitz Codeflow](https://developer.stackblitz.com/img/open_in_codeflow_small.svg)](https://pr.new/ngworker/router-component-store)
+
+[![Edit in StackBlitz Web Publisher](https://developer.stackblitz.com/img/edit_in_web_publisher_small.svg)](https://pr.new/ngworker/router-component-store/edit/main/README.md?view=editor)

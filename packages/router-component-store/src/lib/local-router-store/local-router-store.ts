@@ -53,11 +53,12 @@ export class LocalRouterStore
     super({
       routerState: serializer.serialize(router.routerState.snapshot),
     });
-
-    this.fragment$ = route.fragment;
-    this.queryParams$ = route.queryParams;
-    this.routeData$ = route.data;
-    this.routeParams$ = route.params;
+    ({
+      fragment: this.fragment$,
+      queryParams: this.queryParams$,
+      data: this.routeData$,
+      params: this.routeParams$,
+    } = route);
 
     this.#updateRouterState(
       router.events.pipe(

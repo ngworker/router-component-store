@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { Router, Routes } from '@angular/router';
+import { Router, RouterOutlet, Routes } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { firstValueFrom } from 'rxjs';
 import { RouterStore } from '../router-store';
@@ -9,13 +9,16 @@ import { LocalRouterStore } from './local-router-store';
 import { provideLocalRouterStore } from './provide-local-router-store';
 
 @Component({
+  standalone: true,
+  imports: [RouterOutlet],
   template: '<router-outlet></router-outlet>',
 })
 class DummyAppComponent {}
 
 @Component({
-  template: '',
+  standalone: true,
   viewProviders: [provideLocalRouterStore()],
+  template: '',
 })
 class DummyLoginComponent {
   routerStore = inject(RouterStore);
@@ -43,7 +46,6 @@ describe(`${LocalRouterStore.name} selectors`, () => {
     ];
 
     TestBed.configureTestingModule({
-      declarations: [DummyAppComponent, DummyLoginComponent],
       imports: [RouterTestingModule.withRoutes(routes)],
     });
 

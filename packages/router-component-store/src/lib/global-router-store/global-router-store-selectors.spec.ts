@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { Router, Routes } from '@angular/router';
+import { Router, RouterOutlet, Routes } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { firstValueFrom } from 'rxjs';
 import { RouterStore } from '../router-store';
@@ -8,11 +8,14 @@ import { GlobalRouterStore } from './global-router-store';
 import { provideGlobalRouterStore } from './provide-global-router-store';
 
 @Component({
+  standalone: true,
+  imports: [RouterOutlet],
   template: '<router-outlet></router-outlet>',
 })
 class DummyAppComponent {}
 
 @Component({
+  standalone: true,
   template: '',
 })
 class DummyLoginComponent {}
@@ -33,7 +36,6 @@ describe(`${GlobalRouterStore.name} selectors`, () => {
     ];
 
     TestBed.configureTestingModule({
-      declarations: [DummyAppComponent, DummyLoginComponent],
       imports: [RouterTestingModule.withRoutes(routes)],
       providers: [provideGlobalRouterStore()],
     });

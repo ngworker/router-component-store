@@ -1,8 +1,8 @@
-import { CommonModule } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { ComponentFixtureAutoDetect, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { Router, RouterModule } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Observable } from 'rxjs';
 import { provideGlobalRouterStore } from './global-router-store/provide-global-router-store';
@@ -78,9 +78,9 @@ async function setup({
 }
 
 @Component({
-  imports: [CommonModule],
-  selector: 'ngw-standalone-routed',
   standalone: true,
+  selector: 'ngw-standalone-routed',
+  imports: [AsyncPipe],
   template: `
     <p id="id-parameter">{{ id$ | async }}</p>
     <p id="url">{{ url$ | async }}</p>
@@ -95,16 +95,16 @@ class StandaloneRoutedComponent {
 }
 
 @Component({
-  selector: 'ngw-standalone-default',
   standalone: true,
+  selector: 'ngw-standalone-default',
   template: `<h1>Default route</h1>`,
 })
 class StandaloneDefaultComponent {}
 
 @Component({
-  imports: [RouterModule],
-  selector: 'ngw-standalone-app',
   standalone: true,
+  selector: 'ngw-standalone-app',
+  imports: [RouterOutlet],
   template: `<router-outlet></router-outlet>`,
 })
 class StandaloneAppComponent {}

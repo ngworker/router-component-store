@@ -32,7 +32,7 @@ jobs:
     steps:
       - name: Check out source code
         uses: actions/checkout@v3
-      - name: Set up Node.js and install dependencies
+      - name: Set up Node.js and Yarn
         uses: ./.github/actions/setup-node
       - name: Install package dependencies
         run: yarn install --frozen-lockfile --no-interactive
@@ -46,7 +46,7 @@ jobs:
     steps:
       - name: Check out source code
         uses: actions/checkout@v3
-      - name: Set up Node.js and install dependencies
+      - name: Set up Node.js and Yarn
         uses: ./.github/actions/setup-node
       - name: Install package dependencies
         run: yarn install --frozen-lockfile --no-interactive
@@ -61,7 +61,7 @@ jobs:
     steps:
       - name: Check out source code
         uses: actions/checkout@v3
-      - name: Set up Node.js and install dependencies
+      - name: Set up Node.js and Yarn
         uses: ./.github/actions/setup-node
       - name: Install package dependencies
         run: yarn install --frozen-lockfile --no-interactive

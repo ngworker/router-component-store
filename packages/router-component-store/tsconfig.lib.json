@@ -5,7 +5,8 @@
     "declaration": true,
     "declarationMap": true,
     "inlineSources": true,
-    "types": []
+    "types": [],
+    "target": "ES2022"
   },
   "exclude": [
     "src/test-setup.ts",

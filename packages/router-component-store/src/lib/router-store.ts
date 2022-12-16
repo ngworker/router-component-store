@@ -26,9 +26,9 @@ import { MinimalActivatedRouteSnapshot } from './@ngrx/router-store/minimal_seri
  *   // (...)
  * })
  * export class HeroDetailComponent {
- *   heroId$: Observable<string> = this.routerStore.selectRouteParam('id');
+ *   #routerStore = inject(RouterStore);
  *
- *   constructor(private routerStore: RouterStore) {}
+ *   heroId$: Observable<string | undefined> = this.#routerStore.selectRouteParam('id');
  * }
  */
 @Injectable()

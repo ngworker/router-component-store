@@ -32,11 +32,11 @@ import { GlobalRouterStore } from './global-router-store';
  * })
  * export class AppModule {}
  */
-export function provideGlobalRouterStore(): Provider {
+export function provideGlobalRouterStore(): Provider[] {
   const globalRouterStoreProvider: ClassProvider = {
     provide: RouterStore,
     useClass: GlobalRouterStore,
   };
 
-  return globalRouterStoreProvider;
+  return [globalRouterStoreProvider];
 }

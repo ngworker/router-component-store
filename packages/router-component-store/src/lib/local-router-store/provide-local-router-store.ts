@@ -31,11 +31,11 @@ import { LocalRouterStore } from './local-router-store';
  *   heroId$: Observable<string | undefined> = this.#routerStore.selectQueryParam('id');
  * }
  */
-export function provideLocalRouterStore(): Provider {
+export function provideLocalRouterStore(): Provider[] {
   const localRouterStoreProvider: ClassProvider = {
     provide: RouterStore,
     useClass: LocalRouterStore,
   };
 
-  return localRouterStoreProvider;
+  return [localRouterStoreProvider];
 }

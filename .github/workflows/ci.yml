@@ -52,7 +52,7 @@ jobs:
         run: yarn install --frozen-lockfile --no-interactive
 
       - name: Test
-        run: yarn test
+        run: yarn test --ci --reporters=github-actions
 
   build:
     name: Build

@@ -2,7 +2,7 @@
   "name": "workspace",
   "private": true,
   "scripts": {
-    "postinstall": "node ./decorate-angular-cli.js && ngcc --properties es2020 browser module main",
+    "postinstall": "node ./decorate-angular-cli.js",
     "build": "nx run-many --target=build --all",
     "ci": "yarn lint && yarn test && yarn build",
     "lint": "nx workspace-lint && nx run-many --target=lint --all --max-warnings=0",

@@ -30,7 +30,24 @@
  * found in the LICENSE file at https://angular.io/license
  */
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import {
+  ActivatedRouteSnapshot,
+  Data,
+  RouterStateSnapshot,
+} from '@angular/router';
+
+type OmitSymbolIndex<TShape> = {
+  [TShapeKey in keyof TShape as symbol extends TShapeKey
+    ? never
+    : TShapeKey]: TShape[TShapeKey];
+};
+
+/**
+ * Serializable route `Data` without its symbol index, in particular without the
+ * `Symbol.for(RouteTitle)` key as this is an internal value for the Angular
+ * `Router`.
+ */
+export type MinimalRouteData = OmitSymbolIndex<Data>;
 
 /**
  * Contains the information about a route associated with a component loaded in
@@ -60,12 +77,22 @@ export interface MinimalActivatedRouteSnapshot {
   readonly fragment: ActivatedRouteSnapshot['fragment'];
   /**
    * The static and resolved data of this route.
+   *
+   * @remarks
+   * Contains serializable route `Data` without its symbol index, in particular
+   * without the `Symbol.for(RouteTitle)` key as this is an internal value for
+   * the Angular `Router`. Instead, we access the resolved route title through
+   * `MinimalActivatedRouteSnapshot['title']`.
    */
-  readonly data: ActivatedRouteSnapshot['data'];
+  readonly data: OmitSymbolIndex<ActivatedRouteSnapshot['data']>;
   /**
    * The outlet name of the route.
    */
   readonly outlet: ActivatedRouteSnapshot['outlet'];
+  /**
+   * The resolved route title.
+   */
+  readonly title: ActivatedRouteSnapshot['title'];
   /**
    * The first child of this route in the router state tree
    */
@@ -81,36 +108,56 @@ export interface MinimalRouterStateSnapshot {
   readonly url: string;
 }
 
+function objectFromEntries<TValue>(entries: [string, TValue][]): {
+  [key: string]: TValue;
+} {
+  return entries.reduce(
+    (object, [key, value]) => ({ ...object, [key]: value }),
+    {}
+  );
+}
+
 @Injectable({
   providedIn: 'root',
 })
 export class MinimalRouterStateSerializer {
   serialize(routerState: RouterStateSnapshot): MinimalRouterStateSnapshot {
     return {
-      root: this.serializeRoute(routerState.root),
+      root: this.#serializeRouteSnapshot(routerState.root),
       url: routerState.url,
     };
   }
 
-  private serializeRoute(
-    route: ActivatedRouteSnapshot
+  #serializeRouteData(routeData: Data): MinimalRouteData {
+    return objectFromEntries(Object.entries(routeData));
+  }
+
+  #serializeRouteSnapshot(
+    routeSnapshot: ActivatedRouteSnapshot
   ): MinimalActivatedRouteSnapshot {
-    const children = route.children.map((c) => this.serializeRoute(c));
+    const children = routeSnapshot.children.map((childRouteSnapshot) =>
+      this.#serializeRouteSnapshot(childRouteSnapshot)
+    );
     return {
-      params: route.params,
-      data: route.data,
-      url: route.url,
-      outlet: route.outlet,
-      routeConfig: route.routeConfig
+      params: routeSnapshot.params,
+      data: this.#serializeRouteData(routeSnapshot.data),
+      url: routeSnapshot.url,
+      outlet: routeSnapshot.outlet,
+      title: routeSnapshot.title,
+      routeConfig: routeSnapshot.routeConfig
         ? {
-            path: route.routeConfig.path,
-            pathMatch: route.routeConfig.pathMatch,
-            redirectTo: route.routeConfig.redirectTo,
-            outlet: route.routeConfig.outlet,
+            path: routeSnapshot.routeConfig.path,
+            pathMatch: routeSnapshot.routeConfig.pathMatch,
+            redirectTo: routeSnapshot.routeConfig.redirectTo,
+            outlet: routeSnapshot.routeConfig.outlet,
+            title:
+              typeof routeSnapshot.routeConfig.title === 'string'
+                ? routeSnapshot.routeConfig.title
+                : undefined,
           }
         : null,
-      queryParams: route.queryParams,
-      fragment: route.fragment,
+      queryParams: routeSnapshot.queryParams,
+      fragment: routeSnapshot.fragment,
       firstChild: children[0],
       children,
     };

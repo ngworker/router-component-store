@@ -40,6 +40,7 @@ export class LocalRouterStore
   queryParams$: Observable<Params>;
   routeData$: Observable<Data>;
   routeParams$: Observable<Params>;
+  title$: Observable<string | undefined>;
   url$: Observable<string> = this.select(
     this.#routerState$,
     (routerState) => routerState.url
@@ -53,11 +54,13 @@ export class LocalRouterStore
     super({
       routerState: serializer.serialize(router.routerState.snapshot),
     });
-
-    this.fragment$ = route.fragment;
-    this.queryParams$ = route.queryParams;
-    this.routeData$ = route.data;
-    this.routeParams$ = route.params;
+    ({
+      fragment: this.fragment$,
+      queryParams: this.queryParams$,
+      data: this.routeData$,
+      params: this.routeParams$,
+      title: this.title$,
+    } = route);
 
     this.#updateRouterState(
       router.events.pipe(

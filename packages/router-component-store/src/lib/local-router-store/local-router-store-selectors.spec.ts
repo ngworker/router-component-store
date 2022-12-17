@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { Router, RouterOutlet, Routes } from '@angular/router';
+import { Route, Router, RouterOutlet, Routes } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { firstValueFrom } from 'rxjs';
 import { RouterStore } from '../router-store';
@@ -25,13 +25,14 @@ class DummyLoginComponent {
 }
 
 describe(`${LocalRouterStore.name} selectors`, () => {
-  const getStore = () =>
-    (
-      rootFixture.debugElement.query(By.directive(DummyLoginComponent))
-        .componentInstance as DummyLoginComponent
-    ).routerStore;
-
-  beforeEach(async () => {
+  async function setup({
+    assertions = 1,
+    title,
+  }: {
+    readonly assertions?: number;
+    readonly title?: Route['title'];
+  } = {}) {
+    expect.assertions(assertions);
     const routes: Routes = [
       {
         path: 'login',
@@ -40,6 +41,7 @@ describe(`${LocalRouterStore.name} selectors`, () => {
             path: ':id',
             component: DummyLoginComponent,
             data: { testData: 'test-data' },
+            title,
           },
         ],
       },
@@ -49,104 +51,133 @@ describe(`${LocalRouterStore.name} selectors`, () => {
       imports: [RouterTestingModule.withRoutes(routes)],
     });
 
-    rootFixture = TestBed.createComponent(DummyAppComponent);
+    const rootFixture = TestBed.createComponent(DummyAppComponent);
     rootFixture.autoDetectChanges(true);
 
-    router = TestBed.inject(Router);
-  });
-
-  let router: Router;
-  let rootFixture: ComponentFixture<DummyAppComponent>;
-
-  it('exposes a selector for the current route', async () => {
+    const router = TestBed.inject(Router);
     await router.navigateByUrl('/login/etyDDwAAQBAJ?ref=ngrx.io#test-fragment');
 
-    await expect(firstValueFrom(getStore().currentRoute$)).resolves.toEqual({
-      params: {
-        id: 'etyDDwAAQBAJ',
+    return {
+      get routerStore(): RouterStore {
+        return (
+          rootFixture.debugElement.query(By.directive(DummyLoginComponent))
+            .componentInstance as DummyLoginComponent
+        ).routerStore;
       },
+    };
+  }
+
+  it('exposes a selector for the current route', async () => {
+    const { routerStore } = await setup({
+      title: 'Static title',
+    });
+
+    await expect(firstValueFrom(routerStore.currentRoute$)).resolves.toEqual({
+      children: [],
       data: {
         testData: 'test-data',
       },
+      fragment: 'test-fragment',
+      outlet: 'primary',
+      params: {
+        id: 'etyDDwAAQBAJ',
+      },
+      queryParams: {
+        ref: 'ngrx.io',
+      },
+      routeConfig: {
+        path: ':id',
+        title: 'Static title',
+      },
+      title: 'Static title',
       url: [
         {
           path: 'etyDDwAAQBAJ',
           parameters: {},
         },
       ],
-      outlet: 'primary',
-      routeConfig: {
-        path: ':id',
-      },
-      queryParams: {
-        ref: 'ngrx.io',
-      },
-      fragment: 'test-fragment',
-      children: [],
     });
   });
 
   it('exposes a selector for the fragment', async () => {
-    await router.navigateByUrl('/login/etyDDwAAQBAJ?ref=ngrx.io#test-fragment');
+    const { routerStore } = await setup();
 
-    await expect(firstValueFrom(getStore().fragment$)).resolves.toBe(
+    await expect(firstValueFrom(routerStore.fragment$)).resolves.toBe(
       'test-fragment'
     );
   });
 
   it('exposes a selector for query params', async () => {
-    await router.navigateByUrl('/login/etyDDwAAQBAJ?ref=ngrx.io#test-fragment');
+    const { routerStore } = await setup();
 
-    await expect(firstValueFrom(getStore().queryParams$)).resolves.toEqual({
+    await expect(firstValueFrom(routerStore.queryParams$)).resolves.toEqual({
       ref: 'ngrx.io',
     });
   });
 
   it('creates a selector for a specific query param', async () => {
-    await router.navigateByUrl('/login/etyDDwAAQBAJ?ref=ngrx.io#test-fragment');
+    const { routerStore } = await setup();
 
     await expect(
-      firstValueFrom(getStore().selectQueryParam('ref'))
+      firstValueFrom(routerStore.selectQueryParam('ref'))
     ).resolves.toBe('ngrx.io');
   });
 
   it('exposes a selector for route params', async () => {
-    await router.navigateByUrl('/login/etyDDwAAQBAJ?ref=ngrx.io#test-fragment');
+    const { routerStore } = await setup();
 
-    await expect(firstValueFrom(getStore().routeParams$)).resolves.toEqual({
+    await expect(firstValueFrom(routerStore.routeParams$)).resolves.toEqual({
       id: 'etyDDwAAQBAJ',
     });
   });
 
   it('creates a selector for a specific route param', async () => {
-    await router.navigateByUrl('/login/etyDDwAAQBAJ?ref=ngrx.io#test-fragment');
+    const { routerStore } = await setup();
 
     await expect(
-      firstValueFrom(getStore().selectRouteParam('id'))
+      firstValueFrom(routerStore.selectRouteParam('id'))
     ).resolves.toBe('etyDDwAAQBAJ');
   });
 
   it('exposes a selector for route data', async () => {
-    await router.navigateByUrl('/login/etyDDwAAQBAJ?ref=ngrx.io#test-fragment');
+    const { routerStore } = await setup();
 
-    await expect(firstValueFrom(getStore().routeData$)).resolves.toEqual({
+    await expect(firstValueFrom(routerStore.routeData$)).resolves.toEqual({
       testData: 'test-data',
     });
   });
 
   it('creates a selector for specific route data', async () => {
-    await router.navigateByUrl('/login/etyDDwAAQBAJ?ref=ngrx.io#test-fragment');
+    const { routerStore } = await setup();
 
     await expect(
-      firstValueFrom(getStore().selectRouteData<string>('testData'))
+      firstValueFrom(routerStore.selectRouteData<string>('testData'))
     ).resolves.toBe('test-data');
   });
 
   it('exposes a selector for the URL', async () => {
-    await router.navigateByUrl('/login/etyDDwAAQBAJ?ref=ngrx.io#test-fragment');
+    const { routerStore } = await setup();
 
-    await expect(firstValueFrom(getStore().url$)).resolves.toBe(
+    await expect(firstValueFrom(routerStore.url$)).resolves.toBe(
       '/login/etyDDwAAQBAJ?ref=ngrx.io#test-fragment'
     );
+  });
+
+  it('exposes a selector for the route title that emits static route titles', async () => {
+    const { routerStore } = await setup({
+      title: 'Static title',
+    });
+
+    await expect(firstValueFrom(routerStore.title$)).resolves.toBe(
+      'Static title'
+    );
+  });
+
+  it('exposes a selector for the route title that emits resolved route titles', async () => {
+    const { routerStore } = await setup({
+      title: (route) => route.data['testData'],
+    });
+
+    await expect(firstValueFrom(routerStore.title$)).resolves.toBe('test-data');
   });
 });

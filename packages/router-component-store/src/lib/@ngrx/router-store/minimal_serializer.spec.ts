@@ -72,6 +72,7 @@ describe('minimal serializer', () => {
         pathMatch: `${prefix}-route.routeConfig.pathMatch`,
         redirectTo: `${prefix}-route.routeConfig.redirectTo`,
         outlet: `${prefix}-route.routeConfig.outlet`,
+        title: `${prefix}-route.routeConfig.title`,
       },
       firstChild: undefined,
     };
@@ -95,7 +96,9 @@ function createRouteSnapshot(prefix = 'root'): any {
   return {
     params: `${prefix}-route.params`,
     paramMap: `${prefix}-route.paramMap`,
-    data: `${prefix}-route.data`,
+    data: {
+      [`${prefix}-data`]: `${prefix}-route.data.${prefix}-data`,
+    },
     url: `${prefix}-route.url`,
     outlet: `${prefix}-route.outlet`,
     routeConfig: {
@@ -104,6 +107,7 @@ function createRouteSnapshot(prefix = 'root'): any {
       pathMatch: `${prefix}-route.routeConfig.pathMatch`,
       redirectTo: `${prefix}-route.routeConfig.redirectTo`,
       outlet: `${prefix}-route.routeConfig.outlet`,
+      title: `${prefix}-route.routeConfig.title`,
     },
     queryParams: `${prefix}-route.queryParams`,
     queryParamMap: `${prefix}-route.queryParamMap`,

@@ -26,31 +26,37 @@ export class GlobalRouterStore
     (routerState) => routerState.root
   );
 
-  readonly currentRoute$: Observable<MinimalActivatedRouteSnapshot> =
-    this.select(this.#rootRoute$, (route) => {
+  currentRoute$: Observable<MinimalActivatedRouteSnapshot> = this.select(
+    this.#rootRoute$,
+    (route) => {
       while (route.firstChild) {
         route = route.firstChild;
       }
 
       return route;
-    });
-  readonly fragment$: Observable<string | null> = this.select(
+    }
+  );
+  fragment$: Observable<string | null> = this.select(
     this.#rootRoute$,
     (route) => route.fragment
   );
-  readonly queryParams$: Observable<Params> = this.select(
+  queryParams$: Observable<Params> = this.select(
     this.#rootRoute$,
     (route) => route.queryParams
   );
-  readonly routeData$: Observable<Data> = this.select(
+  routeData$: Observable<Data> = this.select(
     this.currentRoute$,
     (route) => route.data
   );
-  readonly routeParams$: Observable<Params> = this.select(
+  routeParams$: Observable<Params> = this.select(
     this.currentRoute$,
     (route) => route.params
   );
-  readonly url$: Observable<string> = this.select(
+  title$: Observable<string | undefined> = this.select(
+    this.currentRoute$,
+    (route) => route.title
+  );
+  url$: Observable<string> = this.select(
     this.#routerState$,
     (routerState) => routerState.url
   );

@@ -54,6 +54,10 @@ export abstract class RouterStore {
    */
   abstract readonly routeParams$: Observable<Params>;
   /**
+   * Select the resolved route title.
+   */
+  abstract readonly title$: Observable<string | undefined>;
+  /**
    * Select the current URL.
    */
   abstract readonly url$: Observable<string>;

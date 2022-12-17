@@ -91,35 +91,37 @@ export interface MinimalRouterStateSnapshot {
 export class MinimalRouterStateSerializer {
   serialize(routerState: RouterStateSnapshot): MinimalRouterStateSnapshot {
     return {
-      root: this.serializeRoute(routerState.root),
+      root: this.#serializeRouteSnapshot(routerState.root),
       url: routerState.url,
     };
   }
 
-  private serializeRoute(
-    route: ActivatedRouteSnapshot
+  #serializeRouteSnapshot(
+    routeSnapshot: ActivatedRouteSnapshot
   ): MinimalActivatedRouteSnapshot {
-    const children = route.children.map((c) => this.serializeRoute(c));
+    const children = routeSnapshot.children.map((childRouteSnapshot) =>
+      this.#serializeRouteSnapshot(childRouteSnapshot)
+    );
     return {
-      params: route.params,
-      data: route.data,
-      url: route.url,
-      outlet: route.outlet,
-      title: route.title,
-      routeConfig: route.routeConfig
+      params: routeSnapshot.params,
+      data: routeSnapshot.data,
+      url: routeSnapshot.url,
+      outlet: routeSnapshot.outlet,
+      title: routeSnapshot.title,
+      routeConfig: routeSnapshot.routeConfig
         ? {
-            path: route.routeConfig.path,
-            pathMatch: route.routeConfig.pathMatch,
-            redirectTo: route.routeConfig.redirectTo,
-            outlet: route.routeConfig.outlet,
+            path: routeSnapshot.routeConfig.path,
+            pathMatch: routeSnapshot.routeConfig.pathMatch,
+            redirectTo: routeSnapshot.routeConfig.redirectTo,
+            outlet: routeSnapshot.routeConfig.outlet,
             title:
-              typeof route.routeConfig.title === 'string'
-                ? route.routeConfig.title
+              typeof routeSnapshot.routeConfig.title === 'string'
+                ? routeSnapshot.routeConfig.title
                 : undefined,
           }
         : null,
-      queryParams: route.queryParams,
-      fragment: route.fragment,
+      queryParams: routeSnapshot.queryParams,
+      fragment: routeSnapshot.fragment,
       firstChild: children[0],
       children,
     };

@@ -40,6 +40,7 @@ export class LocalRouterStore
   queryParams$: Observable<Params>;
   routeData$: Observable<Data>;
   routeParams$: Observable<Params>;
+  title$: Observable<string | undefined>;
   url$: Observable<string> = this.select(
     this.#routerState$,
     (routerState) => routerState.url
@@ -58,6 +59,7 @@ export class LocalRouterStore
       queryParams: this.queryParams$,
       data: this.routeData$,
       params: this.routeParams$,
+      title: this.title$,
     } = route);
 
     this.#updateRouterState(

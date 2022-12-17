@@ -96,7 +96,9 @@ function createRouteSnapshot(prefix = 'root'): any {
   return {
     params: `${prefix}-route.params`,
     paramMap: `${prefix}-route.paramMap`,
-    data: `${prefix}-route.data`,
+    data: {
+      [`${prefix}-data`]: `${prefix}-route.data.${prefix}-data`,
+    },
     url: `${prefix}-route.url`,
     outlet: `${prefix}-route.outlet`,
     routeConfig: {

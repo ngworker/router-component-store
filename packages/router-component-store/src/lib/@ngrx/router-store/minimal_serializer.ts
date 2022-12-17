@@ -30,7 +30,24 @@
  * found in the LICENSE file at https://angular.io/license
  */
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import {
+  ActivatedRouteSnapshot,
+  Data,
+  RouterStateSnapshot,
+} from '@angular/router';
+
+type OmitSymbolIndex<TShape> = {
+  [TShapeKey in keyof TShape as symbol extends TShapeKey
+    ? never
+    : TShapeKey]: TShape[TShapeKey];
+};
+
+/**
+ * Serializable route `Data` without its symbol index, in particular without the
+ * `Symbol.for(RouteTitle)` key as this is an internal value for the Angular
+ * `Router`.
+ */
+export type MinimalRouteData = OmitSymbolIndex<Data>;
 
 /**
  * Contains the information about a route associated with a component loaded in
@@ -60,8 +77,14 @@ export interface MinimalActivatedRouteSnapshot {
   readonly fragment: ActivatedRouteSnapshot['fragment'];
   /**
    * The static and resolved data of this route.
+   *
+   * @remarks
+   * Contains serializable route `Data` without its symbol index, in particular
+   * without the `Symbol.for(RouteTitle)` key as this is an internal value for
+   * the Angular `Router`. Instead, we access the resolved route title through
+   * `MinimalActivatedRouteSnapshot['title']`.
    */
-  readonly data: ActivatedRouteSnapshot['data'];
+  readonly data: OmitSymbolIndex<ActivatedRouteSnapshot['data']>;
   /**
    * The outlet name of the route.
    */
@@ -85,6 +108,15 @@ export interface MinimalRouterStateSnapshot {
   readonly url: string;
 }
 
+function objectFromEntries<TValue>(entries: [string, TValue][]): {
+  [key: string]: TValue;
+} {
+  return entries.reduce(
+    (object, [key, value]) => ({ ...object, [key]: value }),
+    {}
+  );
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -96,6 +128,10 @@ export class MinimalRouterStateSerializer {
     };
   }
 
+  #serializeRouteData(routeData: Data): MinimalRouteData {
+    return objectFromEntries(Object.entries(routeData));
+  }
+
   #serializeRouteSnapshot(
     routeSnapshot: ActivatedRouteSnapshot
   ): MinimalActivatedRouteSnapshot {
@@ -104,7 +140,7 @@ export class MinimalRouterStateSerializer {
     );
     return {
       params: routeSnapshot.params,
-      data: routeSnapshot.data,
+      data: this.#serializeRouteData(routeSnapshot.data),
       url: routeSnapshot.url,
       outlet: routeSnapshot.outlet,
       title: routeSnapshot.title,

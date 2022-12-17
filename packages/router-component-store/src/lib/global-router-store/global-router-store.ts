@@ -78,6 +78,10 @@ export class GlobalRouterStore
     return this.select(this.queryParams$, (params) => params[param]);
   }
 
+  selectRouteData<TValue>(key: string): Observable<TValue | undefined> {
+    return this.select(this.routeData$, (data) => data[key]);
+  }
+
   selectRouteParam(param: string): Observable<string | undefined> {
     return this.select(this.routeParams$, (params) => params[param]);
   }

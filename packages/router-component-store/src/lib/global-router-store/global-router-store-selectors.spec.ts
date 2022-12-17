@@ -126,6 +126,14 @@ describe(`${GlobalRouterStore.name} selectors`, () => {
     });
   });
 
+  it('creates a selector for specific route data', async () => {
+    await router.navigateByUrl('/login/etyDDwAAQBAJ?ref=ngrx.io#test-fragment');
+
+    await expect(
+      firstValueFrom(store.selectRouteData<string>('testData'))
+    ).resolves.toBe('test-data');
+  });
+
   it('exposes a selector for the URL', async () => {
     await router.navigateByUrl('/login/etyDDwAAQBAJ?ref=ngrx.io#test-fragment');
 

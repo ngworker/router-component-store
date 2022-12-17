@@ -58,6 +58,15 @@ export abstract class RouterStore {
    */
   abstract readonly url$: Observable<string>;
   /**
+   * Select the specified route data.
+   *
+   * @param key The route data key.
+   *
+   * @example <caption>Usage</caption>
+   * const limit$ = routerStore.selectRouteData<number>('limit');
+   */
+  abstract selectRouteData<TValue>(key: string): Observable<TValue | undefined>;
+  /**
    * Select the specified query parameter.
    *
    * @param param The name of the query parameter.

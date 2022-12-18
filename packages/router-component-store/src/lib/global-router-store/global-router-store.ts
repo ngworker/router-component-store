@@ -2,11 +2,9 @@ import { Injectable } from '@angular/core';
 import { Data, Params, Router } from '@angular/router';
 import { ComponentStore } from '@ngrx/component-store';
 import { map, Observable } from 'rxjs';
-import {
-  MinimalActivatedRouteSnapshot,
-  MinimalRouterStateSerializer,
-  MinimalRouterStateSnapshot,
-} from '../@ngrx/router-store/minimal_serializer';
+import { MinimalActivatedRouteSnapshot } from '../@ngrx/router-store/minimal-activated-route-state-snapshot';
+import { MinimalRouterStateSnapshot } from '../@ngrx/router-store/minimal-router-state-snapshot';
+import { MinimalRouterStateSerializer } from '../@ngrx/router-store/minimal_serializer';
 import { RouterStore } from '../router-store';
 
 interface GlobalRouterState {

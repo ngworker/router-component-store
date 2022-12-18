@@ -8,4 +8,4 @@ export * from './lib/local-router-store/provide-local-router-store';
 export * from './lib/router-store';
 
 // Serializable route state
-export { MinimalActivatedRouteSnapshot } from './lib/@ngrx/router-store/minimal_serializer';
+export * from './lib/@ngrx/router-store/minimal-activated-route-state-snapshot';

@@ -22,100 +22,16 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-/**
- * @license
- * Copyright Google LLC All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
- */
 import { Injectable } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
   Data,
   RouterStateSnapshot,
 } from '@angular/router';
-
-type OmitSymbolIndex<TShape> = {
-  [TShapeKey in keyof TShape as symbol extends TShapeKey
-    ? never
-    : TShapeKey]: TShape[TShapeKey];
-};
-
-/**
- * Serializable route `Data` without its symbol index, in particular without the
- * `Symbol.for(RouteTitle)` key as this is an internal value for the Angular
- * `Router`.
- */
-export type MinimalRouteData = OmitSymbolIndex<Data>;
-
-/**
- * Contains the information about a route associated with a component loaded in
- * an outlet at a particular moment in time. MinimalActivatedRouteSnapshot can
- * also be used to traverse the router state tree.
- */
-export interface MinimalActivatedRouteSnapshot {
-  /**
-   * The configuration used to match this route.
-   */
-  readonly routeConfig: ActivatedRouteSnapshot['routeConfig'];
-  /**
-   * The URL segments matched by this route.
-   */
-  readonly url: ActivatedRouteSnapshot['url'];
-  /**
-   * The matrix parameters scoped to this route.
-   */
-  readonly params: ActivatedRouteSnapshot['params'];
-  /**
-   * The query parameters shared by all the routes.
-   */
-  readonly queryParams: ActivatedRouteSnapshot['queryParams'];
-  /**
-   * The URL fragment shared by all the routes.
-   */
-  readonly fragment: ActivatedRouteSnapshot['fragment'];
-  /**
-   * The static and resolved data of this route.
-   *
-   * @remarks
-   * Contains serializable route `Data` without its symbol index, in particular
-   * without the `Symbol.for(RouteTitle)` key as this is an internal value for
-   * the Angular `Router`. Instead, we access the resolved route title through
-   * `MinimalActivatedRouteSnapshot['title']`.
-   */
-  readonly data: OmitSymbolIndex<ActivatedRouteSnapshot['data']>;
-  /**
-   * The outlet name of the route.
-   */
-  readonly outlet: ActivatedRouteSnapshot['outlet'];
-  /**
-   * The resolved route title.
-   */
-  readonly title: ActivatedRouteSnapshot['title'];
-  /**
-   * The first child of this route in the router state tree
-   */
-  readonly firstChild?: MinimalActivatedRouteSnapshot;
-  /**
-   * The children of this route in the router state tree.
-   */
-  readonly children: MinimalActivatedRouteSnapshot[];
-}
-
-export interface MinimalRouterStateSnapshot {
-  readonly root: MinimalActivatedRouteSnapshot;
-  readonly url: string;
-}
-
-function objectFromEntries<TValue>(entries: [string, TValue][]): {
-  [key: string]: TValue;
-} {
-  return entries.reduce(
-    (object, [key, value]) => ({ ...object, [key]: value }),
-    {}
-  );
-}
+import { MinimalRouteData } from '../../minimal-route-data';
+import { objectFromEntries } from '../../polyfills/object';
+import { MinimalActivatedRouteSnapshot } from './minimal-activated-route-state-snapshot';
+import { MinimalRouterStateSnapshot } from './minimal-router-state-snapshot';
 
 @Injectable({
   providedIn: 'root',

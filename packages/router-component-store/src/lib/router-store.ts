@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Data, Params } from '@angular/router';
 import { Observable } from 'rxjs';
-import { MinimalActivatedRouteSnapshot } from './@ngrx/router-store/minimal-activated-route-snapshot';
+import { MinimalActivatedRouteSnapshot } from './@ngrx/router-store/minimal-activated-route-state-snapshot';
 
 /**
  * An Angular Router-connecting NgRx component store.

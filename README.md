@@ -19,16 +19,18 @@ Published with partial Ivy compilation.
 
 A `RouterStore` service has the following public properties:
 
-| API                                                                | Description                                |
-| ------------------------------------------------------------------ | ------------------------------------------ |
-| `currentRoute$: Observable<MinimalActivatedRouteSnapshot>`         | Select the current route.                  |
-| `fragment$: Observable<string \| null>`                            | Select the current route fragment.         |
-| `queryParams$: Observable<Params>`                                 | Select the current route query parameters. |
-| `routeData$: Observable<Data>`                                     | Select the current route data.             |
-| `routeParams$: Observable<Params>`                                 | Select the current route parameters.       |
-| `url$: Observable<string>`                                         | Select the current URL.                    |
-| `selectQueryParam(param: string): Observable<string \| undefined>` | Select the specified query parameter.      |
-| `selectRouteParam(param: string): Observable<string \| undefined>` | Select the specified route parameter.      |
+| API                                                                     | Description                                |
+| ----------------------------------------------------------------------- | ------------------------------------------ |
+| `currentRoute$: Observable<MinimalActivatedRouteSnapshot>`              | Select the current route.                  |
+| `fragment$: Observable<string \| null>`                                 | Select the current route fragment.         |
+| `queryParams$: Observable<Params>`                                      | Select the current route query parameters. |
+| `routeData$: Observable<Data>`                                          | Select the current route data.             |
+| `routeParams$: Observable<Params>`                                      | Select the current route parameters.       |
+| `title$: Observable<string \| undefined>`                               | Select the resolved route title.           |
+| `url$: Observable<string>`                                              | Select the current URL.                    |
+| `selectQueryParam(param: string): Observable<string \| undefined>`      | Select the specified query parameter.      |
+| `selectRouteData<TValue>(key: string): Observable<TValue \| undefined>` | Select the specified route data.           |
+| `selectRouteParam(param: string): Observable<string \| undefined>`      | Select the specified route parameter.      |
 
 A `RouterStore` service is provided by using either `provideGlobalRouterStore` or `provideLocalRouterStore`.
 

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { ActivatedRoute, Data, Params, Router } from '@angular/router';
 import { ComponentStore } from '@ngrx/component-store';
 import { map, Observable } from 'rxjs';
@@ -16,6 +16,10 @@ export class LocalRouterStore
   extends ComponentStore<LocalRouterState>
   implements RouterStore
 {
+  #route = inject(ActivatedRoute);
+  #router = inject(Router);
+  #serializer = inject(MinimalRouterStateSerializer);
+
   #routerState$: Observable<MinimalRouterStateSnapshot> = this.select(
     (state) => state.routerState
   );
@@ -44,25 +48,24 @@ export class LocalRouterStore
     (routerState) => routerState.url
   );
 
-  constructor(
-    route: ActivatedRoute,
-    router: Router,
-    serializer: MinimalRouterStateSerializer
-  ) {
-    super({
-      routerState: serializer.serialize(router.routerState.snapshot),
-    });
+  constructor() {
+    super();
     ({
       fragment: this.fragment$,
       queryParams: this.queryParams$,
       data: this.routeData$,
       params: this.routeParams$,
       title: this.title$,
-    } = route);
+    } = this.#route);
+    this.setState({
+      routerState: this.#serializer.serialize(
+        this.#router.routerState.snapshot
+      ),
+    });
 
     this.#updateRouterState(
-      router.events.pipe(
-        map(() => serializer.serialize(router.routerState.snapshot))
+      this.#router.events.pipe(
+        map(() => this.#serializer.serialize(this.#router.routerState.snapshot))
       )
     );
   }

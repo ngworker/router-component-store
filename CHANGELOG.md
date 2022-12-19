@@ -1,5 +1,40 @@
 # Router Component Store changelog
 
+## 0.3.0 (2022-12-19)
+
+### Features
+
+- Add factory for selecting specific route data: `RouterStore#selectRouteData`
+- Add route title to `MinimalActivatedRouteSnapshot#title`
+- Add route title selector: `RouterStore#title$`
+
+### **BREAKING CHANGES**
+
+#### Provider factories return provider arrays
+
+The `provideGlobalRouterStore` and `provideLocalRouterStore` functions now return an array of providers (`Provider[]`) instead of a single provider (`Provider`). No changes required in your `providers` metadata, for example the following usage remains the same.
+
+```typescript
+@Component({
+  // (...)
+  providers: [provideLocalRouterStore()],
+})
+// (...)
+```
+
+#### Compatibility
+
+To support the stricter route `title` type introduced by the Angular Router, we now require at least the following peer dependencies.
+
+- Require Angular 15.0
+- Require `@ngrx/component-store` 15.0
+- Require RxJS 7.4
+- Require TypeScript 4.8
+
+We have dropped TypeScript constructor parameter properties for ECMAScript compatibility, namely the `useDefineForClassFields` TypeScript compiler option is `true` (the default when targeting ES2022 or higher).
+
+We have dropped TypeScript constructor parameter decorators for ECMAScript decorators compatibility.
+
 ## 0.2.0 (2022-10-24)
 
 ### Features

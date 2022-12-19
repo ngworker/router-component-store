@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Data, Params, Router } from '@angular/router';
 import { ComponentStore } from '@ngrx/component-store';
 import { map, Observable } from 'rxjs';
@@ -16,6 +16,9 @@ export class GlobalRouterStore
   extends ComponentStore<GlobalRouterState>
   implements RouterStore
 {
+  #router = inject(Router);
+  #serializer = inject(MinimalRouterStateSerializer);
+
   #routerState$: Observable<MinimalRouterStateSnapshot> = this.select(
     (state) => state.routerState
   );
@@ -59,14 +62,17 @@ export class GlobalRouterStore
     (routerState) => routerState.url
   );
 
-  constructor(router: Router, serializer: MinimalRouterStateSerializer) {
-    super({
-      routerState: serializer.serialize(router.routerState.snapshot),
+  constructor() {
+    super();
+    this.setState({
+      routerState: this.#serializer.serialize(
+        this.#router.routerState.snapshot
+      ),
     });
 
     this.#updateRouterState(
-      router.events.pipe(
-        map(() => serializer.serialize(router.routerState.snapshot))
+      this.#router.events.pipe(
+        map(() => this.#serializer.serialize(this.#router.routerState.snapshot))
       )
     );
   }

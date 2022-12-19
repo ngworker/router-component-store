@@ -30,7 +30,7 @@
  * found in the LICENSE file at https://angular.io/license
  */
 import { ActivatedRouteSnapshot } from '@angular/router';
-import { OmitSymbolIndex } from '../../util-types/omit-symbol-index';
+import { MinimalRouteData } from '../../minimal-route-data';
 
 /**
  * Contains the information about a route associated with a component loaded in
@@ -67,7 +67,7 @@ export interface MinimalActivatedRouteSnapshot {
    * the Angular `Router`. Instead, we access the resolved route title through
    * `MinimalActivatedRouteSnapshot['title']`.
    */
-  readonly data: OmitSymbolIndex<ActivatedRouteSnapshot['data']>;
+  readonly data: MinimalRouteData;
   /**
    * The outlet name of the route.
    */

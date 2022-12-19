@@ -17,7 +17,9 @@ Published with partial Ivy compilation.
 
 ## API
 
-A `RouterStore` service has the following public properties:
+### RouterStore
+
+A `RouterStore` service has the following public properties.
 
 | API                                                                     | Description                                |
 | ----------------------------------------------------------------------- | ------------------------------------------ |
@@ -40,7 +42,7 @@ A _local_ `RouterStore` requires a component-level provider, follows the
 lifecycle of that component, and can be injected in declarables as well as
 other component-level services.
 
-### Global router store
+#### Global router store
 
 An application-wide router store that can be injected in any class. Use
 `provideGlobalRouterStore` to provide it in a root environment injector.
@@ -107,7 +109,7 @@ export class HeroDetailComponent {
 }
 ```
 
-### Local router store
+#### Local router store
 
 A component-level router store. Can be injected in any directive, component,
 pipe, or component-level service. Explicitly provided in a component sub-tree
@@ -133,4 +135,35 @@ export class HeroDetailComponent {
   heroId$: Observable<string | undefined> =
     this.#routerStore.selectRouteParam('id');
 }
+```
+
+### Serializable router state
+
+Several of the Angular Router's types are recursive which means that they aren't serializable. The router stores exclusively use serializable types to support advanced state synchronization strategies.
+
+#### MinimalActivatedRouteSnapshot
+
+The `MinimalActivatedRouteSnapshot` interface is used for the observable `RouterStore#currentRoute$` property. This interface is a serializable subset of the Angular Router's `ActivatedRouteSnapshot` class and has the following public properties.
+
+| API                                                 | Description                                      |
+| --------------------------------------------------- | ------------------------------------------------ |
+| `children: MinimalActivatedRouteSnapshot[]`         | The children of this route in the route tree.    |
+| `data: MinimalRouteData`                            | The static and resolved data of this route.      |
+| `firstChild: MinimalActivatedRouteSnapshot \| null` | The first child of this route in the route tree. |
+| `fragment: string \| null`                          | The URL fragment shared by all routes.           |
+| `outlet: string`                                    | The outlet name of the route.                    |
+| `params: Params`                                    | The matrix parameters scoped to this route.      |
+| `queryParams: Params`                               | The query parameters shared by all routes.       |
+| `routeConfig: Route \| null`                        | The configuration used to match this route.      |
+| `title: string \| undefined`                        | The resolved route title.                        |
+| `url: UrlSegment[]`                                 | The URL segments matched by this route.          |
+
+#### MinimalRouteData
+
+The `MinimalRouteData` interface is used for the `RouterStore#data$` property. This interface is a serializable subset of the Angular Router's `Data` type. In particular, the `symbol` index in the Angular Router's `Data` type is removed. `MinimalRouteData` has the following signature.
+
+```typescript
+export type MinimalRouteData = {
+  [key: string]: any;
+};
 ```

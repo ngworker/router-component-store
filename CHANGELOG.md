@@ -10,6 +10,10 @@
 
 ### **BREAKING CHANGES**
 
+#### Remove symbol keys from Route data
+
+To keep route data serializable, we have removed support for the Angular Router's `Data` type's symbol index in `MinimalActivatedRouteSnapshot#data`. In particular, this is done to remove the `Symbol(RouteTitle)` entry added by the Angular Router for internal use. Use our `MinimalRouteData` type instead of `Data` from `@angular/router` for route data.
+
 #### Provider factories return provider arrays
 
 The `provideGlobalRouterStore` and `provideLocalRouterStore` functions now return an array of providers (`Provider[]`) instead of a single provider (`Provider`). No changes required in your `providers` metadata, for example the following usage remains the same.

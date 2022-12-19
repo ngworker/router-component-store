@@ -7,6 +7,7 @@
 - Add factory for selecting specific route data: `RouterStore#selectRouteData`
 - Add route title to `MinimalActivatedRouteSnapshot#title`
 - Add route title selector: `RouterStore#title$`
+- Add type `MinimalRouteData` for serializable route data
 
 ### **BREAKING CHANGES**
 

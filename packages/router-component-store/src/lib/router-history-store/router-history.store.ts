@@ -26,6 +26,35 @@ export function provideRouterHistoryStore(): Provider[] {
   return [provideComponentStore(RouterHistoryStore)];
 }
 
+// TODO(@LayZeeDK): Handle `NavigationCancel` and `NavigationError` events
+// NavigationStart -> NavigationEnd | NavigationCancel | NavigationError
+//
+// NavigationError resets the URL to what it was before the navigation that caused an error. No new *navigation* is triggered.
+// NavigationError reasons:
+// - Invalid route path
+//   NavigationError(id: 3, url: '/an-invalid/path', error: Error: Cannot match any routes. URL Segment: 'an-invalid/path')
+// - Router resolver throws
+// - Route matcher throws
+// - Routed component throws in constructor (or a lifecycle hook?)
+// - Lazy route chunk file is not found (bundles updated and the user needs to refresh)
+//   RouterTestingModule.withRoutes([
+//     {
+//       path: 'stale-chunk',
+//       loadChildren: () =>
+//         Promise.reject({ name: 'ChunkLoadError', message: 'ChunkLoadError' }),
+//         // or () => { throw { name: 'ChunkLoadError', message: 'ChunkLoadError' }; }
+//     },
+//   ]),
+//
+// What is the URL after each of the following reasons?
+// NavigationCancel reasons:
+// NavigationCancel#code: NavigationCancellationCode
+// - GuardRejected: A navigation failed because a guard returned `false`.
+// - NoDataFromResolver: A navigation failed because one of the resolvers completed without emiting a value.
+// - Redirect: A navigation failed because a guard returned a `UrlTree` to redirect.
+// - SupersededByNewNavigation: A navigation failed because a more recent navigation started.
+//   NavigationCancel { id: 3, url: "/company", reason: "Navigation ID 3 is not equal to the current navigation id 4" }
+
 @Injectable()
 export class RouterHistoryStore extends ComponentStore<RouterHistoryState> {
   #router = inject(Router);

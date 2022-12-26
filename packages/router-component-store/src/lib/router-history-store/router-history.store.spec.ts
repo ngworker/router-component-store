@@ -21,12 +21,13 @@ function createTestComponent(name: string, selector: string) {
   selector: 'ngw-test-app',
   imports: [AsyncPipe, NgIf, RouterLink, RouterOutlet],
   template: `
-    <a
+    <!-- <a
       id="back-link"
       *ngIf="routerHistory.previousUrl$ | async as previousUrl"
       (click)="onBack()"
       >Back</a
-    >
+    > -->
+    <a id="back-link" (click)="onBack()">Back</a>
 
     <a id="home-link" routerLink="/">Home</a>
     <a id="about-link" routerLink="about">About</a>

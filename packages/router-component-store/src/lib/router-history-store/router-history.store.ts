@@ -1,26 +1,16 @@
 import { inject, Injectable, Provider } from '@angular/core';
-import {
-  Navigation,
-  NavigationEnd,
-  NavigationStart,
-  Router,
-} from '@angular/router';
+import { NavigationEnd, NavigationStart, Router } from '@angular/router';
 import { ComponentStore, provideComponentStore } from '@ngrx/component-store';
-import { concatMap, filter, Observable, take } from 'rxjs';
-
-interface RouterHistoryRecord {
-  readonly id: number;
-  readonly url: string;
-}
+import { filter, Observable } from 'rxjs';
 
 interface RouterHistoryState {
-  readonly currentIndex: number;
-  readonly event?: NavigationStart | NavigationEnd;
-  readonly history: readonly RouterHistoryRecord[];
-  readonly id: number;
-  readonly idToRestore?: number;
-  readonly trigger?: Navigation['trigger'];
+  readonly history: NavigationHistory;
 }
+
+type CompleteNavigation = readonly [NavigationStart, NavigationEnd];
+type NavigationHistory = Record<number, NavigationSequence>;
+type NavigationSequence = PendingNavigation | CompleteNavigation;
+type PendingNavigation = readonly [NavigationStart];
 
 export function provideRouterHistoryStore(): Provider[] {
   return [provideComponentStore(RouterHistoryStore)];
@@ -59,11 +49,8 @@ export function provideRouterHistoryStore(): Provider[] {
 export class RouterHistoryStore extends ComponentStore<RouterHistoryState> {
   #router = inject(Router);
 
-  #currentIndex$: Observable<number> = this.select(
-    (state) => state.currentIndex
-  );
-  #history$: Observable<readonly RouterHistoryRecord[]> = this.select(
-    (state) => state.history
+  #history$ = this.select((state) => state.history).pipe(
+    filter((history) => Object.keys(history).length > 0)
   );
   #navigationEnd$: Observable<NavigationEnd> = this.#router.events.pipe(
     filter((event): event is NavigationEnd => event instanceof NavigationEnd)
@@ -73,43 +60,49 @@ export class RouterHistoryStore extends ComponentStore<RouterHistoryState> {
       (event): event is NavigationStart => event instanceof NavigationStart
     )
   );
-  #imperativeNavigationEnd$: Observable<NavigationEnd> =
-    this.#navigationStart$.pipe(
-      filter((event) => event.navigationTrigger === 'imperative'),
-      concatMap(() => this.#navigationEnd$.pipe(take(1)))
-    );
-  #popstateNavigationEnd$: Observable<NavigationEnd> =
-    this.#navigationStart$.pipe(
-      filter((event) => event.navigationTrigger === 'popstate'),
-      concatMap(() => this.#navigationEnd$.pipe(take(1)))
-    );
 
-  currentUrl$: Observable<string> = this.select(
-    this.#navigationEnd$.pipe(
-      concatMap(() =>
-        this.select(
-          this.#currentIndex$,
-          this.#history$,
-          (currentIndex, history) => [currentIndex, history] as const
-        )
-      )
-    ),
-    ([currentIndex, history]) => history[currentIndex].url,
+  #maxCompletedNavigationId$ = this.select(this.#history$, (history) =>
+    Number(
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      Object.entries(history)
+        .reverse()
+        .find(([, navigation]) => navigation.length === 2)![0]
+    )
+  );
+  #latestCompletedNavigation$ = this.select(
+    this.#maxCompletedNavigationId$,
+    this.#history$,
+    (maxCompletedNavigationId, history) =>
+      history[maxCompletedNavigationId] as CompleteNavigation,
     {
       debounce: true,
     }
   );
-  previousUrl$: Observable<string | null> = this.select(
-    this.#navigationEnd$.pipe(
-      concatMap(() =>
-        this.select(
-          this.#currentIndex$,
-          this.#history$,
-          (currentIndex, history) => [currentIndex, history] as const
-        )
-      )
-    ),
-    ([currentIndex, history]) => history[currentIndex - 1]?.url ?? null,
+
+  currentUrl$: Observable<string> = this.select(
+    this.#latestCompletedNavigation$,
+    ([, end]) => end.urlAfterRedirects
+  );
+  previousUrl$: Observable<string | undefined> = this.select(
+    this.#history$,
+    this.#maxCompletedNavigationId$,
+    (history, maxCompletedNavigationId) => {
+      if (maxCompletedNavigationId === 1) {
+        return undefined;
+      }
+
+      const [completedNavigationSourceStart] = this.#getNavigationSource(
+        maxCompletedNavigationId,
+        history
+      );
+      const previousNavigationId = completedNavigationSourceStart.id - 1;
+      const [, previousNavigationSourceEnd] = this.#getNavigationSource(
+        previousNavigationId,
+        history
+      );
+
+      return previousNavigationSourceEnd.urlAfterRedirects;
+    },
     {
       debounce: true,
     }
@@ -118,95 +111,49 @@ export class RouterHistoryStore extends ComponentStore<RouterHistoryState> {
   constructor() {
     super(initialState);
 
-    this.#updateRouterHistoryOnNavigationStart(this.#navigationStart$);
-    this.#updateRouterHistoryOnImperativeNavigationEnd(
-      this.#imperativeNavigationEnd$
-    );
-    this.#updateRouterHistoryOnPopstateNavigationEnd(
-      this.#popstateNavigationEnd$
-    );
+    this.#addNavigationStart(this.#navigationStart$);
+    this.#addNavigationEnd(this.#navigationEnd$);
   }
 
-  /**
-   * Update router history on imperative navigation end (`Router#navigate`,
-   * `Router#navigateByUrl`, or `RouterLink` click).
-   */
-  #updateRouterHistoryOnImperativeNavigationEnd = this.updater<NavigationEnd>(
-    (state, event): RouterHistoryState => {
-      let currentIndex = state.currentIndex;
-      let history = state.history;
-      // remove all events in history that come after the current index
-      history = [
-        ...history.slice(0, currentIndex + 1),
-        // add the new event to the end of the history
-        {
-          id: state.id,
-          url: event.urlAfterRedirects,
-        },
-      ];
-      // set the new event as our current history index
-      currentIndex = history.length - 1;
-
-      return {
-        ...state,
-        currentIndex,
-        event,
-        history,
-      };
-    }
-  );
-
-  #updateRouterHistoryOnNavigationStart = this.updater<NavigationStart>(
+  #addNavigationEnd = this.updater<NavigationEnd>(
     (state, event): RouterHistoryState => ({
       ...state,
-      id: event.id,
-      idToRestore: event.restoredState?.navigationId ?? undefined,
-      event,
-      trigger: event.navigationTrigger,
+      history: {
+        ...state.history,
+        [event.id]: [state.history[event.id][0], event],
+      },
     })
   );
 
-  /**
-   * Update router history on browser navigation end (back, forward, and other
-   * `popstate` or `pushstate` events).
-   */
-  #updateRouterHistoryOnPopstateNavigationEnd = this.updater<NavigationEnd>(
-    (state, event): RouterHistoryState => {
-      let currentIndex = 0;
-      let { history } = state;
-      // get the history item that references the idToRestore
-      const historyIndexToRestore = history.findIndex(
-        (historyRecord) => historyRecord.id === state.idToRestore
-      );
-
-      // if found, set the current index to that history item and update the id
-      if (historyIndexToRestore > -1) {
-        currentIndex = historyIndexToRestore;
-        history = [
-          ...history.slice(0, historyIndexToRestore),
-          {
-            ...history[historyIndexToRestore],
-            id: state.id,
-          },
-          ...history.slice(historyIndexToRestore + 1),
-        ];
-      }
-
-      return {
-        ...state,
-        currentIndex,
-        event,
-        history,
-      };
-    }
+  #addNavigationStart = this.updater<NavigationStart>(
+    (state, event): RouterHistoryState => ({
+      ...state,
+      history: {
+        ...state.history,
+        [event.id]: [event],
+      },
+    })
   );
+
+  #getNavigationSource(
+    navigationId: number,
+    history: NavigationHistory
+  ): CompleteNavigation {
+    let navigation = history[navigationId];
+
+    while (navigation[0].navigationTrigger === 'popstate') {
+      navigation =
+        history[
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          navigation[0].restoredState!.navigationId
+        ];
+      navigationId = navigation[0].id;
+    }
+
+    return navigation as CompleteNavigation;
+  }
 }
 
 export const initialState: RouterHistoryState = {
-  currentIndex: 0,
-  event: undefined,
   history: [],
-  id: 0,
-  idToRestore: 0,
-  trigger: undefined,
 };

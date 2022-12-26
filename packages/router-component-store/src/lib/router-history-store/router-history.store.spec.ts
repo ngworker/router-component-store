@@ -97,7 +97,34 @@ describe(RouterHistoryStore.name, () => {
     };
   }
 
+  it('the URLs behave like the History API when navigating using links', async () => {
+    expect.assertions(2);
+
+    const { click, routerHistory } = await setup();
+    let currentUrl: string | undefined;
+    routerHistory.currentUrl$.subscribe((url) => {
+      currentUrl = url;
+    });
+    let previousUrl: string | null | undefined;
+    routerHistory.previousUrl$.subscribe((url) => {
+      previousUrl = url;
+    });
+
+    // At Home
+    await click('#about-link');
+    // At About
+    await click('#company-link');
+    // At Company
+    await click('#products-link');
+    // At Products
+
+    expect(currentUrl).toBe('/products');
+    expect(previousUrl).toBe('/company');
+  });
+
   it('the URLs behave like the History API when navigating back', async () => {
+    expect.assertions(2);
+
     const { click, routerHistory } = await setup();
     let currentUrl: string | undefined;
     routerHistory.currentUrl$.subscribe((url) => {
@@ -118,5 +145,32 @@ describe(RouterHistoryStore.name, () => {
 
     expect(currentUrl).toBe('/about');
     expect(previousUrl).toBe('/home');
+  });
+
+  it('the URLs behave like the History API when navigating back then using links', async () => {
+    expect.assertions(2);
+
+    const { click, routerHistory } = await setup();
+    let currentUrl: string | undefined;
+    routerHistory.currentUrl$.subscribe((url) => {
+      currentUrl = url;
+    });
+    let previousUrl: string | null | undefined;
+    routerHistory.previousUrl$.subscribe((url) => {
+      previousUrl = url;
+    });
+
+    // At Home
+    await click('#about-link');
+    // At About
+    await click('#company-link');
+    // At Company
+    await click('#back-link');
+    // At About
+    await click('#products-link');
+    // At Products
+
+    expect(currentUrl).toBe('/products');
+    expect(previousUrl).toBe('/about');
   });
 });

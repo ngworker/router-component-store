@@ -4,6 +4,7 @@ import { TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
+import { firstValueFrom } from 'rxjs';
 import {
   provideRouterHistoryStore,
   RouterHistoryStore,
@@ -21,13 +22,13 @@ function createTestComponent(name: string, selector: string) {
   selector: 'ngw-test-app',
   imports: [AsyncPipe, NgIf, RouterLink, RouterOutlet],
   template: `
-    <!-- <a
+    <a
       id="back-link"
       *ngIf="routerHistory.previousUrl$ | async as previousUrl"
-      (click)="onBack()"
-      >Back</a
-    > -->
-    <a id="back-link" (click)="onBack()">Back</a>
+      [href]="previousUrl"
+      (click)="onBack($event)"
+      >&lt; Back</a
+    >
 
     <a id="home-link" routerLink="/">Home</a>
     <a id="about-link" routerLink="about">About</a>
@@ -42,7 +43,8 @@ class TestAppComponent {
 
   protected routerHistory = inject(RouterHistoryStore);
 
-  onBack() {
+  onBack(event: MouseEvent) {
+    event.preventDefault();
     this.#location.back();
   }
 }
@@ -101,14 +103,6 @@ describe(RouterHistoryStore.name, () => {
     expect.assertions(2);
 
     const { click, routerHistory } = await setup();
-    let currentUrl: string | undefined;
-    routerHistory.currentUrl$.subscribe((url) => {
-      currentUrl = url;
-    });
-    let previousUrl: string | null | undefined;
-    routerHistory.previousUrl$.subscribe((url) => {
-      previousUrl = url;
-    });
 
     // At Home
     await click('#about-link');
@@ -118,22 +112,14 @@ describe(RouterHistoryStore.name, () => {
     await click('#products-link');
     // At Products
 
-    expect(currentUrl).toBe('/products');
-    expect(previousUrl).toBe('/company');
+    expect(await firstValueFrom(routerHistory.currentUrl$)).toBe('/products');
+    expect(await firstValueFrom(routerHistory.previousUrl$)).toBe('/company');
   });
 
   it('the URLs behave like the History API when navigating back', async () => {
     expect.assertions(2);
 
     const { click, routerHistory } = await setup();
-    let currentUrl: string | undefined;
-    routerHistory.currentUrl$.subscribe((url) => {
-      currentUrl = url;
-    });
-    let previousUrl: string | null | undefined;
-    routerHistory.previousUrl$.subscribe((url) => {
-      previousUrl = url;
-    });
 
     // At Home
     await click('#about-link');
@@ -143,22 +129,14 @@ describe(RouterHistoryStore.name, () => {
     await click('#back-link');
     // At About
 
-    expect(currentUrl).toBe('/about');
-    expect(previousUrl).toBe('/home');
+    expect(await firstValueFrom(routerHistory.currentUrl$)).toBe('/about');
+    expect(await firstValueFrom(routerHistory.previousUrl$)).toBe('/home');
   });
 
   it('the URLs behave like the History API when navigating back then using links', async () => {
     expect.assertions(2);
 
     const { click, routerHistory } = await setup();
-    let currentUrl: string | undefined;
-    routerHistory.currentUrl$.subscribe((url) => {
-      currentUrl = url;
-    });
-    let previousUrl: string | null | undefined;
-    routerHistory.previousUrl$.subscribe((url) => {
-      previousUrl = url;
-    });
 
     // At Home
     await click('#about-link');
@@ -170,7 +148,7 @@ describe(RouterHistoryStore.name, () => {
     await click('#products-link');
     // At Products
 
-    expect(currentUrl).toBe('/products');
-    expect(previousUrl).toBe('/about');
+    expect(await firstValueFrom(routerHistory.currentUrl$)).toBe('/products');
+    expect(await firstValueFrom(routerHistory.previousUrl$)).toBe('/about');
   });
 });

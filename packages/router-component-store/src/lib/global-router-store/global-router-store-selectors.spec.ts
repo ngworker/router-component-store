@@ -1,8 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, NgZone } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { Route, Router, RouterOutlet, Routes } from '@angular/router';
+import {
+  NavigationEnd,
+  NavigationStart,
+  Route,
+  Router,
+  RouterOutlet,
+  Routes,
+} from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { firstValueFrom } from 'rxjs';
+import { firstValueFrom, take, toArray } from 'rxjs';
 import { RouterStore } from '../router-store';
 import { GlobalRouterStore } from './global-router-store';
 import { provideGlobalRouterStore } from './provide-global-router-store';
@@ -23,11 +30,17 @@ class DummyLoginComponent {}
 describe(`${GlobalRouterStore.name} selectors`, () => {
   async function setup({
     assertions = 1,
+    initialNavigation = true,
     title,
   }: {
     readonly assertions?: number;
+    readonly initialNavigation?: boolean;
     readonly title?: Route['title'];
   } = {}) {
+    function navigateByUrl(url: string) {
+      return ngZone.run(() => router.navigateByUrl(url));
+    }
+
     expect.assertions(assertions);
     const routes: Routes = [
       {
@@ -51,12 +64,16 @@ describe(`${GlobalRouterStore.name} selectors`, () => {
     const rootFixture = TestBed.createComponent(DummyAppComponent);
     rootFixture.autoDetectChanges(true);
 
+    const ngZone = TestBed.inject(NgZone);
     const router = TestBed.inject(Router);
     const routerStore = TestBed.inject(RouterStore);
 
-    await router.navigateByUrl('/login/etyDDwAAQBAJ?ref=ngrx.io#test-fragment');
+    if (initialNavigation) {
+      await navigateByUrl('/login/etyDDwAAQBAJ?ref=ngrx.io#test-fragment');
+    }
 
     return {
+      navigateByUrl,
       routerStore,
     };
   }
@@ -173,5 +190,25 @@ describe(`${GlobalRouterStore.name} selectors`, () => {
     });
 
     await expect(firstValueFrom(routerStore.title$)).resolves.toBe('test-data');
+  });
+
+  it('exposes a selector for specific router events', async () => {
+    const { navigateByUrl, routerStore } = await setup({
+      initialNavigation: false,
+    });
+    const expectedUrl =
+      '/login/kXpODMhMOluqn?ref=ngworker.github.io#test-fragment';
+    const whenNavigation = firstValueFrom(
+      routerStore
+        .selectRouterEvents(NavigationStart, NavigationEnd)
+        .pipe(take(2), toArray())
+    );
+
+    await navigateByUrl(expectedUrl);
+
+    await expect(whenNavigation).resolves.toEqual([
+      new NavigationStart(1, expectedUrl, 'imperative', null),
+      new NavigationEnd(1, expectedUrl, expectedUrl),
+    ]);
   });
 });

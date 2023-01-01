@@ -1,10 +1,17 @@
-import { inject, Injectable } from '@angular/core';
-import { ActivatedRoute, Data, Params, Router } from '@angular/router';
+import { inject, Injectable, Type } from '@angular/core';
+import {
+  ActivatedRoute,
+  Data,
+  Event as RouterEvent,
+  Params,
+  Router,
+} from '@angular/router';
 import { ComponentStore } from '@ngrx/component-store';
 import { map, Observable } from 'rxjs';
 import { MinimalActivatedRouteSnapshot } from '../@ngrx/router-store/minimal-activated-route-state-snapshot';
 import { MinimalRouterStateSnapshot } from '../@ngrx/router-store/minimal-router-state-snapshot';
 import { MinimalRouterStateSerializer } from '../@ngrx/router-store/minimal_serializer';
+import { filterRouterEvents } from '../filter-router-event.operator';
 import { RouterStore } from '../router-store';
 
 interface LocalRouterState {
@@ -87,5 +94,13 @@ export class LocalRouterStore
 
   selectRouteParam(param: string): Observable<string | undefined> {
     return this.select(this.routeParams$, (params) => params[param]);
+  }
+
+  selectRouterEvents<TAcceptedRouterEvents extends Type<RouterEvent>[]>(
+    ...acceptedEventTypes: [...TAcceptedRouterEvents]
+  ): Observable<InstanceType<TAcceptedRouterEvents[number]>> {
+    return this.#router.events.pipe(
+      filterRouterEvents(...acceptedEventTypes)
+    ) as Observable<InstanceType<TAcceptedRouterEvents[number]>>;
   }
 }

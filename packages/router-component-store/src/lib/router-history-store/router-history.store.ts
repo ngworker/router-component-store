@@ -36,6 +36,7 @@ export function provideRouterHistoryStore(): Provider[] {
 
 // TODO(@LayZeeDK): Handle `NavigationCancel` and `NavigationError` events
 // NavigationStart -> NavigationEnd | NavigationCancel | NavigationError
+// NavigationSkipped -> (end)
 //
 // NavigationError resets the URL to what it was before the navigation that caused an error. No new *navigation* is triggered.
 // NavigationError reasons:
@@ -62,6 +63,10 @@ export function provideRouterHistoryStore(): Provider[] {
 // - Redirect: A navigation failed because a guard returned a `UrlTree` to redirect.
 // - SupersededByNewNavigation: A navigation failed because a more recent navigation started.
 //   NavigationCancel { id: 3, url: "/company", reason: "Navigation ID 3 is not equal to the current navigation id 4" }
+//
+// NavigationSkipped reasons:
+// - `location` change to unsupported URL. The `UrlHandlingStrategy` cannot process the current or the target URL.
+// - `onSameUrlNavigation` is set to `ignore` (the default) and the target URL is the same as the current URL.
 
 @Injectable()
 export class RouterHistoryStore extends ComponentStore<RouterHistoryState> {

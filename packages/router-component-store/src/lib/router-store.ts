@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { Data, Params } from '@angular/router';
+import { Injectable, Type } from '@angular/core';
+import { Data, Event as RouterEvent, Params } from '@angular/router';
 import { Observable } from 'rxjs';
 import { MinimalActivatedRouteSnapshot } from './@ngrx/router-store/minimal-activated-route-state-snapshot';
 
@@ -88,4 +88,17 @@ export abstract class RouterStore {
    * const id$ = routerStore.selectRouteParam('id');
    */
   abstract selectRouteParam(param: string): Observable<string | undefined>;
+  /**
+   * Select router events of the specified router event types.
+   *
+   * @param acceptedEventTypes The types of router events to select.
+   *
+   * @example <caption>Usage</caption>
+   * const navigation$ = routerStore.selectRouterEvents(NavigationStart, NavigationEnd);
+   */
+  abstract selectRouterEvents<
+    TAcceptedRouterEvents extends Type<RouterEvent>[]
+  >(
+    ...acceptedEventTypes: [...TAcceptedRouterEvents]
+  ): Observable<InstanceType<TAcceptedRouterEvents[number]>>;
 }

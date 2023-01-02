@@ -1,6 +1,6 @@
 {
   "name": "@ngworker/router-component-store",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "An Angular Router-connecting NgRx component store.",
   "license": "MIT",
   "peerDependencies": {

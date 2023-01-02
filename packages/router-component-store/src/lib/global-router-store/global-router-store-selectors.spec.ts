@@ -25,16 +25,16 @@ class DummyAppComponent {}
   standalone: true,
   template: '',
 })
-class DummyLoginComponent {}
+class DummyAuthComponent {}
 
 describe(`${GlobalRouterStore.name} selectors`, () => {
   async function setup({
     assertions = 1,
-    initialNavigation = true,
+    data = {},
     title,
   }: {
     readonly assertions?: number;
-    readonly initialNavigation?: boolean;
+    readonly data?: Route['data'];
     readonly title?: Route['title'];
   } = {}) {
     function navigateByUrl(url: string) {
@@ -42,14 +42,15 @@ describe(`${GlobalRouterStore.name} selectors`, () => {
     }
 
     expect.assertions(assertions);
+
     const routes: Routes = [
       {
-        path: 'login',
+        path: 'auth',
         children: [
           {
-            path: ':id',
-            component: DummyLoginComponent,
-            data: { testData: 'test-data' },
+            path: ':token',
+            component: DummyAuthComponent,
+            data,
             title,
           },
         ],
@@ -68,10 +69,6 @@ describe(`${GlobalRouterStore.name} selectors`, () => {
     const router = TestBed.inject(Router);
     const routerStore = TestBed.inject(RouterStore);
 
-    if (initialNavigation) {
-      await navigateByUrl('/login/etyDDwAAQBAJ?ref=ngrx.io#test-fragment');
-    }
-
     return {
       navigateByUrl,
       routerStore,
@@ -79,9 +76,16 @@ describe(`${GlobalRouterStore.name} selectors`, () => {
   }
 
   it('exposes a selector for the current route', async () => {
-    const { routerStore } = await setup({
+    const { navigateByUrl, routerStore } = await setup({
+      data: {
+        testData: 'test-data',
+      },
       title: 'Static title',
     });
+
+    await navigateByUrl(
+      '/auth/bqbNGrezShfz?ref=ngworker.github.io#test-fragment'
+    );
 
     await expect(firstValueFrom(routerStore.currentRoute$)).resolves.toEqual({
       children: [],
@@ -91,19 +95,19 @@ describe(`${GlobalRouterStore.name} selectors`, () => {
       fragment: 'test-fragment',
       outlet: 'primary',
       params: {
-        id: 'etyDDwAAQBAJ',
+        token: 'bqbNGrezShfz',
       },
       queryParams: {
-        ref: 'ngrx.io',
+        ref: 'ngworker.github.io',
       },
       routeConfig: {
-        path: ':id',
+        path: ':token',
         title: 'Static title',
       },
       title: 'Static title',
       url: [
         {
-          path: 'etyDDwAAQBAJ',
+          path: 'bqbNGrezShfz',
           parameters: {},
         },
       ],
@@ -111,7 +115,11 @@ describe(`${GlobalRouterStore.name} selectors`, () => {
   });
 
   it('exposes a selector for the fragment', async () => {
-    const { routerStore } = await setup();
+    const { navigateByUrl, routerStore } = await setup();
+
+    await navigateByUrl(
+      '/auth/FvQBMBzAbNbZ?ref=ngworker.github.io#test-fragment'
+    );
 
     await expect(firstValueFrom(routerStore.fragment$)).resolves.toBe(
       'test-fragment'
@@ -119,39 +127,63 @@ describe(`${GlobalRouterStore.name} selectors`, () => {
   });
 
   it('exposes a selector for query params', async () => {
-    const { routerStore } = await setup();
+    const { navigateByUrl, routerStore } = await setup();
+
+    await navigateByUrl(
+      '/auth/SfBGZmaAHqSn?ref=ngworker.github.io#test-fragment'
+    );
 
     await expect(firstValueFrom(routerStore.queryParams$)).resolves.toEqual({
-      ref: 'ngrx.io',
+      ref: 'ngworker.github.io',
     });
   });
 
   it('creates a selector for a specific query param', async () => {
-    const { routerStore } = await setup();
+    const { navigateByUrl, routerStore } = await setup();
+
+    await navigateByUrl(
+      '/auth/bSbebKhzfKkg?ref=ngworker.github.io#test-fragment'
+    );
 
     await expect(
       firstValueFrom(routerStore.selectQueryParam('ref'))
-    ).resolves.toBe('ngrx.io');
+    ).resolves.toBe('ngworker.github.io');
   });
 
   it('exposes a selector for route params', async () => {
-    const { routerStore } = await setup();
+    const { navigateByUrl, routerStore } = await setup();
+
+    await navigateByUrl(
+      '/auth/tBmuJXFZNEdC?ref=ngworker.github.io#test-fragment'
+    );
 
     await expect(firstValueFrom(routerStore.routeParams$)).resolves.toEqual({
-      id: 'etyDDwAAQBAJ',
+      token: 'tBmuJXFZNEdC',
     });
   });
 
   it('creates a selector for a specific route param', async () => {
-    const { routerStore } = await setup();
+    const { navigateByUrl, routerStore } = await setup();
+
+    await navigateByUrl(
+      '/auth/huHynaJHbGxU?ref=ngworker.github.io#test-fragment'
+    );
 
     await expect(
-      firstValueFrom(routerStore.selectRouteParam('id'))
-    ).resolves.toBe('etyDDwAAQBAJ');
+      firstValueFrom(routerStore.selectRouteParam('token'))
+    ).resolves.toBe('huHynaJHbGxU');
   });
 
   it('exposes a selector for route data', async () => {
-    const { routerStore } = await setup();
+    const { navigateByUrl, routerStore } = await setup({
+      data: {
+        testData: 'test-data',
+      },
+    });
+
+    await navigateByUrl(
+      '/auth/VDhyGSDTYfvz?ref=ngworker.github.io#test-fragment'
+    );
 
     await expect(firstValueFrom(routerStore.routeData$)).resolves.toEqual({
       testData: 'test-data',
@@ -159,7 +191,15 @@ describe(`${GlobalRouterStore.name} selectors`, () => {
   });
 
   it('creates a selector for specific route data', async () => {
-    const { routerStore } = await setup();
+    const { navigateByUrl, routerStore } = await setup({
+      data: {
+        testData: 'test-data',
+      },
+    });
+
+    await navigateByUrl(
+      '/auth/SFUXQFSDgMyw?ref=ngworker.github.io#test-fragment'
+    );
 
     await expect(
       firstValueFrom(routerStore.selectRouteData<string>('testData'))
@@ -167,17 +207,25 @@ describe(`${GlobalRouterStore.name} selectors`, () => {
   });
 
   it('exposes a selector for the URL', async () => {
-    const { routerStore } = await setup();
+    const { navigateByUrl, routerStore } = await setup();
+
+    await navigateByUrl(
+      '/auth/yGEJHVwByWWN?ref=ngworker.github.io#test-fragment'
+    );
 
     await expect(firstValueFrom(routerStore.url$)).resolves.toBe(
-      '/login/etyDDwAAQBAJ?ref=ngrx.io#test-fragment'
+      '/auth/yGEJHVwByWWN?ref=ngworker.github.io#test-fragment'
     );
   });
 
   it('exposes a selector for the route title that emits static route titles', async () => {
-    const { routerStore } = await setup({
+    const { navigateByUrl, routerStore } = await setup({
       title: 'Static title',
     });
+
+    await navigateByUrl(
+      '/auth/HNxnyXeWMsac?ref=ngworker.github.io#test-fragment'
+    );
 
     await expect(firstValueFrom(routerStore.title$)).resolves.toBe(
       'Static title'
@@ -185,19 +233,24 @@ describe(`${GlobalRouterStore.name} selectors`, () => {
   });
 
   it('exposes a selector for the route title that emits resolved route titles', async () => {
-    const { routerStore } = await setup({
+    const { navigateByUrl, routerStore } = await setup({
+      data: {
+        testData: 'test-data',
+      },
       title: (route) => route.data['testData'],
     });
+
+    await navigateByUrl(
+      '/auth/vAkSruKJBpEd?ref=ngworker.github.io#test-fragment'
+    );
 
     await expect(firstValueFrom(routerStore.title$)).resolves.toBe('test-data');
   });
 
   it('exposes a selector for specific router events', async () => {
-    const { navigateByUrl, routerStore } = await setup({
-      initialNavigation: false,
-    });
+    const { navigateByUrl, routerStore } = await setup();
     const expectedUrl =
-      '/login/kXpODMhMOluqn?ref=ngworker.github.io#test-fragment';
+      '/auth/tzrVGffgbTmv?ref=ngworker.github.io#test-fragment';
     const navigation$ = routerStore.selectRouterEvents(
       NavigationStart,
       NavigationEnd

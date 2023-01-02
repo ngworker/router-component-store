@@ -1,5 +1,11 @@
 # Router Component Store changelog
 
+## 0.3.1 (2023-01-03)
+
+### Features
+
+- Add factory for selecting router events of specific types: `RouterStore#selectRouterEvents`
+
 ## 0.3.0 (2022-12-19)
 
 ### Features

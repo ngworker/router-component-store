@@ -199,16 +199,16 @@ describe(`${LocalRouterStore.name} selectors`, () => {
     const { navigateByUrl, routerStore } = await setup();
     const expectedUrl =
       '/login/kXpODMhMOluqn?ref=ngworker.github.io#test-fragment';
-    const whenNavigation = firstValueFrom(
-      routerStore
-        .selectRouterEvents(NavigationStart, NavigationEnd)
-        .pipe(take(2), toArray())
+    const navigation$ = routerStore.selectRouterEvents(
+      NavigationStart,
+      NavigationEnd
     );
+    const whenNavigation = firstValueFrom(navigation$.pipe(take(2), toArray()));
 
     await navigateByUrl(expectedUrl);
 
     await expect(whenNavigation).resolves.toEqual([
-      new NavigationStart(2, expectedUrl, 'imperative', null),
+      new NavigationStart(2, expectedUrl),
       new NavigationEnd(2, expectedUrl, expectedUrl),
     ]);
   });

@@ -73,7 +73,7 @@ describe(filterRouterEvents.name, () => {
   it('filters 2 router event types', async () => {
     const { navigateByUrl, routerEvents } = setup();
     const navigation$ = routerEvents.pipe(
-      filterRouterEvents(NavigationEnd, NavigationStart)
+      filterRouterEvents(NavigationStart, NavigationEnd)
     );
     const whenNavigation = firstValueFrom(navigation$.pipe(take(2), toArray()));
 
@@ -88,7 +88,7 @@ describe(filterRouterEvents.name, () => {
   it('filters 3 router event types', async () => {
     const { navigateByUrl, routerEvents } = setup();
     const navigation$ = routerEvents.pipe(
-      filterRouterEvents(NavigationEnd, NavigationStart, RoutesRecognized)
+      filterRouterEvents(NavigationStart, RoutesRecognized, NavigationEnd)
     );
     const whenNavigation = firstValueFrom(navigation$.pipe(take(3), toArray()));
 
@@ -122,7 +122,7 @@ describe(filterRouterEvents.name, () => {
   it('filters multiple events of 2 router event types', async () => {
     const { navigateByUrl, routerEvents } = setup();
     const navigation$ = routerEvents.pipe(
-      filterRouterEvents(NavigationEnd, NavigationStart)
+      filterRouterEvents(NavigationStart, NavigationEnd)
     );
     const whenNavigation = firstValueFrom(navigation$.pipe(take(4), toArray()));
 
@@ -140,7 +140,7 @@ describe(filterRouterEvents.name, () => {
   it('filters multiple events of 3 router event types', async () => {
     const { navigateByUrl, routerEvents } = setup();
     const navigation$ = routerEvents.pipe(
-      filterRouterEvents(NavigationEnd, NavigationStart, RoutesRecognized)
+      filterRouterEvents(NavigationStart, RoutesRecognized, NavigationEnd)
     );
     const whenNavigation = firstValueFrom(navigation$.pipe(take(6), toArray()));
 

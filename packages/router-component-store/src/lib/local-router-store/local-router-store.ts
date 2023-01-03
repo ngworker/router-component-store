@@ -3,8 +3,13 @@ import {
   ActivatedRoute,
   Data,
   Event as RouterEvent,
+  NavigationCancel,
+  NavigationEnd,
+  NavigationError,
+  NavigationStart,
   Params,
   Router,
+  RoutesRecognized,
 } from '@angular/router';
 import { ComponentStore } from '@ngrx/component-store';
 import { map, Observable } from 'rxjs';
@@ -71,7 +76,13 @@ export class LocalRouterStore
     });
 
     this.#updateRouterState(
-      this.#router.events.pipe(
+      this.selectRouterEvents(
+        NavigationStart,
+        RoutesRecognized,
+        NavigationEnd,
+        NavigationCancel,
+        NavigationError
+      ).pipe(
         map(() => this.#serializer.serialize(this.#router.routerState.snapshot))
       )
     );

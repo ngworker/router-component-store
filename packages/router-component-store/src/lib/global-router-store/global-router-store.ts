@@ -1,5 +1,15 @@
 import { inject, Injectable, Type } from '@angular/core';
-import { Data, Event as RouterEvent, Params, Router } from '@angular/router';
+import {
+  Data,
+  Event as RouterEvent,
+  NavigationCancel,
+  NavigationEnd,
+  NavigationError,
+  NavigationStart,
+  Params,
+  Router,
+  RoutesRecognized,
+} from '@angular/router';
 import { ComponentStore } from '@ngrx/component-store';
 import { map, Observable } from 'rxjs';
 import { MinimalActivatedRouteSnapshot } from '../@ngrx/router-store/minimal-activated-route-state-snapshot';
@@ -72,7 +82,13 @@ export class GlobalRouterStore
     });
 
     this.#updateRouterState(
-      this.#router.events.pipe(
+      this.selectRouterEvents(
+        NavigationStart,
+        RoutesRecognized,
+        NavigationEnd,
+        NavigationCancel,
+        NavigationError
+      ).pipe(
         map(() => this.#serializer.serialize(this.#router.routerState.snapshot))
       )
     );

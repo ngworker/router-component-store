@@ -1,5 +1,11 @@
 # Router Component Store changelog
 
+## 0.3.2 (2023-01-03)
+
+### Performance optimizations
+
+- Ignore non-essential router events when serializing the router state. Only `NavigationStart`, `RoutesRecognized`, `NavigationEnd`, `NavigationCancel`, and `NavigationError` events are essential.
+
 ## 0.3.1 (2023-01-03)
 
 ### Features

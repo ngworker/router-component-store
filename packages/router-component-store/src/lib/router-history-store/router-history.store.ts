@@ -11,7 +11,9 @@ import { filter, Observable } from 'rxjs';
 
 interface RouterHistoryState {
   /**
-   * The history of all navigations.
+   * The history of all router navigation sequences.
+   *
+   * The key is the navigation ID.
    */
   readonly history: RouterNavigationHistory;
 }

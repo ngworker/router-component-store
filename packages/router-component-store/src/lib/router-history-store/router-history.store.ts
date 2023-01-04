@@ -7,31 +7,24 @@ import {
 } from '@angular/core';
 import { NavigationEnd, NavigationStart, Router } from '@angular/router';
 import { ComponentStore, provideComponentStore } from '@ngrx/component-store';
-import { filter, Observable } from 'rxjs';
+import { filter, map, Observable, switchMap, take } from 'rxjs';
+import { filterRouterEvents } from '../filter-router-event.operator';
 
 interface RouterHistoryState {
   /**
-   * The history of all router navigation sequences.
+   * The history of all router navigated sequences.
    *
    * The key is the navigation ID.
    */
-  readonly history: RouterNavigationHistory;
+  readonly history: RouterNavigatedHistory;
+  /**
+   * The ID of the most recent router navigated sequence events.
+   */
+  readonly maxNavigatedId?: number;
 }
 
 type RouterNavigatedSequence = readonly [NavigationStart, NavigationEnd];
-type RouterNavigationHistory = Record<number, RouterNavigationSequence>;
-type RouterNavigationSequence = RouterRequestSequence | RouterNavigatedSequence;
-type RouterRequestSequence = readonly [NavigationStart];
-
-function isRouterNavigatedSequence(
-  sequence: RouterNavigationSequence
-): sequence is RouterNavigatedSequence {
-  return (
-    sequence.length === 2 &&
-    sequence[0] instanceof NavigationStart &&
-    sequence[1] instanceof NavigationEnd
-  );
-}
+type RouterNavigatedHistory = Readonly<Record<number, RouterNavigatedSequence>>;
 
 /**
  * Provide and initialize the `RouterHistoryStore`.
@@ -56,44 +49,48 @@ export class RouterHistoryStore extends ComponentStore<RouterHistoryState> {
   #history$ = this.select((state) => state.history).pipe(
     filter((history) => Object.keys(history).length > 0)
   );
+  #maxNavigatedId$ = this.select((state) => state.maxNavigatedId).pipe(
+    filter(
+      (maxNavigatedId): maxNavigatedId is number => maxNavigatedId !== undefined
+    )
+  );
   /**
    * All `NavigationEnd` events.
    */
   #navigationEnd$: Observable<NavigationEnd> = this.#router.events.pipe(
-    filter((event): event is NavigationEnd => event instanceof NavigationEnd)
+    filterRouterEvents(NavigationEnd)
   );
   /**
    * All `NavigationStart` events.
    */
   #navigationStart$: Observable<NavigationStart> = this.#router.events.pipe(
-    filter(
-      (event): event is NavigationStart => event instanceof NavigationStart
-    )
+    filterRouterEvents(NavigationStart)
   );
-
   /**
-   * The navigation ID of the most recent router navigated sequence.
+   * All router navigated sequences, that is `NavigationStart` followed by `NavigationEnd`.
    */
-  #maxRouterNavigatedSequenceId$ = this.select(
-    this.#history$.pipe(filter(this.#selectHasRouterNavigated)),
-    (history) =>
-      Number(
-        // This callback is only triggered when at least one navigation has
-        // completed
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        Object.entries(history)
-          .reverse()
-          .find(([, navigation]) => navigation.length === 2)![0]
+  #routerNavigated$: Observable<RouterNavigatedSequence> =
+    this.#navigationStart$.pipe(
+      switchMap((navigationStart) =>
+        this.#navigationEnd$.pipe(
+          filter((navigationEnd) => navigationEnd.id === navigationStart.id),
+          take(1),
+          map(
+            (navigationEnd) =>
+              [navigationStart, navigationEnd] as RouterNavigatedSequence
+          )
+        )
       )
-  );
+    );
+
   /**
    * The most recent completed navigation.
    */
   #latestRouterNavigatedSequence$ = this.select(
-    this.#maxRouterNavigatedSequenceId$,
+    this.#maxNavigatedId$,
     this.#history$,
-    (maxRouterNavigatedSequenceId, history) =>
-      history[maxRouterNavigatedSequenceId] as RouterNavigatedSequence,
+    (maxNavigatedId, history) =>
+      history[maxNavigatedId] as RouterNavigatedSequence,
     {
       debounce: true,
     }
@@ -104,7 +101,7 @@ export class RouterHistoryStore extends ComponentStore<RouterHistoryState> {
    */
   currentUrl$: Observable<string> = this.select(
     this.#latestRouterNavigatedSequence$,
-    ([, end]) => end.urlAfterRedirects
+    ([, navigationEnd]) => navigationEnd.urlAfterRedirects
   );
   /**
    * The previous URL when taking `popstate` events into account.
@@ -114,28 +111,28 @@ export class RouterHistoryStore extends ComponentStore<RouterHistoryState> {
    */
   previousUrl$: Observable<string | undefined> = this.select(
     this.#history$,
-    this.#maxRouterNavigatedSequenceId$,
-    (history, maxCompletedNavigationId) => {
-      if (maxCompletedNavigationId === 1) {
+    this.#maxNavigatedId$,
+    (history, maxNavigatedId) => {
+      if (maxNavigatedId === 1) {
         return undefined;
       }
 
-      const [completedNavigationSourceStart] = this.#getNavigationSource(
-        maxCompletedNavigationId,
+      const [sourceNavigationStart] = this.#getNavigationSource(
+        maxNavigatedId,
         history
       );
 
-      if (completedNavigationSourceStart.id === 1) {
+      if (sourceNavigationStart.id === 1) {
         return undefined;
       }
 
-      const previousNavigationId = completedNavigationSourceStart.id - 1;
-      const [, previousNavigationSourceEnd] = this.#getNavigationSource(
+      const previousNavigationId = sourceNavigationStart.id - 1;
+      const [, previousNavigationEnd] = this.#getNavigationSource(
         previousNavigationId,
         history
       );
 
-      return previousNavigationSourceEnd.urlAfterRedirects;
+      return previousNavigationEnd.urlAfterRedirects;
     },
     {
       debounce: true,
@@ -145,34 +142,28 @@ export class RouterHistoryStore extends ComponentStore<RouterHistoryState> {
   constructor() {
     super(initialState);
 
-    this.#addNavigationStart(this.#navigationStart$);
-    this.#addNavigationEnd(this.#navigationEnd$);
+    this.#addRouterNavigatedSequence(this.#routerNavigated$);
   }
 
   /**
-   * Add a `NavigationEnd` event to the navigation history.
+   * Add a router navigated sequence to the router navigated history.
    */
-  #addNavigationEnd = this.updater<NavigationEnd>(
-    (state, event): RouterHistoryState => ({
-      ...state,
-      history: {
-        ...state.history,
-        [event.id]: [state.history[event.id][0], event],
-      },
-    })
-  );
+  #addRouterNavigatedSequence = this.updater<RouterNavigatedSequence>(
+    (state, routerNavigated): RouterHistoryState => {
+      const [{ id: navigationId }] = routerNavigated;
 
-  /**
-   * Add a `NavigationStart` event to the navigation history.
-   */
-  #addNavigationStart = this.updater<NavigationStart>(
-    (state, event): RouterHistoryState => ({
-      ...state,
-      history: {
-        ...state.history,
-        [event.id]: [event],
-      },
-    })
+      return {
+        ...state,
+        history: {
+          ...state.history,
+          [navigationId]: routerNavigated,
+        },
+        maxNavigatedId:
+          navigationId > (state.maxNavigatedId ?? 0)
+            ? navigationId
+            : state.maxNavigatedId,
+      };
+    }
   );
 
   /**
@@ -187,7 +178,7 @@ export class RouterHistoryStore extends ComponentStore<RouterHistoryState> {
    */
   #getNavigationSource(
     navigationId: number,
-    history: RouterNavigationHistory
+    history: RouterNavigatedHistory
   ): RouterNavigatedSequence {
     let navigation = history[navigationId];
 
@@ -201,14 +192,7 @@ export class RouterHistoryStore extends ComponentStore<RouterHistoryState> {
         ];
     }
 
-    return navigation as RouterNavigatedSequence;
-  }
-
-  #selectHasRouterNavigated(history: RouterNavigationHistory): boolean {
-    const firstNavigationId = 1;
-    const firstNavigation = history[firstNavigationId] ?? [];
-
-    return isRouterNavigatedSequence(firstNavigation);
+    return navigation;
   }
 }
 

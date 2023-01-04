@@ -9,6 +9,7 @@ import { NavigationEnd, NavigationStart, Router } from '@angular/router';
 import { ComponentStore, provideComponentStore } from '@ngrx/component-store';
 import { filter, map, Observable, switchMap, take } from 'rxjs';
 import { filterRouterEvents } from '../filter-router-event.operator';
+import { isPopstateNavigationStart } from './popstate-navigation-start';
 
 interface RouterHistoryState {
   /**
@@ -182,14 +183,8 @@ export class RouterHistoryStore extends ComponentStore<RouterHistoryState> {
   ): RouterNavigatedSequence {
     let navigation = history[navigationId];
 
-    while (navigation[0].navigationTrigger === 'popstate') {
-      navigation =
-        history[
-          // Navigation events triggered by `popstate` always have a
-          // `restoredState`
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          navigation[0].restoredState!.navigationId
-        ];
+    while (isPopstateNavigationStart(navigation[0])) {
+      navigation = history[navigation[0].restoredState.navigationId];
     }
 
     return navigation;

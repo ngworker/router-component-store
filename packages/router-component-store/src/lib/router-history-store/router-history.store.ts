@@ -13,13 +13,13 @@ interface RouterHistoryState {
   /**
    * The history of all navigations.
    */
-  readonly history: NavigationHistory;
+  readonly history: RouterNavigationHistory;
 }
 
-type CompleteNavigation = readonly [NavigationStart, NavigationEnd];
-type NavigationHistory = Record<number, NavigationSequence>;
-type NavigationSequence = PendingNavigation | CompleteNavigation;
-type PendingNavigation = readonly [NavigationStart];
+type RouterNavigatedSequence = readonly [NavigationStart, NavigationEnd];
+type RouterNavigationHistory = Record<number, RouterNavigationSequence>;
+type RouterNavigationSequence = RouterRequestSequence | RouterNavigatedSequence;
+type RouterRequestSequence = readonly [NavigationStart];
 
 /**
  * Provide and initialize the `RouterHistoryStore`.
@@ -81,7 +81,7 @@ export class RouterHistoryStore extends ComponentStore<RouterHistoryState> {
     this.#maxCompletedNavigationId$,
     this.#history$,
     (maxCompletedNavigationId, history) =>
-      history[maxCompletedNavigationId] as CompleteNavigation,
+      history[maxCompletedNavigationId] as RouterNavigatedSequence,
     {
       debounce: true,
     }
@@ -175,8 +175,8 @@ export class RouterHistoryStore extends ComponentStore<RouterHistoryState> {
    */
   #getNavigationSource(
     navigationId: number,
-    history: NavigationHistory
-  ): CompleteNavigation {
+    history: RouterNavigationHistory
+  ): RouterNavigatedSequence {
     let navigation = history[navigationId];
 
     while (navigation[0].navigationTrigger === 'popstate') {
@@ -189,7 +189,7 @@ export class RouterHistoryStore extends ComponentStore<RouterHistoryState> {
         ];
     }
 
-    return navigation as CompleteNavigation;
+    return navigation as RouterNavigatedSequence;
   }
 }
 

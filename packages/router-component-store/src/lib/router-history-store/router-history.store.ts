@@ -23,6 +23,16 @@ type RouterNavigationHistory = Record<number, RouterNavigationSequence>;
 type RouterNavigationSequence = RouterRequestSequence | RouterNavigatedSequence;
 type RouterRequestSequence = readonly [NavigationStart];
 
+function isRouterNavigatedSequence(
+  sequence: RouterNavigationSequence
+): sequence is RouterNavigatedSequence {
+  return (
+    sequence.length === 2 &&
+    sequence[0] instanceof NavigationStart &&
+    sequence[1] instanceof NavigationEnd
+  );
+}
+
 /**
  * Provide and initialize the `RouterHistoryStore`.
  *
@@ -62,10 +72,10 @@ export class RouterHistoryStore extends ComponentStore<RouterHistoryState> {
   );
 
   /**
-   * The navigation ID of the most recent completed navigation.
+   * The navigation ID of the most recent router navigated sequence.
    */
-  #maxCompletedNavigationId$ = this.select(
-    this.#history$.pipe(filter((history) => (history[1] ?? []).length > 1)),
+  #maxRouterNavigatedSequenceId$ = this.select(
+    this.#history$.pipe(filter(this.#selectHasRouterNavigated)),
     (history) =>
       Number(
         // This callback is only triggered when at least one navigation has
@@ -79,11 +89,11 @@ export class RouterHistoryStore extends ComponentStore<RouterHistoryState> {
   /**
    * The most recent completed navigation.
    */
-  #latestCompletedNavigation$ = this.select(
-    this.#maxCompletedNavigationId$,
+  #latestRouterNavigatedSequence$ = this.select(
+    this.#maxRouterNavigatedSequenceId$,
     this.#history$,
-    (maxCompletedNavigationId, history) =>
-      history[maxCompletedNavigationId] as RouterNavigatedSequence,
+    (maxRouterNavigatedSequenceId, history) =>
+      history[maxRouterNavigatedSequenceId] as RouterNavigatedSequence,
     {
       debounce: true,
     }
@@ -93,7 +103,7 @@ export class RouterHistoryStore extends ComponentStore<RouterHistoryState> {
    * The current URL.
    */
   currentUrl$: Observable<string> = this.select(
-    this.#latestCompletedNavigation$,
+    this.#latestRouterNavigatedSequence$,
     ([, end]) => end.urlAfterRedirects
   );
   /**
@@ -104,7 +114,7 @@ export class RouterHistoryStore extends ComponentStore<RouterHistoryState> {
    */
   previousUrl$: Observable<string | undefined> = this.select(
     this.#history$,
-    this.#maxCompletedNavigationId$,
+    this.#maxRouterNavigatedSequenceId$,
     (history, maxCompletedNavigationId) => {
       if (maxCompletedNavigationId === 1) {
         return undefined;
@@ -192,6 +202,13 @@ export class RouterHistoryStore extends ComponentStore<RouterHistoryState> {
     }
 
     return navigation as RouterNavigatedSequence;
+  }
+
+  #selectHasRouterNavigated(history: RouterNavigationHistory): boolean {
+    const firstNavigationId = 1;
+    const firstNavigation = history[firstNavigationId] ?? [];
+
+    return isRouterNavigatedSequence(firstNavigation);
   }
 }
 

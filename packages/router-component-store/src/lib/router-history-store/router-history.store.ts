@@ -5,7 +5,13 @@ import {
   Injectable,
   Provider,
 } from '@angular/core';
-import { NavigationEnd, NavigationStart, Router } from '@angular/router';
+import {
+  NavigationCancel,
+  NavigationEnd,
+  NavigationError,
+  NavigationStart,
+  Router,
+} from '@angular/router';
 import { ComponentStore, provideComponentStore } from '@ngrx/component-store';
 import { filter, map, Observable, switchMap, take } from 'rxjs';
 import { filterRouterEvents } from '../filter-router-event.operator';
@@ -26,6 +32,16 @@ interface RouterHistoryState {
 
 type RouterNavigatedSequence = readonly [NavigationStart, NavigationEnd];
 type RouterNavigatedHistory = Readonly<Record<number, RouterNavigatedSequence>>;
+type RouterSequence = readonly [
+  NavigationStart,
+  NavigationEnd | NavigationCancel | NavigationError
+];
+
+function isRouterNavigatedSequence(
+  sequence: RouterSequence
+): sequence is RouterNavigatedSequence {
+  return sequence[1] instanceof NavigationEnd;
+}
 
 /**
  * Provide and initialize the `RouterHistoryStore`.
@@ -55,34 +71,39 @@ export class RouterHistoryStore extends ComponentStore<RouterHistoryState> {
       (maxNavigatedId): maxNavigatedId is number => maxNavigatedId !== undefined
     )
   );
+
   /**
-   * All `NavigationEnd` events.
+   * All router events.
    */
-  #navigationEnd$: Observable<NavigationEnd> = this.#router.events.pipe(
-    filterRouterEvents(NavigationEnd)
+  #routerEvents = this.select(this.#router.events, (events) => events);
+  /**
+   * All router events concluding a navigation.
+   */
+  #navigationResult$: Observable<
+    NavigationEnd | NavigationCancel | NavigationError
+  > = this.#routerEvents.pipe(
+    filterRouterEvents(NavigationEnd, NavigationCancel, NavigationError)
   );
   /**
-   * All `NavigationStart` events.
+   * All router sequences.
    */
-  #navigationStart$: Observable<NavigationStart> = this.#router.events.pipe(
-    filterRouterEvents(NavigationStart)
+  #routerSequence$: Observable<RouterSequence> = this.#routerEvents.pipe(
+    filterRouterEvents(NavigationStart),
+    switchMap((navigationStart) =>
+      this.#navigationResult$.pipe(
+        filter(
+          (navigationResult) => navigationResult.id === navigationStart.id
+        ),
+        take(1),
+        map((navigationResult) => [navigationStart, navigationResult] as const)
+      )
+    )
   );
   /**
    * All router navigated sequences, that is `NavigationStart` followed by `NavigationEnd`.
    */
   #routerNavigated$: Observable<RouterNavigatedSequence> =
-    this.#navigationStart$.pipe(
-      switchMap((navigationStart) =>
-        this.#navigationEnd$.pipe(
-          filter((navigationEnd) => navigationEnd.id === navigationStart.id),
-          take(1),
-          map(
-            (navigationEnd) =>
-              [navigationStart, navigationEnd] as RouterNavigatedSequence
-          )
-        )
-      )
-    );
+    this.#routerSequence$.pipe(filter(isRouterNavigatedSequence));
 
   /**
    * The most recent completed navigation.

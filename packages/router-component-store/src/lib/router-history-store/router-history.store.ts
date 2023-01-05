@@ -23,6 +23,11 @@ import {
   RouterSequence,
 } from './router-sequence';
 
+/**
+ * A history of router navigated sequences.
+ *
+ * The key is the navigation ID.
+ */
 type RouterHistory = Readonly<Record<number, RouterNavigatedSequence>>;
 interface RouterHistoryState {
   /**

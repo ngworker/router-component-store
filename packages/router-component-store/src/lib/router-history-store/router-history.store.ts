@@ -6,6 +6,7 @@ import {
   Provider,
 } from '@angular/core';
 import {
+  Event as NgRouterEvent,
   NavigationCancel,
   NavigationEnd,
   NavigationError,
@@ -75,9 +76,12 @@ export class RouterHistoryStore extends ComponentStore<RouterHistoryState> {
   /**
    * All router events.
    */
-  #routerEvents = this.select(this.#router.events, (events) => events);
+  #routerEvents: Observable<NgRouterEvent> = this.select(
+    this.#router.events,
+    (events) => events
+  );
   /**
-   * All router events concluding a navigation.
+   * All router events concluding a router sequence.
    */
   #navigationResult$: Observable<
     NavigationEnd | NavigationCancel | NavigationError
@@ -108,15 +112,15 @@ export class RouterHistoryStore extends ComponentStore<RouterHistoryState> {
   /**
    * The most recent completed navigation.
    */
-  #latestRouterNavigatedSequence$ = this.select(
-    this.#maxNavigatedId$,
-    this.#history$,
-    (maxNavigatedId, history) =>
-      history[maxNavigatedId] as RouterNavigatedSequence,
-    {
-      debounce: true,
-    }
-  );
+  #latestRouterNavigatedSequence$: Observable<RouterNavigatedSequence> =
+    this.select(
+      this.#maxNavigatedId$,
+      this.#history$,
+      (maxNavigatedId, history) => history[maxNavigatedId],
+      {
+        debounce: true,
+      }
+    );
 
   /**
    * The current URL.
@@ -139,7 +143,7 @@ export class RouterHistoryStore extends ComponentStore<RouterHistoryState> {
         return undefined;
       }
 
-      const [sourceNavigationStart] = this.#getNavigationSource(
+      const [sourceNavigationStart] = this.#findNavigatedSource(
         maxNavigatedId,
         history
       );
@@ -149,7 +153,7 @@ export class RouterHistoryStore extends ComponentStore<RouterHistoryState> {
       }
 
       const previousNavigationId = sourceNavigationStart.id - 1;
-      const [, previousNavigationEnd] = this.#getNavigationSource(
+      const [, previousNavigationEnd] = this.#findNavigatedSource(
         previousNavigationId,
         history
       );
@@ -189,16 +193,16 @@ export class RouterHistoryStore extends ComponentStore<RouterHistoryState> {
   );
 
   /**
-   * Search the specified navigation history to find the source of the
-   * specified navigation event.
+   * Search the specified history to find the source of the router navigated
+   * sequence.
    *
    * This takes `popstate` navigation events into account.
    *
    * @param navigationId The ID of the navigation to trace.
    * @param history The navigation history to search.
-   * @returns The source navigation.
+   * @returns The source router navigated sequence.
    */
-  #getNavigationSource(
+  #findNavigatedSource(
     navigationId: number,
     history: RouterNavigatedHistory
   ): RouterNavigatedSequence {

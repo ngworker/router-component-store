@@ -116,10 +116,7 @@ export class RouterHistoryStore extends ComponentStore<RouterHistoryState> {
     this.select(
       this.#maxNavigatedId$,
       this.#history$,
-      (maxNavigatedId, history) => history[maxNavigatedId],
-      {
-        debounce: true,
-      }
+      (maxNavigatedId, history) => history[maxNavigatedId]
     );
 
   /**
@@ -159,9 +156,6 @@ export class RouterHistoryStore extends ComponentStore<RouterHistoryState> {
       );
 
       return previousNavigationEnd.urlAfterRedirects;
-    },
-    {
-      debounce: true,
     }
   );
 

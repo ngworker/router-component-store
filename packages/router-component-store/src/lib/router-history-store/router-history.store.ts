@@ -133,7 +133,7 @@ export class RouterHistoryStore extends ComponentStore<RouterHistoryState> {
         return undefined;
       }
 
-      const [sourceNavigationStart] = this.#findNavigatedSource(
+      const [sourceNavigationStart] = this.#findSourceNavigatedSequence(
         maxNavigatedId,
         history
       );
@@ -143,7 +143,7 @@ export class RouterHistoryStore extends ComponentStore<RouterHistoryState> {
       }
 
       const previousNavigationId = sourceNavigationStart.id - 1;
-      const [, previousNavigationEnd] = this.#findNavigatedSource(
+      const [, previousNavigationEnd] = this.#findSourceNavigatedSequence(
         previousNavigationId,
         history
       );
@@ -189,7 +189,7 @@ export class RouterHistoryStore extends ComponentStore<RouterHistoryState> {
    * @param history The history to search.
    * @returns The source router navigated sequence.
    */
-  #findNavigatedSource(
+  #findSourceNavigatedSequence(
     navigationId: number,
     history: RouterHistory
   ): RouterNavigatedSequence {

@@ -17,6 +17,11 @@ import { ComponentStore, provideComponentStore } from '@ngrx/component-store';
 import { filter, map, Observable, switchMap, take } from 'rxjs';
 import { filterRouterEvents } from '../filter-router-event.operator';
 import { isPopstateNavigationStart } from './popstate-navigation-start';
+import {
+  isRouterNavigatedSequence,
+  RouterNavigatedSequence,
+  RouterSequence,
+} from './router-sequence';
 
 interface RouterHistoryState {
   /**
@@ -31,18 +36,7 @@ interface RouterHistoryState {
   readonly maxNavigatedId?: number;
 }
 
-type RouterNavigatedSequence = readonly [NavigationStart, NavigationEnd];
 type RouterNavigatedHistory = Readonly<Record<number, RouterNavigatedSequence>>;
-type RouterSequence = readonly [
-  NavigationStart,
-  NavigationEnd | NavigationCancel | NavigationError
-];
-
-function isRouterNavigatedSequence(
-  sequence: RouterSequence
-): sequence is RouterNavigatedSequence {
-  return sequence[1] instanceof NavigationEnd;
-}
 
 /**
  * Provide and initialize the `RouterHistoryStore`.

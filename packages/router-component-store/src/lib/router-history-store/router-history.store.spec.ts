@@ -1,4 +1,4 @@
-import { AsyncPipe, Location, NgIf } from '@angular/common';
+import { AsyncPipe, NgIf } from '@angular/common';
 import { Component, inject, NgZone } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -39,13 +39,11 @@ function createTestComponent(name: string, selector: string) {
   `,
 })
 class TestAppComponent {
-  #location = inject(Location);
-
   protected routerHistory = inject(RouterHistoryStore);
 
   onBack(event: MouseEvent) {
     event.preventDefault();
-    this.#location.back();
+    this.routerHistory.onNavigateBack();
   }
 }
 

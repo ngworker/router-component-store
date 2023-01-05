@@ -1,3 +1,4 @@
+import { Location as NgLocation } from '@angular/common';
 import {
   APP_INITIALIZER,
   FactoryProvider,
@@ -14,7 +15,7 @@ import {
   Router,
 } from '@angular/router';
 import { ComponentStore, provideComponentStore } from '@ngrx/component-store';
-import { filter, map, Observable, switchMap, take } from 'rxjs';
+import { filter, map, Observable, pipe, switchMap, take, tap } from 'rxjs';
 import { filterRouterEvents } from '../filter-router-event.operator';
 import { isPopstateNavigationStart } from './popstate-navigation-start';
 import {
@@ -57,6 +58,7 @@ export function provideRouterHistoryStore(): Provider[] {
 
 @Injectable()
 export class RouterHistoryStore extends ComponentStore<RouterHistoryState> {
+  #location = inject(NgLocation);
   #router = inject(Router);
 
   /**
@@ -162,6 +164,24 @@ export class RouterHistoryStore extends ComponentStore<RouterHistoryState> {
 
     this.#addRouterNavigatedSequence(this.#routerNavigated$);
   }
+
+  /**
+   * Navigate back in the browser history.
+   *
+   * @remarks
+   * This is only available when the browser history contains a back entry.
+   */
+  onNavigateBack = this.effect<void>(pipe(tap(() => this.#location.back())));
+
+  /**
+   * Navigate forward in the browser history.
+   *
+   * @remarks
+   * This is only available when the browser history contains a forward entry.
+   */
+  onNavigateForward = this.effect<void>(
+    pipe(tap(() => this.#location.forward()))
+  );
 
   /**
    * Add a router navigated sequence to the router navigated history.

@@ -23,20 +23,19 @@ import {
   RouterSequence,
 } from './router-sequence';
 
+type RouterHistory = Readonly<Record<number, RouterNavigatedSequence>>;
 interface RouterHistoryState {
   /**
    * The history of all router navigated sequences.
    *
    * The key is the navigation ID.
    */
-  readonly history: RouterNavigatedHistory;
+  readonly history: RouterHistory;
   /**
    * The ID of the most recent router navigated sequence events.
    */
   readonly maxNavigatedId?: number;
 }
-
-type RouterNavigatedHistory = Readonly<Record<number, RouterNavigatedSequence>>;
 
 /**
  * Provide and initialize the `RouterHistoryStore`.
@@ -187,12 +186,12 @@ export class RouterHistoryStore extends ComponentStore<RouterHistoryState> {
    * This takes `popstate` navigation events into account.
    *
    * @param navigationId The ID of the navigation to trace.
-   * @param history The navigation history to search.
+   * @param history The history to search.
    * @returns The source router navigated sequence.
    */
   #findNavigatedSource(
     navigationId: number,
-    history: RouterNavigatedHistory
+    history: RouterHistory
   ): RouterNavigatedSequence {
     let navigation = history[navigationId];
 

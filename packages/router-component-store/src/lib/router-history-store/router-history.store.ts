@@ -77,7 +77,7 @@ export class RouterHistoryStore extends ComponentStore<RouterHistoryState> {
   /**
    * All router events.
    */
-  #routerEvents: Observable<NgRouterEvent> = this.select(
+  #routerEvent$: Observable<NgRouterEvent> = this.select(
     this.#router.events,
     (events) => events
   );
@@ -86,13 +86,13 @@ export class RouterHistoryStore extends ComponentStore<RouterHistoryState> {
    */
   #navigationResult$: Observable<
     NavigationEnd | NavigationCancel | NavigationError
-  > = this.#routerEvents.pipe(
+  > = this.#routerEvent$.pipe(
     filterRouterEvents(NavigationEnd, NavigationCancel, NavigationError)
   );
   /**
    * All router sequences.
    */
-  #routerSequence$: Observable<RouterSequence> = this.#routerEvents.pipe(
+  #routerSequence$: Observable<RouterSequence> = this.#routerEvent$.pipe(
     filterRouterEvents(NavigationStart),
     switchMap((navigationStart) =>
       this.#navigationResult$.pipe(

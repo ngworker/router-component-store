@@ -1,10 +1,11 @@
 import { Location as NgLocation } from '@angular/common';
 import {
   APP_INITIALIZER,
+  EnvironmentProviders,
   FactoryProvider,
   inject,
   Injectable,
-  Provider,
+  makeEnvironmentProviders,
 } from '@angular/core';
 import {
   Event as NgRouterEvent,
@@ -49,11 +50,11 @@ interface RouterHistoryState {
  * @remarks
  * Must be provided by the root injector to capture all navigation events.
  */
-export function provideRouterHistoryStore(): Provider[] {
-  return [
+export function provideRouterHistoryStore(): EnvironmentProviders {
+  return makeEnvironmentProviders([
     provideComponentStore(RouterHistoryStore),
     routerHistoryStoreInitializer,
-  ];
+  ]);
 }
 
 @Injectable()

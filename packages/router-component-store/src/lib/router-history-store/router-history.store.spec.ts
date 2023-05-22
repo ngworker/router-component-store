@@ -30,6 +30,14 @@ function createTestComponent(name: string, selector: string) {
       >&lt; Back</a
     >
 
+    <a
+      id="forward-link"
+      *ngIf="routerHistory.nextUrl$ | async as nextUrl"
+      [href]="nextUrl"
+      (click)="onNext($event)"
+      >&gt; Next</a
+    >
+
     <a id="home-link" routerLink="/">Home</a>
     <a id="about-link" routerLink="about">About</a>
     <a id="company-link" routerLink="company">Company</a>
@@ -44,6 +52,11 @@ class TestAppComponent {
   onBack(event: MouseEvent) {
     event.preventDefault();
     this.routerHistory.onNavigateBack();
+  }
+
+  onNext(event: MouseEvent) {
+    event.preventDefault();
+    this.routerHistory.onNavigateForward();
   }
 }
 
@@ -98,55 +111,176 @@ describe(RouterHistoryStore.name, () => {
   }
 
   it('the URLs behave like the History API when navigating using links', async () => {
-    expect.assertions(2);
+    expect.assertions(3);
 
     const { click, routerHistory } = await setup();
 
     // At Home
+    // Previous: None
+    // Next: None
     await click('#about-link');
     // At About
+    // Previous: Home
+    // Next: None
     await click('#company-link');
     // At Company
+    // Previous: About
+    // Next: None
     await click('#products-link');
     // At Products
+    // Previous: Company
+    // Next: None
 
     expect(await firstValueFrom(routerHistory.currentUrl$)).toBe('/products');
     expect(await firstValueFrom(routerHistory.previousUrl$)).toBe('/company');
+    expect(await firstValueFrom(routerHistory.nextUrl$)).toBe(undefined);
   });
 
   it('the URLs behave like the History API when navigating back', async () => {
-    expect.assertions(2);
+    expect.assertions(3);
 
     const { click, routerHistory } = await setup();
 
     // At Home
+    // Previous: None
+    // Next: None
     await click('#about-link');
     // At About
+    // Previous: Home
+    // Next: None
     await click('#company-link');
     // At Company
+    // Previous: About
+    // Next: None
     await click('#back-link');
     // At About
+    // Previous: Home
+    // Next: Company
 
     expect(await firstValueFrom(routerHistory.currentUrl$)).toBe('/about');
     expect(await firstValueFrom(routerHistory.previousUrl$)).toBe('/home');
+    expect(await firstValueFrom(routerHistory.nextUrl$)).toBe('/company');
+  });
+
+  it('the URLs behave like the History API when navigating back twice', async () => {
+    expect.assertions(3);
+
+    const { click, routerHistory } = await setup();
+
+    // At Home
+    // Previous: None
+    // Next: None
+    await click('#about-link');
+    // At About
+    // Previous: Home
+    // Next: None
+    await click('#company-link');
+    // At Company
+    // Previous: About
+    // Next: None
+    await click('#back-link');
+    // At About
+    // Previous: Home
+    // Next: Company
+    await click('#back-link');
+    // At Home
+    // Previous: None
+    // Next: About
+
+    expect(await firstValueFrom(routerHistory.currentUrl$)).toBe('/home');
+    expect(await firstValueFrom(routerHistory.previousUrl$)).toBe(undefined);
+    expect(await firstValueFrom(routerHistory.nextUrl$)).toBe('/about');
+  });
+
+  it('the URLs behave like the History API when navigating back twice then forward', async () => {
+    expect.assertions(3);
+
+    const { click, routerHistory } = await setup();
+
+    // At Home
+    // Previous: None
+    // Next: None
+    await click('#about-link');
+    // At About
+    // Previous: Home
+    // Next: None
+    await click('#company-link');
+    // At Company
+    // Previous: About
+    // Next: None
+    await click('#back-link');
+    // At About
+    // Previous: Home
+    // Next: Company
+    await click('#back-link');
+    // At Home
+    // Previous: None
+    // Next: About
+    await click('#forward-link');
+    // At About
+    // Previous: Home
+    // Next: Company
+
+    expect(await firstValueFrom(routerHistory.currentUrl$)).toBe('/about');
+    expect(await firstValueFrom(routerHistory.previousUrl$)).toBe('/home');
+    expect(await firstValueFrom(routerHistory.nextUrl$)).toBe('/company');
   });
 
   it('the URLs behave like the History API when navigating back then using links', async () => {
-    expect.assertions(2);
+    expect.assertions(3);
+
+    const { click, routerHistory } = await setup();
+
+    // At Home
+    // Previous: None
+    // Next: None
+    await click('#about-link');
+    // At About
+    // Previous: Home
+    // Next: None
+    await click('#company-link');
+    // At Company
+    // Previous: About
+    // Next: None
+    await click('#back-link');
+    // At About
+    // Previous: Home
+    // Next: Company
+    await click('#products-link');
+    // At Products
+    // Previous: About
+    // Next: None
+
+    expect(await firstValueFrom(routerHistory.currentUrl$)).toBe('/products');
+    expect(await firstValueFrom(routerHistory.previousUrl$)).toBe('/about');
+    expect(await firstValueFrom(routerHistory.nextUrl$)).toBe(undefined);
+  });
+
+  it('the URLs behave like the History API when navigating back then forward', async () => {
+    expect.assertions(3);
 
     const { click, routerHistory } = await setup();
 
     // At Home
     await click('#about-link');
     // At About
+    // Previous: Home
+    // Next: None
     await click('#company-link');
     // At Company
+    // Previous: About
+    // Next: None
     await click('#back-link');
     // At About
-    await click('#products-link');
-    // At Products
+    // Previous: Home
+    // Next: Company
+    await click('#forward-link');
+    // At Company
+    // Previous: About
+    // Next: None
 
-    expect(await firstValueFrom(routerHistory.currentUrl$)).toBe('/products');
+    expect(await firstValueFrom(routerHistory.currentUrl$)).toBe('/company');
     expect(await firstValueFrom(routerHistory.previousUrl$)).toBe('/about');
+    expect(await firstValueFrom(routerHistory.nextUrl$)).toBe(undefined);
   });
 });

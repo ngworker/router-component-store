@@ -128,6 +128,38 @@ export class RouterHistoryStore extends ComponentStore<RouterHistoryState> {
     ([, navigationEnd]) => navigationEnd.urlAfterRedirects
   );
   /**
+   * The next URL when taking `popstate` events into account.
+   *
+   * `undefined` is emitted when the current navigation is the last in the
+   * navigation history.
+   */
+  nextUrl$: Observable<string | undefined> = this.select(
+    this.#history$,
+    this.#maxNavigatedId$,
+    (history, maxNavigatedId) => {
+      if (maxNavigatedId === 1) {
+        return undefined;
+      }
+
+      const [sourceNavigationStart] = this.#findSourceNavigatedSequence(
+        maxNavigatedId,
+        history
+      );
+
+      if (sourceNavigationStart.id === maxNavigatedId) {
+        return undefined;
+      }
+
+      const nextNavigationId = sourceNavigationStart.id + 1;
+      const [, nextNavigationEnd] = this.#findSourceNavigatedSequence(
+        nextNavigationId,
+        history
+      );
+
+      return nextNavigationEnd.urlAfterRedirects;
+    }
+  );
+  /**
    * The previous URL when taking `popstate` events into account.
    *
    * `undefined` is emitted when the current navigation is the first in the

@@ -15,7 +15,7 @@ import {
   NavigationStart,
   Router,
 } from '@angular/router';
-import { ComponentStore, provideComponentStore } from '@ngrx/component-store';
+import { ComponentStore } from '@ngrx/component-store';
 import { filter, map, Observable, pipe, switchMap, take, tap } from 'rxjs';
 import { filterRouterEvents } from '../filter-router-event.operator';
 import { isPopstateNavigationStart } from './popstate-navigation-start';
@@ -52,7 +52,7 @@ interface RouterHistoryState {
  */
 export function provideRouterHistoryStore(): EnvironmentProviders {
   return makeEnvironmentProviders([
-    provideComponentStore(RouterHistoryStore),
+    RouterHistoryStore,
     routerHistoryStoreInitializer,
   ]);
 }

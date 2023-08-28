@@ -1,6 +1,7 @@
 import { inject, Injectable, Type } from '@angular/core';
 import {
   ActivatedRoute,
+  createUrlTreeFromSnapshot,
   Data,
   Event as RouterEvent,
   NavigationCancel,
@@ -9,6 +10,7 @@ import {
   NavigationStart,
   Params,
   Router,
+  RouterStateSnapshot,
   RoutesRecognized,
 } from '@angular/router';
 import { ComponentStore } from '@ngrx/component-store';
@@ -35,21 +37,12 @@ export class LocalRouterStore
   #routerState$: Observable<MinimalRouterStateSnapshot> = this.select(
     (state) => state.routerState
   );
-  #rootRoute$: Observable<MinimalActivatedRouteSnapshot> = this.select(
+  #localRoute: Observable<MinimalActivatedRouteSnapshot> = this.select(
     this.#routerState$,
     (routerState) => routerState.root
   );
 
-  currentRoute$: Observable<MinimalActivatedRouteSnapshot> = this.select(
-    this.#rootRoute$,
-    (route) => {
-      while (route.firstChild) {
-        route = route.firstChild;
-      }
-
-      return route;
-    }
-  );
+  currentRoute$: Observable<MinimalActivatedRouteSnapshot> = this.#localRoute;
   fragment$: Observable<string | null>;
   queryParams$: Observable<Params>;
   routeData$: Observable<Data>;
@@ -70,9 +63,7 @@ export class LocalRouterStore
       title: this.title$,
     } = this.#route);
     this.setState({
-      routerState: this.#serializer.serialize(
-        this.#router.routerState.snapshot
-      ),
+      routerState: this.#serializeRouterState(this.#route),
     });
 
     this.#updateRouterState(
@@ -83,7 +74,8 @@ export class LocalRouterStore
         NavigationCancel,
         NavigationError
       ).pipe(
-        map(() => this.#serializer.serialize(this.#router.routerState.snapshot))
+        map(() => this.#route),
+        map((route) => this.#serializeRouterState(route))
       )
     );
   }
@@ -113,5 +105,23 @@ export class LocalRouterStore
     return this.#router.events.pipe(
       filterRouterEvents(...acceptedEventTypes)
     ) as Observable<InstanceType<TAcceptedRouterEvents[number]>>;
+  }
+
+  #createRouterStateSnapshot(route: ActivatedRoute): RouterStateSnapshot {
+    return {
+      root: route.snapshot,
+      url: this.#router.serializeUrl(
+        createUrlTreeFromSnapshot(
+          route.snapshot,
+          [],
+          route.snapshot.queryParams,
+          route.snapshot.fragment
+        )
+      ),
+    };
+  }
+
+  #serializeRouterState(route: ActivatedRoute): MinimalRouterStateSnapshot {
+    return this.#serializer.serialize(this.#createRouterStateSnapshot(route));
   }
 }

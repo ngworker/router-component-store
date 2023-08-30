@@ -1,25 +1,10 @@
-import { Component, NgZone } from '@angular/core';
-import { TestBed } from '@angular/core/testing';
-import {
-  NavigationEnd,
-  NavigationStart,
-  Route,
-  Router,
-  RouterOutlet,
-  Routes,
-} from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
+import { Component } from '@angular/core';
+import { NavigationEnd, NavigationStart, Route } from '@angular/router';
+import { createFeatureHarness } from '@ngworker/spectacular';
 import { firstValueFrom, take, toArray } from 'rxjs';
 import { RouterStore } from '../router-store';
 import { GlobalRouterStore } from './global-router-store';
 import { provideGlobalRouterStore } from './provide-global-router-store';
-
-@Component({
-  standalone: true,
-  imports: [RouterOutlet],
-  template: '<router-outlet></router-outlet>',
-})
-class DummyAppComponent {}
 
 @Component({
   standalone: true,
@@ -28,7 +13,7 @@ class DummyAppComponent {}
 class DummyAuthComponent {}
 
 describe(`${GlobalRouterStore.name} selectors`, () => {
-  async function setup({
+  function setup({
     assertions = 1,
     data = {},
     title,
@@ -37,57 +22,47 @@ describe(`${GlobalRouterStore.name} selectors`, () => {
     readonly data?: Route['data'];
     readonly title?: Route['title'];
   } = {}) {
-    function navigateByUrl(url: string) {
-      return ngZone.run(() => router.navigateByUrl(url));
-    }
-
     expect.assertions(assertions);
 
-    const routes: Routes = [
-      {
-        path: 'auth',
-        children: [
-          {
-            path: ':token',
-            component: DummyAuthComponent,
-            data,
-            title,
-          },
-        ],
-      },
-    ];
-
-    TestBed.configureTestingModule({
-      imports: [RouterTestingModule.withRoutes(routes)],
+    const featurePath = 'auth';
+    const harness = createFeatureHarness({
+      featurePath,
       providers: [provideGlobalRouterStore()],
+      routes: [
+        {
+          path: featurePath,
+          children: [
+            {
+              path: ':token',
+              component: DummyAuthComponent,
+              data,
+              title,
+            },
+          ],
+        },
+      ],
     });
 
-    const rootFixture = TestBed.createComponent(DummyAppComponent);
-    rootFixture.autoDetectChanges(true);
-
-    const ngZone = TestBed.inject(NgZone);
-    const router = TestBed.inject(Router);
-    const routerStore = TestBed.inject(RouterStore);
-
     return {
-      navigateByUrl,
-      routerStore,
+      harness,
     };
   }
 
   it('exposes a selector for the current route', async () => {
-    const { navigateByUrl, routerStore } = await setup({
+    const { harness } = setup({
       data: {
         testData: 'test-data',
       },
       title: 'Static title',
     });
 
-    await navigateByUrl(
-      '/auth/bqbNGrezShfz?ref=ngworker.github.io#test-fragment'
+    await harness.router.navigateByUrl(
+      '~/bqbNGrezShfz?ref=ngworker.github.io#test-fragment'
     );
 
-    await expect(firstValueFrom(routerStore.currentRoute$)).resolves.toEqual({
+    await expect(
+      firstValueFrom(harness.inject(RouterStore).currentRoute$)
+    ).resolves.toEqual({
       children: [],
       data: {
         testData: 'test-data',
@@ -115,153 +90,162 @@ describe(`${GlobalRouterStore.name} selectors`, () => {
   });
 
   it('exposes a selector for the fragment', async () => {
-    const { navigateByUrl, routerStore } = await setup();
+    const { harness } = setup();
 
-    await navigateByUrl(
-      '/auth/FvQBMBzAbNbZ?ref=ngworker.github.io#test-fragment'
+    await harness.router.navigateByUrl(
+      '~/FvQBMBzAbNbZ?ref=ngworker.github.io#test-fragment'
     );
 
-    await expect(firstValueFrom(routerStore.fragment$)).resolves.toBe(
-      'test-fragment'
-    );
+    await expect(
+      firstValueFrom(harness.inject(RouterStore).fragment$)
+    ).resolves.toBe('test-fragment');
   });
 
   it('exposes a selector for query params', async () => {
-    const { navigateByUrl, routerStore } = await setup();
+    const { harness } = setup();
 
-    await navigateByUrl(
-      '/auth/SfBGZmaAHqSn?ref=ngworker.github.io#test-fragment'
+    await harness.router.navigateByUrl(
+      '~/SfBGZmaAHqSn?ref=ngworker.github.io#test-fragment'
     );
 
-    await expect(firstValueFrom(routerStore.queryParams$)).resolves.toEqual({
+    await expect(
+      firstValueFrom(harness.inject(RouterStore).queryParams$)
+    ).resolves.toEqual({
       ref: 'ngworker.github.io',
     });
   });
 
   it('creates a selector for a specific query param', async () => {
-    const { navigateByUrl, routerStore } = await setup();
+    const { harness } = setup();
 
-    await navigateByUrl(
-      '/auth/bSbebKhzfKkg?ref=ngworker.github.io#test-fragment'
+    await harness.router.navigateByUrl(
+      '~/bSbebKhzfKkg?ref=ngworker.github.io#test-fragment'
     );
 
     await expect(
-      firstValueFrom(routerStore.selectQueryParam('ref'))
+      firstValueFrom(harness.inject(RouterStore).selectQueryParam('ref'))
     ).resolves.toBe('ngworker.github.io');
   });
 
   it('exposes a selector for route params', async () => {
-    const { navigateByUrl, routerStore } = await setup();
+    const { harness } = setup();
 
-    await navigateByUrl(
-      '/auth/tBmuJXFZNEdC?ref=ngworker.github.io#test-fragment'
+    await harness.router.navigateByUrl(
+      '~/tBmuJXFZNEdC?ref=ngworker.github.io#test-fragment'
     );
 
-    await expect(firstValueFrom(routerStore.routeParams$)).resolves.toEqual({
+    await expect(
+      firstValueFrom(harness.inject(RouterStore).routeParams$)
+    ).resolves.toEqual({
       token: 'tBmuJXFZNEdC',
     });
   });
 
   it('creates a selector for a specific route param', async () => {
-    const { navigateByUrl, routerStore } = await setup();
+    const { harness } = setup();
 
-    await navigateByUrl(
-      '/auth/huHynaJHbGxU?ref=ngworker.github.io#test-fragment'
+    await harness.router.navigateByUrl(
+      '~/huHynaJHbGxU?ref=ngworker.github.io#test-fragment'
     );
 
     await expect(
-      firstValueFrom(routerStore.selectRouteParam('token'))
+      firstValueFrom(harness.inject(RouterStore).selectRouteParam('token'))
     ).resolves.toBe('huHynaJHbGxU');
   });
 
   it('exposes a selector for route data', async () => {
-    const { navigateByUrl, routerStore } = await setup({
+    const { harness } = setup({
       data: {
         testData: 'test-data',
       },
     });
 
-    await navigateByUrl(
-      '/auth/VDhyGSDTYfvz?ref=ngworker.github.io#test-fragment'
+    await harness.router.navigateByUrl(
+      '~/VDhyGSDTYfvz?ref=ngworker.github.io#test-fragment'
     );
 
-    await expect(firstValueFrom(routerStore.routeData$)).resolves.toEqual({
+    await expect(
+      firstValueFrom(harness.inject(RouterStore).routeData$)
+    ).resolves.toEqual({
       testData: 'test-data',
     });
   });
 
   it('creates a selector for specific route data', async () => {
-    const { navigateByUrl, routerStore } = await setup({
+    const { harness } = setup({
       data: {
         testData: 'test-data',
       },
     });
 
-    await navigateByUrl(
-      '/auth/SFUXQFSDgMyw?ref=ngworker.github.io#test-fragment'
+    await harness.router.navigateByUrl(
+      '~/SFUXQFSDgMyw?ref=ngworker.github.io#test-fragment'
     );
 
     await expect(
-      firstValueFrom(routerStore.selectRouteData<string>('testData'))
+      firstValueFrom(
+        harness.inject(RouterStore).selectRouteData<string>('testData')
+      )
     ).resolves.toBe('test-data');
   });
 
   it('exposes a selector for the URL', async () => {
-    const { navigateByUrl, routerStore } = await setup();
+    const { harness } = setup();
 
-    await navigateByUrl(
-      '/auth/yGEJHVwByWWN?ref=ngworker.github.io#test-fragment'
+    await harness.router.navigateByUrl(
+      '~/yGEJHVwByWWN?ref=ngworker.github.io#test-fragment'
     );
 
-    await expect(firstValueFrom(routerStore.url$)).resolves.toBe(
-      '/auth/yGEJHVwByWWN?ref=ngworker.github.io#test-fragment'
-    );
+    await expect(
+      firstValueFrom(harness.inject(RouterStore).url$)
+    ).resolves.toBe('/auth/yGEJHVwByWWN?ref=ngworker.github.io#test-fragment');
   });
 
   it('exposes a selector for the route title that emits static route titles', async () => {
-    const { navigateByUrl, routerStore } = await setup({
+    const { harness } = setup({
       title: 'Static title',
     });
 
-    await navigateByUrl(
-      '/auth/HNxnyXeWMsac?ref=ngworker.github.io#test-fragment'
+    await harness.router.navigateByUrl(
+      '~/HNxnyXeWMsac?ref=ngworker.github.io#test-fragment'
     );
 
-    await expect(firstValueFrom(routerStore.title$)).resolves.toBe(
-      'Static title'
-    );
+    await expect(
+      firstValueFrom(harness.inject(RouterStore).title$)
+    ).resolves.toBe('Static title');
   });
 
   it('exposes a selector for the route title that emits resolved route titles', async () => {
-    const { navigateByUrl, routerStore } = await setup({
+    const { harness } = setup({
       data: {
         testData: 'test-data',
       },
       title: (route) => route.data['testData'],
     });
 
-    await navigateByUrl(
-      '/auth/vAkSruKJBpEd?ref=ngworker.github.io#test-fragment'
+    await harness.router.navigateByUrl(
+      '~/vAkSruKJBpEd?ref=ngworker.github.io#test-fragment'
     );
 
-    await expect(firstValueFrom(routerStore.title$)).resolves.toBe('test-data');
+    await expect(
+      firstValueFrom(harness.inject(RouterStore).title$)
+    ).resolves.toBe('test-data');
   });
 
   it('exposes a selector for specific router events', async () => {
-    const { navigateByUrl, routerStore } = await setup();
+    const { harness } = setup();
     const expectedUrl =
       '/auth/tzrVGffgbTmv?ref=ngworker.github.io#test-fragment';
-    const navigation$ = routerStore.selectRouterEvents(
-      NavigationStart,
-      NavigationEnd
-    );
+    const navigation$ = harness
+      .inject(RouterStore)
+      .selectRouterEvents(NavigationStart, NavigationEnd);
     const whenNavigation = firstValueFrom(navigation$.pipe(take(2), toArray()));
 
-    await navigateByUrl(expectedUrl);
+    await harness.router.navigateByUrl(expectedUrl);
 
     await expect(whenNavigation).resolves.toEqual([
-      new NavigationStart(1, expectedUrl),
-      new NavigationEnd(1, expectedUrl, expectedUrl),
+      new NavigationStart(2, expectedUrl),
+      new NavigationEnd(2, expectedUrl, expectedUrl),
     ]);
   });
 });

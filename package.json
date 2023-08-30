@@ -41,6 +41,7 @@
     "@angular/compiler-cli": "15.0.4",
     "@angular/language-service": "15.0.4",
     "@ngrx/eslint-plugin": "15.0.0",
+    "@ngworker/spectacular": "15.0.0",
     "@nrwl/cli": "15.3.3",
     "@nrwl/eslint-plugin-nx": "15.3.3",
     "@nrwl/jest": "15.3.3",

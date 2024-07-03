@@ -2,6 +2,7 @@ import { Component, inject, NgZone } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
+  ActivatedRoute,
   NavigationEnd,
   NavigationStart,
   Route,
@@ -28,6 +29,7 @@ class DummyAppComponent {}
   template: '',
 })
 class DummyAuthComponent {
+  activatedRoute = inject(ActivatedRoute);
   routerStore = inject(RouterStore);
 }
 
@@ -76,6 +78,12 @@ describe(`${LocalRouterStore.name} selectors`, () => {
     );
 
     return {
+      get activatedRoute(): ActivatedRoute {
+        return (
+          rootFixture.debugElement.query(By.directive(DummyAuthComponent))
+            .componentInstance as DummyAuthComponent
+        ).activatedRoute;
+      },
       navigateByUrl,
       get routerStore(): RouterStore {
         return (
@@ -137,6 +145,18 @@ describe(`${LocalRouterStore.name} selectors`, () => {
     );
   });
 
+  it(`exposts a selector for the fragment matching ${ActivatedRoute.name}#fragment`, async () => {
+    const { activatedRoute, navigateByUrl, routerStore } = await setup();
+
+    await navigateByUrl(
+      '/auth/VtwXNTjucDtY?ref=ngworker.github.io#test-fragment'
+    );
+
+    await expect(firstValueFrom(routerStore.fragment$)).resolves.toBe(
+      await firstValueFrom(activatedRoute.fragment)
+    );
+  });
+
   it('exposes a selector for query params', async () => {
     const { navigateByUrl, routerStore } = await setup();
 
@@ -147,6 +167,18 @@ describe(`${LocalRouterStore.name} selectors`, () => {
     await expect(firstValueFrom(routerStore.queryParams$)).resolves.toEqual({
       ref: 'ngworker.github.io',
     });
+  });
+
+  it(`exposes a selector for query params matching ${ActivatedRoute.name}#queryParams`, async () => {
+    const { activatedRoute, navigateByUrl, routerStore } = await setup();
+
+    await navigateByUrl(
+      '/auth/JPJUnbTUtruT?ref=ngworker.github.io#test-fragment'
+    );
+
+    await expect(firstValueFrom(routerStore.queryParams$)).resolves.toEqual(
+      await firstValueFrom(activatedRoute.queryParams)
+    );
   });
 
   it('creates a selector for a specific query param', async () => {
@@ -171,6 +203,18 @@ describe(`${LocalRouterStore.name} selectors`, () => {
     await expect(firstValueFrom(routerStore.routeParams$)).resolves.toEqual({
       token: 'vpXxPMkvtTGw',
     });
+  });
+
+  it(`exposes a selector for route params matching ${ActivatedRoute.name}#params`, async () => {
+    const { activatedRoute, navigateByUrl, routerStore } = await setup();
+
+    await navigateByUrl(
+      '/auth/vpXxPMkvtTGw?ref=ngworker.github.io#test-fragment'
+    );
+
+    await expect(firstValueFrom(routerStore.routeParams$)).resolves.toEqual(
+      await firstValueFrom(activatedRoute.params)
+    );
   });
 
   it('creates a selector for a specific route param', async () => {
@@ -199,6 +243,22 @@ describe(`${LocalRouterStore.name} selectors`, () => {
     await expect(firstValueFrom(routerStore.routeData$)).resolves.toEqual({
       testData: 'test-data',
     });
+  });
+
+  it(`exposes a selector for route data matchin ${ActivatedRoute.name}#data`, async () => {
+    const { activatedRoute, navigateByUrl, routerStore } = await setup({
+      data: {
+        testData: 'test-data',
+      },
+    });
+
+    await navigateByUrl(
+      '/auth/wRWxnzmPTwPn?ref=ngworker.github.io#test-fragment'
+    );
+
+    await expect(firstValueFrom(routerStore.routeData$)).resolves.toEqual(
+      await firstValueFrom(activatedRoute.data)
+    );
   });
 
   it('creates a selector for specific route data', async () => {

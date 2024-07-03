@@ -83,13 +83,7 @@ describe(`${LocalRouterStore.name} nested current route`, () => {
 
             await expect(
               firstValueFrom(routerStore.currentRoute$)
-            ).resolves.toEqual(
-              navigateTo === '/parent'
-                ? expectedRoutes.parent
-                : navigateTo === '/parent/child'
-                ? expectedRoutes.child
-                : expectedRoutes.grandchild
-            );
+            ).resolves.toEqual(expectedRoutes.parent);
             const {
               children,
               data,
@@ -130,11 +124,7 @@ describe(`${LocalRouterStore.name} nested current route`, () => {
 
             await expect(
               firstValueFrom(routerStore.currentRoute$)
-            ).resolves.toEqual(
-              navigateTo === '/parent/child'
-                ? expectedRoutes.child
-                : expectedRoutes.grandchild
-            );
+            ).resolves.toEqual(expectedRoutes.child);
             const {
               children,
               data,

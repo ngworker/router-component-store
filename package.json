@@ -10,12 +10,12 @@
     "test": "nx run-many --target=test --all"
   },
   "engines": {
-    "node": "16.19.0",
-    "yarn": "1.22.19"
+    "node": "18.19.1",
+    "yarn": "1.22.22"
   },
   "volta": {
-    "node": "16.19.0",
-    "yarn": "1.22.19"
+    "node": "18.19.1",
+    "yarn": "1.22.22"
   },
   "dependencies": {
     "@angular/common": "15.0.4",

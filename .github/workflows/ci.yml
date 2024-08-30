@@ -31,7 +31,7 @@ jobs:
 
     steps:
       - name: Check out source code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           # Required by nrwl/nx-set-shas
           fetch-depth: 0
@@ -51,7 +51,7 @@ jobs:
 
     steps:
       - name: Check out source code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Set up Node.js and Yarn
         uses: ./.github/actions/setup-node
       - name: Install package dependencies
@@ -67,7 +67,7 @@ jobs:
 
     steps:
       - name: Check out source code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Set up Node.js and Yarn
         uses: ./.github/actions/setup-node
       - name: Install package dependencies
@@ -82,7 +82,7 @@ jobs:
 
     steps:
       - name: Check out source code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Set up Node.js and Yarn
         uses: ./.github/actions/setup-node
       - name: Install package dependencies
@@ -95,7 +95,7 @@ jobs:
 
       - name: '[Merge] Upload package bundle'
         if: ${{ env.is-merge-to-main == 'true' }}
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ngworker-router-component-store
           path: dist/packages/router-component-store

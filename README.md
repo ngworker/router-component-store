@@ -15,6 +15,8 @@ Required peer dependencies:
 
 Published with partial Ivy compilation.
 
+Find additional documentation in the [github.com/ngworker/router-component-store/docs](https://github.com/ngworker/router-component-store/tree/main/docs) directory.
+
 ## Guiding principles
 
 Router Component Store is meant as a lightweight alternative to NgRx Router Store that additionaly can be used as a replacement for `ActivatedRoute` at any route level.

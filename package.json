@@ -4,6 +4,7 @@
   "scripts": {
     "build": "nx run-many --target=build --all",
     "ci": "yarn lint && yarn test && yarn build",
+    "knip": "knip",
     "lint": "nx workspace-lint && nx run-many --target=lint --all --max-warnings=0",
     "nx": "nx",
     "test": "nx run-many --target=test --all"
@@ -47,7 +48,7 @@
     "@nrwl/linter": "15.4.8",
     "@nrwl/workspace": "15.4.8",
     "@types/jest": "28.1.8",
-    "@types/node": "16.11.7",
+    "@types/node": "18.19.47",
     "@typescript-eslint/eslint-plugin": "5.36.1",
     "@typescript-eslint/parser": "5.36.1",
     "eslint": "8.15.0",
@@ -55,6 +56,7 @@
     "jest": "28.1.3",
     "jest-environment-jsdom": "28.1.1",
     "jest-preset-angular": "12.2.3",
+    "knip": "5.28.0",
     "ng-packagr": "15.0.3",
     "nx": "15.4.8",
     "postcss": "8.4.18",
@@ -65,5 +67,11 @@
     "ts-jest": "28.0.8",
     "ts-node": "10.9.1",
     "typescript": "4.8.4"
+  },
+  "resolutions": {
+    "jest/typescript": "4.8.4",
+    "knip/typescript": "5.5.4",
+    "ts-jest/typescript": "4.8.4",
+    "ts-node/typescript": "4.8.4"
   }
 }

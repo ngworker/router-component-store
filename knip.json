@@ -1,0 +1,50 @@
+{
+  "$schema": "https://unpkg.com/knip@5/schema.json",
+  "angular": {
+    "config": ["project.json"]
+  },
+  "include": ["nsExports", "nsTypes", "classMembers"],
+  "ignoreDependencies": [
+    "@angular-eslint/eslint-plugin",
+    "@angular-eslint/template-parser",
+    "@angular/cli",
+    "@angular/compiler",
+    "@angular/language-service",
+    "@ngrx/component-store",
+    "@nrwl/angular:application",
+    "@nrwl/angular:component",
+    "@nrwl/angular:library",
+    "@nrwl/cli",
+    "@nrwl/workspace",
+    "@schematics/angular:component",
+    "@typescript-eslint/eslint-plugin",
+    "ng-packagr",
+    "postcss",
+    "postcss-import",
+    "postcss-preset-env",
+    "postcss-url",
+    "prettier",
+    "ts-node",
+    "zone.js"
+  ],
+  "jest": {
+    "config": ["jest.{config,preset}.{js,ts,mjs,cjs,json}", "package.json"],
+    "entry": [
+      "**/__tests__/**/*.[jt]s?(x)",
+      "**/?(*.)+(spec|test).[jt]s?(x)",
+      "test-setup.[jt]s?(x)"
+    ]
+  },
+  "nx": {
+    "config": ["nx.json", "project.json", "packages/**/project.json"]
+  },
+  "typescript": {
+    "config": ["tsconfig.json", "tsconfig.*.json"]
+  },
+  "workspaces": {
+    "packages/*": {
+      "entry": "src/index.ts",
+      "project": "**/*.ts"
+    }
+  }
+}

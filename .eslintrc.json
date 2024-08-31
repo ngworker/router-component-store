@@ -9,6 +9,8 @@
         "@nrwl/nx/enforce-module-boundaries": [
           "error",
           {
+            "banTransitiveDependencies": true,
+            "checkNestedExternalImports": true,
             "enforceBuildableLibDependency": true,
             "allow": [],
             "depConstraints": [
@@ -18,13 +20,18 @@
               }
             ]
           }
-        ]
+        ],
+        "no-unused-labels": "error",
+        "no-unused-private-class-members": "error"
       }
     },
     {
       "files": ["*.ts", "*.tsx"],
       "extends": ["plugin:@nrwl/nx/typescript"],
-      "rules": {}
+      "rules": {
+        "@typescript-eslint/no-unused-expressions": "error",
+        "@typescript-eslint/no-unused-vars": "error"
+      }
     },
     {
       "files": ["*.ts"],
@@ -33,7 +40,10 @@
     {
       "files": ["*.js", "*.jsx"],
       "extends": ["plugin:@nrwl/nx/javascript"],
-      "rules": {}
+      "rules": {
+        "no-unused-expressions": "error",
+        "no-unused-vars": "error"
+      }
     },
     {
       "files": ["*.spec.ts", "*.spec.tsx", "*.spec.js", "*.spec.jsx"],

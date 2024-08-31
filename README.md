@@ -4,7 +4,7 @@
 
 <img src="https://github.com/ngworker/router-component-store/blob/main/logo.png" alt="Router Component Store" height="384px">
 
-An Angular Router-connecting NgRx component store.
+A strictly typed lightweight alternative to NgRx Router Store (`@ngrx/router-store`) and `ActivatedRoute`.
 
 ## Compatibility
 

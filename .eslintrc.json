@@ -9,6 +9,8 @@
         "@nrwl/nx/enforce-module-boundaries": [
           "error",
           {
+            "banTransitiveDependencies": true,
+            "checkNestedExternalImports": true,
             "enforceBuildableLibDependency": true,
             "allow": [],
             "depConstraints": [

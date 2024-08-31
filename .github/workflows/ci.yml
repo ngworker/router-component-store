@@ -61,6 +61,21 @@ jobs:
         run: yarn nx workspace-lint
       - name: Lint all projects
         run: yarn lint
+
+  dead-code:
+    name: Dead code analysis
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out source code
+        uses: actions/checkout@v4
+      - name: Set up Node.js and Yarn
+        uses: ./.github/actions/setup-node
+      - name: Install package dependencies
+        run: yarn install --frozen-lockfile --no-interactive
+      - name: Dead code analysis
+        run: yarn knip
+
   test:
     name: Test
     runs-on: ubuntu-latest

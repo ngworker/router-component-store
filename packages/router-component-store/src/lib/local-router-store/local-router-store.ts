@@ -91,7 +91,7 @@ export class LocalRouterStore
     return this.select(this.queryParams$, (params) => params[param]);
   }
 
-  selectRouteData<TValue>(key: string): Observable<TValue | undefined> {
+  selectRouteData(key: string): Observable<unknown> {
     return this.select(this.routeData$, (data) => data[key]);
   }
 

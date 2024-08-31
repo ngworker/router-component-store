@@ -2,6 +2,8 @@
 
 [`@ngworker/router-component-store`](https://www.npmjs.com/package/@ngworker/router-component-store)
 
+<img src="https://github.com/ngworker/router-component-store/blob/main/logo.png" alt="Router Component Store" height="384px">
+
 An Angular Router-connecting NgRx component store.
 
 ## Compatibility

@@ -10,7 +10,7 @@ Required peer dependencies:
 
 - Angular >=15.0
 - NgRx Component Store >=15.0
-- RxJS >=7.4
+- RxJS >=7.5
 - TypeScript >=4.8
 
 Published with partial Ivy compilation.

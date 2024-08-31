@@ -41,12 +41,12 @@ A `RouterStore` service has the following public properties.
 | `currentRoute$: Observable<MinimalActivatedRouteSnapshot>`                            | Select the current route.                                 |
 | `fragment$: Observable<string \| null>`                                               | Select the current route fragment.                        |
 | `queryParams$: Observable<Params>`                                                    | Select the current route query parameters.                |
-| `routeData$: Observable<Data>`                                                        | Select the current route data.                            |
+| `routeData$: Observable<StrictRouteData>`                                             | Select the current route data.                            |
 | `routeParams$: Observable<Params>`                                                    | Select the current route parameters.                      |
 | `title$: Observable<string \| undefined>`                                             | Select the resolved route title.                          |
 | `url$: Observable<string>`                                                            | Select the current URL.                                   |
 | `selectQueryParam(param: string): Observable<string \| undefined>`                    | Select the specified query parameter.                     |
-| `selectRouteData<TValue>(key: string): Observable<TValue \| undefined>`               | Select the specified route data.                          |
+| `selectRouteData(key: string): Observable<unknown>`                                   | Select the specified route data.                          |
 | `selectRouteParam(param: string): Observable<string \| undefined>`                    | Select the specified route parameter.                     |
 | `selectRouterEvents(...acceptedRouterEvents: RouterEvent[]): Observable<RouterEvent>` | Select router events of the specified router event types. |
 
@@ -169,7 +169,7 @@ The `MinimalActivatedRouteSnapshot` interface is used for the observable `Router
 | API                                                 | Description                                      |
 | --------------------------------------------------- | ------------------------------------------------ |
 | `children: MinimalActivatedRouteSnapshot[]`         | The children of this route in the route tree.    |
-| `data: MinimalRouteData`                            | The static and resolved data of this route.      |
+| `data: StrictRouteData`                             | The static and resolved data of this route.      |
 | `firstChild: MinimalActivatedRouteSnapshot \| null` | The first child of this route in the route tree. |
 | `fragment: string \| null`                          | The URL fragment shared by all routes.           |
 | `outlet: string`                                    | The outlet name of the route.                    |
@@ -179,12 +179,14 @@ The `MinimalActivatedRouteSnapshot` interface is used for the observable `Router
 | `title: string \| undefined`                        | The resolved route title.                        |
 | `url: UrlSegment[]`                                 | The URL segments matched by this route.          |
 
-#### MinimalRouteData
+#### StrictRouteData
 
-The `MinimalRouteData` interface is used for the `RouterStore#data$` property. This interface is a serializable subset of the Angular Router's `Data` type. In particular, the `symbol` index in the Angular Router's `Data` type is removed. `MinimalRouteData` has the following signature.
+The `StrictRouteData` interface is used for the `MinimalActivatedRouteSnapshot#data$` and `RouterStore#routeData$` properties. This interface is a serializable subset of the Angular Router's `Data` type. In particular, the `symbol` index in the Angular Router's `Data` type is removed. Additionally, the `any` member type is replaced with `unknown` for stricter typing.
+
+`StrictRouteData` has the following signature.
 
 ```typescript
-export type MinimalRouteData = {
-  [key: string]: any;
+export type StrictRouteData = {
+  [key: string]: unknown;
 };
 ```

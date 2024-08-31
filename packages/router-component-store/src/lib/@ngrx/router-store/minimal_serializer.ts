@@ -28,7 +28,7 @@ import {
   Data,
   RouterStateSnapshot,
 } from '@angular/router';
-import { MinimalRouteData } from '../../minimal-route-data';
+import { StrictRouteData } from '../../strict-route-data';
 import { MinimalActivatedRouteSnapshot } from './minimal-activated-route-state-snapshot';
 import { MinimalRouterStateSnapshot } from './minimal-router-state-snapshot';
 
@@ -43,7 +43,7 @@ export class MinimalRouterStateSerializer {
     };
   }
 
-  #serializeRouteData(routeData: Data): MinimalRouteData {
+  #serializeRouteData(routeData: Data): StrictRouteData {
     return Object.fromEntries(Object.entries(routeData));
   }
 

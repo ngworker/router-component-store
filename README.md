@@ -10,10 +10,21 @@ Required peer dependencies:
 
 - Angular >=15.0
 - NgRx Component Store >=15.0
-- RxJS >=7.4
+- RxJS >=7.5
 - TypeScript >=4.8
 
 Published with partial Ivy compilation.
+
+## Guiding principles
+
+Router Component Store is meant as a lightweight alternative to NgRx Router Store that additionaly can be used as a replacement for `ActivatedRoute` at any route level.
+
+The following principles guide the development of Router Component Store.
+
+- The global router store closely matches NgRx Router Store selectors
+- Local router stores closely match `ActivatedRoute` observable properties
+- Router state is serializable
+- The API is strictly and strongly typed
 
 ## API
 
@@ -35,18 +46,21 @@ A `RouterStore` service has the following public properties.
 | `selectRouteParam(param: string): Observable<string \| undefined>`                    | Select the specified route parameter.                     |
 | `selectRouterEvents(...acceptedRouterEvents: RouterEvent[]): Observable<RouterEvent>` | Select router events of the specified router event types. |
 
-A `RouterStore` service is provided by using either `provideGlobalRouterStore` or `provideLocalRouterStore`.
+A `RouterStore` service is provided by using either `provideGlobalRouterStore`or `provideLocalRouterStore`.
 
-The _global_ `RouterStore` service is provided in a root environment injector and is never destroyed but can be injected in any class.
+The _global_ `RouterStore` service is provided in a root environment injector and is never destroyed but can be injected in any injection context.
 
-A _local_ `RouterStore` requires a component-level provider, follows the
-lifecycle of that component, and can be injected in declarables as well as
-other component-level services.
+It emits values similar to `@ngrx/router-store` selectors. A comparison is in the documentation.
+
+A _local_ `RouterStore` requires a component-level provider, follows the lifecycle of that component, and can be injected in declarables as well as other component-level services.
+
+It emits values similar to `ActivatedRoute`. A comparison is in the documentation.
 
 #### Global router store
 
-An application-wide router store that can be injected in any class. Use
-`provideGlobalRouterStore` to provide it in a root environment injector.
+An application-wide router store that can be injected in any injection context. Use `provideGlobalRouterStore` to provide it in a root environment injector.
+
+Use a global router store instead of NgRx Router Store.
 
 Providing in a standalone Angular application:
 
@@ -115,6 +129,8 @@ export class HeroDetailComponent {
 A component-level router store. Can be injected in any directive, component,
 pipe, or component-level service. Explicitly provided in a component sub-tree
 using `Component.providers` or `Component.viewProviders`.
+
+Use a local router store instead of `ActivatedRoute`.
 
 Usage in component:
 

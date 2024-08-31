@@ -2,7 +2,6 @@ import { inject, Injectable, Type } from '@angular/core';
 import {
   ActivatedRoute,
   createUrlTreeFromSnapshot,
-  Data,
   Event as RouterEvent,
   NavigationCancel,
   NavigationEnd,
@@ -20,6 +19,7 @@ import { MinimalRouterStateSnapshot } from '../@ngrx/router-store/minimal-router
 import { MinimalRouterStateSerializer } from '../@ngrx/router-store/minimal_serializer';
 import { filterRouterEvents } from '../filter-router-event.operator';
 import { RouterStore } from '../router-store';
+import { StrictRouteData } from '../strict-route-data';
 
 interface LocalRouterState {
   readonly routerState: MinimalRouterStateSnapshot;
@@ -45,7 +45,7 @@ export class LocalRouterStore
   currentRoute$: Observable<MinimalActivatedRouteSnapshot> = this.#localRoute;
   fragment$: Observable<string | null>;
   queryParams$: Observable<Params>;
-  routeData$: Observable<Data>;
+  routeData$: Observable<StrictRouteData>;
   routeParams$: Observable<Params>;
   title$: Observable<string | undefined>;
   url$: Observable<string> = this.select(

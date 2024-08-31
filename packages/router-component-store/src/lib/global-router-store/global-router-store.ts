@@ -1,6 +1,5 @@
 import { inject, Injectable, Type } from '@angular/core';
 import {
-  Data,
   Event as RouterEvent,
   NavigationCancel,
   NavigationEnd,
@@ -17,6 +16,7 @@ import { MinimalRouterStateSnapshot } from '../@ngrx/router-store/minimal-router
 import { MinimalRouterStateSerializer } from '../@ngrx/router-store/minimal_serializer';
 import { filterRouterEvents } from '../filter-router-event.operator';
 import { RouterStore } from '../router-store';
+import { StrictRouteData } from '../strict-route-data';
 
 interface GlobalRouterState {
   readonly routerState: MinimalRouterStateSnapshot;
@@ -56,7 +56,7 @@ export class GlobalRouterStore
     this.#rootRoute$,
     (route) => route.queryParams
   );
-  routeData$: Observable<Data> = this.select(
+  routeData$: Observable<StrictRouteData> = this.select(
     this.currentRoute$,
     (route) => route.data
   );

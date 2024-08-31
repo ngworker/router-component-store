@@ -41,7 +41,7 @@ A `RouterStore` service has the following public properties.
 | `currentRoute$: Observable<MinimalActivatedRouteSnapshot>`                            | Select the current route.                                 |
 | `fragment$: Observable<string \| null>`                                               | Select the current route fragment.                        |
 | `queryParams$: Observable<Params>`                                                    | Select the current route query parameters.                |
-| `routeData$: Observable<Data>`                                                        | Select the current route data.                            |
+| `routeData$: Observable<StrictRouteData>`                                             | Select the current route data.                            |
 | `routeParams$: Observable<Params>`                                                    | Select the current route parameters.                      |
 | `title$: Observable<string \| undefined>`                                             | Select the resolved route title.                          |
 | `url$: Observable<string>`                                                            | Select the current URL.                                   |
@@ -181,7 +181,7 @@ The `MinimalActivatedRouteSnapshot` interface is used for the observable `Router
 
 #### StrictRouteData
 
-The `StrictRouteData` interface is used for the `MinimalActivatedRouteSnapshot#data$` property. This interface is a serializable subset of the Angular Router's `Data` type. In particular, the `symbol` index in the Angular Router's `Data` type is removed. Additionally, the `any` member type is replaced with `unknown` for stricter typing.
+The `StrictRouteData` interface is used for the `MinimalActivatedRouteSnapshot#data$` and `RouterStore#routeData$` properties. This interface is a serializable subset of the Angular Router's `Data` type. In particular, the `symbol` index in the Angular Router's `Data` type is removed. Additionally, the `any` member type is replaced with `unknown` for stricter typing.
 
 `StrictRouteData` has the following signature.
 

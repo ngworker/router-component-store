@@ -1,7 +1,8 @@
 import { Injectable, Type } from '@angular/core';
-import { Data, Event as RouterEvent, Params } from '@angular/router';
+import { Event as RouterEvent, Params } from '@angular/router';
 import { Observable } from 'rxjs';
 import { MinimalActivatedRouteSnapshot } from './@ngrx/router-store/minimal-activated-route-state-snapshot';
+import { StrictRouteData } from './strict-route-data';
 
 /**
  * An Angular Router-connecting NgRx component store.
@@ -48,7 +49,7 @@ export abstract class RouterStore {
   /**
    * Select the current route data.
    */
-  abstract readonly routeData$: Observable<Data>;
+  abstract readonly routeData$: Observable<StrictRouteData>;
   /**
    * Select the current route parameters.
    */

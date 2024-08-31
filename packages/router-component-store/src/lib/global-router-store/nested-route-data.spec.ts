@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
-import { MinimalRouteData } from '../minimal-route-data';
 import { RouterStore } from '../router-store';
+import { StrictRouteData } from '../strict-route-data';
 import { GlobalRouterStore } from './global-router-store';
 import { globalRouterStoreSetup } from './test-util/global-router-store-setup';
 import {
@@ -63,7 +63,7 @@ describe(`${GlobalRouterStore.name} nested route data`, () => {
               routes,
             });
 
-          const expectedRouteData: MinimalRouteData = {
+          const expectedRouteData: StrictRouteData = {
             grandchild: 'grandchild-route-data',
             shadowed: 'grandchild-route-data',
           };
@@ -104,7 +104,7 @@ describe(`${GlobalRouterStore.name} nested route data`, () => {
               routes,
             });
 
-          const expectedRouteData: MinimalRouteData = {
+          const expectedRouteData: StrictRouteData = {
             child: 'child-route-data',
             shadowed: 'child-route-data',
           };
@@ -136,7 +136,7 @@ describe(`${GlobalRouterStore.name} nested route data`, () => {
             routes,
           });
 
-        const expectedRouteData: MinimalRouteData = {
+        const expectedRouteData: StrictRouteData = {
           parent: 'parent-route-data',
           shadowed: 'parent-route-data',
         };
@@ -181,7 +181,7 @@ describe(`${GlobalRouterStore.name} nested route data`, () => {
               routes,
             });
 
-          const expectedRouteData: MinimalRouteData = {
+          const expectedRouteData: StrictRouteData = {
             parent: 'parent-route-data',
             child: 'child-route-data',
             grandchild: 'grandchild-route-data',
@@ -229,7 +229,7 @@ describe(`${GlobalRouterStore.name} nested route data`, () => {
               routes,
             });
 
-          const expectedRouteData: MinimalRouteData = {
+          const expectedRouteData: StrictRouteData = {
             parent: 'parent-route-data',
             child: 'child-route-data',
             shadowed: 'child-route-data',
@@ -264,7 +264,7 @@ describe(`${GlobalRouterStore.name} nested route data`, () => {
             routes,
           });
 
-        const expectedRouteData: MinimalRouteData = {
+        const expectedRouteData: StrictRouteData = {
           parent: 'parent-route-data',
           shadowed: 'parent-route-data',
         };

@@ -1,7 +1,7 @@
 import { RouterConfigOptions, Routes } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
-import { MinimalRouteData } from '../minimal-route-data';
 import { RouterStore } from '../router-store';
+import { StrictRouteData } from '../strict-route-data';
 import { LocalRouterStore } from './local-router-store';
 import { localRouterStoreSetup } from './test-util/local-router-store-setup';
 import {
@@ -93,7 +93,7 @@ describe(`${LocalRouterStore.name} componentless nested route data`, () => {
                 routes,
               });
 
-            const expectedRouteData: MinimalRouteData = {
+            const expectedRouteData: StrictRouteData = {
               componentlessBeforeParent:
                 'componentless-route-data-before-parent',
               parent: 'parent-route-data',
@@ -136,7 +136,7 @@ describe(`${LocalRouterStore.name} componentless nested route data`, () => {
                 routes,
               });
 
-            const expectedRouteData: MinimalRouteData = {
+            const expectedRouteData: StrictRouteData = {
               componentlessBeforeParent:
                 'componentless-route-data-before-parent',
               parent: 'parent-route-data',
@@ -185,7 +185,7 @@ describe(`${LocalRouterStore.name} componentless nested route data`, () => {
               routes,
             });
 
-          const expectedRouteData: MinimalRouteData = {
+          const expectedRouteData: StrictRouteData = {
             componentlessBeforeParent: 'componentless-route-data-before-parent',
             parent: 'parent-route-data',
             componentlessBeforeChild: 'componentless-route-data-before-child',

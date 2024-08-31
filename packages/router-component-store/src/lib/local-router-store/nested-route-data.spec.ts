@@ -1,7 +1,7 @@
 import { RouterConfigOptions, Routes } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
-import { MinimalRouteData } from '../minimal-route-data';
 import { RouterStore } from '../router-store';
+import { StrictRouteData } from '../strict-route-data';
 import { LocalRouterStore } from './local-router-store';
 import { localRouterStoreSetup } from './test-util/local-router-store-setup';
 import {
@@ -63,7 +63,7 @@ describe(`${LocalRouterStore.name} nested route data`, () => {
                 routes,
               });
 
-            const expectedRouteData: MinimalRouteData = {
+            const expectedRouteData: StrictRouteData = {
               parent: 'parent-route-data',
               shadowed: 'parent-route-data',
             };
@@ -100,7 +100,7 @@ describe(`${LocalRouterStore.name} nested route data`, () => {
               routes,
             });
 
-          const expectedRouteData: MinimalRouteData = {
+          const expectedRouteData: StrictRouteData = {
             child: 'child-route-data',
             shadowed: 'child-route-data',
           };
@@ -132,7 +132,7 @@ describe(`${LocalRouterStore.name} nested route data`, () => {
             routes,
           });
 
-        const expectedRouteData: MinimalRouteData = {
+        const expectedRouteData: StrictRouteData = {
           grandchild: 'grandchild-route-data',
           shadowed: 'grandchild-route-data',
         };
@@ -170,7 +170,7 @@ describe(`${LocalRouterStore.name} nested route data`, () => {
               routes,
             });
 
-          const expectedRouteData: MinimalRouteData = {
+          const expectedRouteData: StrictRouteData = {
             parent: 'parent-route-data',
             child: 'child-route-data',
             shadowed: 'child-route-data',
@@ -208,7 +208,7 @@ describe(`${LocalRouterStore.name} nested route data`, () => {
             routes,
           });
 
-        const expectedRouteData: MinimalRouteData = {
+        const expectedRouteData: StrictRouteData = {
           parent: 'parent-route-data',
           child: 'child-route-data',
           grandchild: 'grandchild-route-data',

@@ -169,7 +169,7 @@ The `MinimalActivatedRouteSnapshot` interface is used for the observable `Router
 | API                                                 | Description                                      |
 | --------------------------------------------------- | ------------------------------------------------ |
 | `children: MinimalActivatedRouteSnapshot[]`         | The children of this route in the route tree.    |
-| `data: MinimalRouteData`                            | The static and resolved data of this route.      |
+| `data: StrictRouteData`                             | The static and resolved data of this route.      |
 | `firstChild: MinimalActivatedRouteSnapshot \| null` | The first child of this route in the route tree. |
 | `fragment: string \| null`                          | The URL fragment shared by all routes.           |
 | `outlet: string`                                    | The outlet name of the route.                    |
@@ -179,12 +179,14 @@ The `MinimalActivatedRouteSnapshot` interface is used for the observable `Router
 | `title: string \| undefined`                        | The resolved route title.                        |
 | `url: UrlSegment[]`                                 | The URL segments matched by this route.          |
 
-#### MinimalRouteData
+#### StrictRouteData
 
-The `MinimalRouteData` interface is used for the `MinimalActivatedRouteSnapshot#data` property. This interface is a serializable subset of the Angular Router's `Data` type. In particular, the `symbol` index in the Angular Router's `Data` type is removed. `MinimalRouteData` has the following signature.
+The `StrictRouteData` interface is used for the `MinimalActivatedRouteSnapshot#data$` property. This interface is a serializable subset of the Angular Router's `Data` type. In particular, the `symbol` index in the Angular Router's `Data` type is removed. Additionally, the `any` member type is replaced with `unknown` for stricter typing.
+
+`StrictRouteData` has the following signature.
 
 ```typescript
-export type MinimalRouteData = {
-  [key: string]: any;
+export type StrictRouteData = {
+  [key: string]: unknown;
 };
 ```

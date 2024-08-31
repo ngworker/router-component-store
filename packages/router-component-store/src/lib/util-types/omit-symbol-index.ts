@@ -4,10 +4,10 @@
  * @example <caption>Usage</caption>
  * ```
  * type RouteData = { [key: string | symbol]: any; };
- * type MinimalRouteData = OmitSymbolIndex<RouteData>;
+ * type SerializableRouteData = OmitSymbolIndex<RouteData>;
  * ```
  *
- * `MinimalRouteData` is `{ [key: string]: any }`.
+ * `SerializableRouteData` is `{ [key: string]: any }`.
  */
 export type OmitSymbolIndex<TShape> = {
   [TShapeKey in keyof TShape as symbol extends TShapeKey

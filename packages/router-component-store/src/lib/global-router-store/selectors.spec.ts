@@ -17,8 +17,8 @@ import { provideStore, Store } from '@ngrx/store';
 import { createFeatureHarness } from '@ngworker/spectacular';
 import { filter, firstValueFrom, take, toArray } from 'rxjs';
 import { MinimalActivatedRouteSnapshot } from '../@ngrx/router-store/minimal-activated-route-state-snapshot';
-import { MinimalRouteData } from '../minimal-route-data';
 import { RouterStore } from '../router-store';
+import { StrictRouteData } from '../strict-route-data';
 import { GlobalRouterStore } from './global-router-store';
 import { provideGlobalRouterStore } from './provide-global-router-store';
 
@@ -215,7 +215,7 @@ describe(`${GlobalRouterStore.name} selectors`, () => {
   });
 
   it('exposes a selector for route data', async () => {
-    const expectedRouteData: MinimalRouteData = {
+    const expectedRouteData: StrictRouteData = {
       testData: 'test-data',
     };
     const { harness, ngrxRouterStore } = setup({

@@ -181,7 +181,7 @@ The `MinimalActivatedRouteSnapshot` interface is used for the observable `Router
 
 #### MinimalRouteData
 
-The `MinimalRouteData` interface is used for the `RouterStore#data$` property. This interface is a serializable subset of the Angular Router's `Data` type. In particular, the `symbol` index in the Angular Router's `Data` type is removed. `MinimalRouteData` has the following signature.
+The `MinimalRouteData` interface is used for the `MinimalActivatedRouteSnapshot#data` property. This interface is a serializable subset of the Angular Router's `Data` type. In particular, the `symbol` index in the Angular Router's `Data` type is removed. `MinimalRouteData` has the following signature.
 
 ```typescript
 export type MinimalRouteData = {

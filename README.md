@@ -15,6 +15,17 @@ Required peer dependencies:
 
 Published with partial Ivy compilation.
 
+## Guiding principles
+
+Router Component Store is meant as a lightweight alternative to NgRx Router Store that additionaly can be used as a replacement for `ActivatedRoute` at any route level.
+
+The following principles guide the development of Router Component Store.
+
+- The global router store closely matches NgRx Router Store selectors
+- Local router stores closely match `ActivatedRoute` observable properties
+- Router state is serializable
+- The API is strictly and strongly typed
+
 ## API
 
 ### RouterStore

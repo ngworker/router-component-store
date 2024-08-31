@@ -2,6 +2,8 @@
 
 [`@ngworker/router-component-store`](https://www.npmjs.com/package/@ngworker/router-component-store)
 
+<img src="https://github.com/ngworker/router-component-store/blob/main/logo.png" alt="Router Component Store" height="384px">
+
 An Angular Router-connecting NgRx component store.
 
 ## Compatibility
@@ -14,6 +16,8 @@ Required peer dependencies:
 - TypeScript >=4.8
 
 Published with partial Ivy compilation.
+
+Find additional documentation in the [github.com/ngworker/router-component-store/docs](https://github.com/ngworker/router-component-store/tree/main/docs) directory.
 
 ## Guiding principles
 

@@ -187,7 +187,7 @@ The `StrictRouteData` interface is used for the `MinimalActivatedRouteSnapshot#d
 
 ```typescript
 export type StrictRouteData = {
-  [key: string]: unknown;
+  readonly [key: string]: unknown;
 };
 ```
 

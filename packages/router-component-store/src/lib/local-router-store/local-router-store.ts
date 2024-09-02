@@ -20,6 +20,7 @@ import { MinimalRouterStateSerializer } from '../@ngrx/router-store/minimal_seri
 import { filterRouterEvents } from '../filter-router-event.operator';
 import { RouterStore } from '../router-store';
 import { StrictRouteData } from '../strict-route-data';
+import { StrictRouteParams } from '../strict-route-params';
 
 interface LocalRouterState {
   readonly routerState: MinimalRouterStateSnapshot;
@@ -46,7 +47,7 @@ export class LocalRouterStore
   fragment$: Observable<string | null>;
   queryParams$: Observable<Params>;
   routeData$: Observable<StrictRouteData>;
-  routeParams$: Observable<Params>;
+  routeParams$: Observable<StrictRouteParams>;
   title$: Observable<string | undefined>;
   url$: Observable<string> = this.select(
     this.#routerState$,

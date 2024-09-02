@@ -3,6 +3,7 @@ import { Event as RouterEvent, Params } from '@angular/router';
 import { Observable } from 'rxjs';
 import { MinimalActivatedRouteSnapshot } from './@ngrx/router-store/minimal-activated-route-state-snapshot';
 import { StrictRouteData } from './strict-route-data';
+import { StrictRouteParams } from './strict-route-params';
 
 /**
  * An Angular Router-connecting NgRx component store.
@@ -53,7 +54,7 @@ export abstract class RouterStore {
   /**
    * Select the current route parameters.
    */
-  abstract readonly routeParams$: Observable<Params>;
+  abstract readonly routeParams$: Observable<StrictRouteParams>;
   /**
    * Select the resolved route title.
    */

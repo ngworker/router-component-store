@@ -9,4 +9,4 @@ import { StrictNoAny } from './util-types/strict-no-any';
  *
  * Additionally, the `any` member type is converted to `unknown`.
  */
-export type StrictRouteData = StrictNoAny<OmitSymbolIndex<Data>>;
+export type StrictRouteData = Readonly<StrictNoAny<OmitSymbolIndex<Data>>>;

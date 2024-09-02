@@ -5,7 +5,6 @@ import {
   NavigationEnd,
   NavigationError,
   NavigationStart,
-  Params,
   Router,
   RoutesRecognized,
 } from '@angular/router';
@@ -53,7 +52,7 @@ export class GlobalRouterStore
     this.#rootRoute$,
     (route) => route.fragment
   );
-  queryParams$: Observable<Params> = this.select(
+  queryParams$: Observable<StrictRouteParams> = this.select(
     this.#rootRoute$,
     (route) => route.queryParams
   );

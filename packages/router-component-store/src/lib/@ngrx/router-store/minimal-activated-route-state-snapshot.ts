@@ -54,7 +54,7 @@ export interface MinimalActivatedRouteSnapshot {
   /**
    * The query parameters shared by all the routes.
    */
-  readonly queryParams: ActivatedRouteSnapshot['queryParams'];
+  readonly queryParams: StrictRouteParams;
   /**
    * The URL fragment shared by all the routes.
    */

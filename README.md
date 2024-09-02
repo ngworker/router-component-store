@@ -181,7 +181,7 @@ The `MinimalActivatedRouteSnapshot` interface is used for the observable `Router
 
 #### StrictRouteData
 
-The `StrictRouteData` interface is used for the `MinimalActivatedRouteSnapshot#data$` and `RouterStore#routeData$` properties. This interface is a serializable subset of the Angular Router's `Data` type. In particular, the `symbol` index in the Angular Router's `Data` type is removed. Additionally, the `any` member type is replaced with `unknown` for stricter typing.
+The `StrictRouteData` interface is used for the `MinimalActivatedRouteSnapshot#data` and `RouterStore#routeData$` properties. This interface is a serializable subset of the Angular Router's `Data` type. In particular, the `symbol` index in the Angular Router's `Data` type is removed. Additionally, the `any` member type is replaced with `unknown` for stricter typing.
 
 `StrictRouteData` has the following signature.
 

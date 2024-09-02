@@ -1,5 +1,5 @@
 import { Injectable, Type } from '@angular/core';
-import { Event as RouterEvent, Params } from '@angular/router';
+import { Event as RouterEvent } from '@angular/router';
 import { Observable } from 'rxjs';
 import { MinimalActivatedRouteSnapshot } from './@ngrx/router-store/minimal-activated-route-state-snapshot';
 import { StrictRouteData } from './strict-route-data';
@@ -46,7 +46,7 @@ export abstract class RouterStore {
   /**
    * Select the current route query parameters.
    */
-  abstract readonly queryParams$: Observable<Params>;
+  abstract readonly queryParams$: Observable<StrictRouteParams>;
   /**
    * Select the current route data.
    */

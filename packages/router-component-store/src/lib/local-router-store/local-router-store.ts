@@ -7,7 +7,6 @@ import {
   NavigationEnd,
   NavigationError,
   NavigationStart,
-  Params,
   Router,
   RouterStateSnapshot,
   RoutesRecognized,
@@ -45,7 +44,7 @@ export class LocalRouterStore
 
   currentRoute$: Observable<MinimalActivatedRouteSnapshot> = this.#localRoute;
   fragment$: Observable<string | null>;
-  queryParams$: Observable<Params>;
+  queryParams$: Observable<StrictRouteParams>;
   routeData$: Observable<StrictRouteData>;
   routeParams$: Observable<StrictRouteParams>;
   title$: Observable<string | undefined>;

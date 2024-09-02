@@ -27,7 +27,7 @@ The following principles guide the development of Router Component Store.
 
 - The global router store closely matches NgRx Router Store selectors
 - Local router stores closely match `ActivatedRoute` observable properties
-- Router state is serializable
+- Router state is immutable and serializable
 - The API is strictly and strongly typed
 
 ## API

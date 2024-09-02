@@ -1,6 +1,6 @@
 {
   "name": "@ngworker/router-component-store",
-  "version": "0.3.2",
+  "version": "15.0.0-rc.0",
   "description": "A strictly typed lightweight alternative to NgRx Router Store (@ngrx/router-store) and ActivatedRoute",
   "license": "MIT",
   "peerDependencies": {

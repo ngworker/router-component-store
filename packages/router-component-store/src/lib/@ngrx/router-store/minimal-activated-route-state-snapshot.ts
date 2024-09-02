@@ -31,6 +31,7 @@
  */
 import { ActivatedRouteSnapshot } from '@angular/router';
 import { StrictRouteData } from '../../strict-route-data';
+import { StrictRouteParams } from '../../strict-route-params';
 
 /**
  * Contains the information about a route associated with a component loaded in
@@ -49,7 +50,7 @@ export interface MinimalActivatedRouteSnapshot {
   /**
    * The matrix parameters scoped to this route.
    */
-  readonly params: ActivatedRouteSnapshot['params'];
+  readonly params: StrictRouteParams;
   /**
    * The query parameters shared by all the routes.
    */

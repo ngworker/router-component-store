@@ -1,5 +1,6 @@
 /**
- * Convert `any` member types to `unknown` in the specified type.
+ * Convert `any` member types to `unknown` or a specified type in the specified
+ * type.
  *
  * @example <caption>Usage</caption>
  * ```
@@ -9,10 +10,10 @@
  *
  * `StrictRouteData` is `{ [key: string | symbol]: unknown }`.
  */
-export type StrictNoAny<TShape> = {
-  // [@typescript-eslint/no-explicit-any] We detect `any` to convert it to `unknown`
+export type StrictNoAny<TShape, TStrictType = unknown> = {
+  // [@typescript-eslint/no-explicit-any] We detect `any` to convert it to the specified type
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [TShapeKey in keyof TShape]: TShape[TShapeKey] extends any
-    ? unknown
+    ? TStrictType
     : TShape[TShapeKey];
 };

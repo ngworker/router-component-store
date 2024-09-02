@@ -10,3 +10,4 @@ export * from './lib/router-store';
 // Serializable route state
 export * from './lib/@ngrx/router-store/minimal-activated-route-state-snapshot';
 export * from './lib/strict-route-data';
+export * from './lib/strict-route-params';

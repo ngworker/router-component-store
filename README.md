@@ -42,7 +42,7 @@ A `RouterStore` service has the following public properties.
 | `fragment$: Observable<string \| null>`                                               | Select the current route fragment.                        |
 | `queryParams$: Observable<Params>`                                                    | Select the current route query parameters.                |
 | `routeData$: Observable<StrictRouteData>`                                             | Select the current route data.                            |
-| `routeParams$: Observable<Params>`                                                    | Select the current route parameters.                      |
+| `routeParams$: Observable<StrictRouteParams>`                                         | Select the current route parameters.                      |
 | `title$: Observable<string \| undefined>`                                             | Select the resolved route title.                          |
 | `url$: Observable<string>`                                                            | Select the current URL.                                   |
 | `selectQueryParam(param: string): Observable<string \| undefined>`                    | Select the specified query parameter.                     |
@@ -173,7 +173,7 @@ The `MinimalActivatedRouteSnapshot` interface is used for the observable `Router
 | `firstChild: MinimalActivatedRouteSnapshot \| null` | The first child of this route in the route tree. |
 | `fragment: string \| null`                          | The URL fragment shared by all routes.           |
 | `outlet: string`                                    | The outlet name of the route.                    |
-| `params: Params`                                    | The matrix parameters scoped to this route.      |
+| `params: StrictRouteParams`                         | The matrix parameters scoped to this route.      |
 | `queryParams: Params`                               | The query parameters shared by all routes.       |
 | `routeConfig: Route \| null`                        | The configuration used to match this route.      |
 | `title: string \| undefined`                        | The resolved route title.                        |
@@ -188,5 +188,17 @@ The `StrictRouteData` interface is used for the `MinimalActivatedRouteSnapshot#d
 ```typescript
 export type StrictRouteData = {
   [key: string]: unknown;
+};
+```
+
+#### StrictRouteParams
+
+The `StrictRouteParams` interface is used for route parameters in the `MinimalActivatedRouteSnapshot#params` and `RouterStore#routeParams$` properties but not for query parameters. This interface is a strictly typed version of the Angular Router's `Params` type where the `any` member type is replaced with `unknown`.
+
+`StrictRouteParams` has the following signature.
+
+```typescript
+export type StrictRouteParams = {
+  readonly [key: string]: string | undefined;
 };
 ```

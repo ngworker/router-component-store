@@ -1,5 +1,291 @@
 # Router Component Store changelog
 
+## 15.0.0-rc.0 (2024-09-03)
+
+### Features
+
+- `LocalRouterStore` matches `ActivatedRoute` more closely ([#309](https://github.com/ngworker/router-component-store/pull/309))
+  - Use `ActivatedRoute` to serialize the router state for the local router store implementation (`LocalRouterStore`)
+  - `LocalRouterStore.currentRoute$` matches `ActivatedRoute.snapshot`
+- Remove optional type parameter from `RouterStore#selectRouteData` ([#316](https://github.com/ngworker/router-component-store/pull/316))
+- Replace `MinimalRouteData` with `StrictRouteData` ([#319](https://github.com/ngworker/router-component-store/pull/319))
+- Change `RouterStore#routeData$` and `MinimalActivatedRouteSnapshot#data` types from `Data` to `StrictRouteData` ([#319](https://github.com/ngworker/router-component-store/pull/319))
+- Use strict and immutable route parameters ([#319](https://github.com/ngworker/router-component-store/pull/319), [#321](https://github.com/ngworker/router-component-store/pull/321))
+- Use strict and immutable query parameters ([#320](https://github.com/ngworker/router-component-store/pull/320))
+
+**BREAKING CHANGES**
+
+**`LocalRouterStore.currentRoute$` matches `ActivatedRoute.snapshot`**
+
+This change in implementation will make the local router store more closely match `ActivatedRoute` while the global router store matches NgRx Router Store selectors. Through complex route configurations, the router store implementations are exercised to identify edge case differences between them and any breaking changes introduced to the local router store.
+
+BEFORE:
+
+```typescript
+// URL: /parent/child/grandchild
+
+@Component({
+  /* (...) */
+  providers: [provideLocalRouterStore()],
+})
+export class ChildComponent implements OnInit {
+  #route = inject(ActivatedRoute);
+  #routerStore = inject(RouterStore);
+
+  ngOnInit() {
+    const currentRouteSnapshot = this.#route.snapshot;
+    console.log(currentRouteSnapshot.routeConfig.path);
+    // -> "child"
+    console.log(currentRouteSnapshot.url[0].path);
+    // -> "child"
+
+    firstValueFrom(this.#routerStore.currentRoute$).then((currentRoute) => {
+      console.log(currentRoute.routeConfig.path);
+      // -> "grandchild"
+      console.log(currentRoute.url[0].path);
+      // -> "grandchild"
+    });
+  }
+}
+```
+
+AFTER:
+
+```typescript
+// URL: /parent/child/grandchild
+
+@Component({
+  /* (...) */
+  providers: [provideLocalRouterStore()],
+})
+export class ChildComponent implements OnInit {
+  #route = inject(ActivatedRoute);
+  #routerStore = inject(RouterStore);
+
+  ngOnInit() {
+    const currentRouteSnapshot = this.#route.snapshot;
+    console.log(currentRouteSnapshot.routeConfig.path);
+    // -> "child"
+    console.log(currentRouteSnapshot.url[0].path);
+    // -> "child"
+
+    firstValueFrom(this.#routerStore.currentRoute$).then((currentRoute) => {
+      console.log(currentRoute.routeConfig.path);
+      // -> "child"
+      console.log(currentRoute.url[0].path);
+      // -> "child"
+    });
+  }
+}
+```
+
+**The type parameter is removed from `RouterStore#selectRouteData` for stricter typing and to enforce coercion**
+
+BEFORE:
+
+```typescript
+// heroes.component.ts
+// (...)
+import { RouterStore } from '@ngworker/router-component-store';
+@Component({
+  // (...)
+})
+export class HeroesComponent {
+  #routerStore = inject(RouterStore);
+  limit$ = this.#routerStore.selectRouteData<number>('limit');
+}
+```
+
+AFTER:
+
+```typescript
+// heroes.component.ts
+// (...)
+import { RouterStore } from '@ngworker/router-component-store';
+@Component({
+  // (...)
+})
+export class HeroesComponent {
+  #routerStore = inject(RouterStore);
+  limit$ = this.#routerStore.selectRouteData('limit').pipe(x => Number(x));
+```
+
+**The `RouterStore#routeData$` selector emits `StrictRouteData` instead of `Data`**
+
+BEFORE:
+
+```typescript
+// heroes.component.ts
+// (...)
+import { RouterStore } from '@ngworker/router-component-store';
+@Component({
+  // (...)
+})
+export class HeroesComponent {
+  #routerStore = inject(RouterStore);
+  limit$: Observable<number> = this.#routerStore.routeData$.pipe(
+    map((routeData) => routeData['limit'])
+  );
+}
+```
+
+AFTER:
+
+```typescript
+// heroes.component.ts
+// (...)
+import { RouterStore } from '@ngworker/router-component-store';
+@Component({
+  // (...)
+})
+export class HeroesComponent {
+  #routerStore = inject(RouterStore);
+  limit$: Observable<number> = this.#routerStore.routeData$.pipe(
+    map(routeData => routeData['limit']),
+    map(x => Number(x))
+  );
+```
+
+**`RouterStore#routeParams$` and `MinimalActivatedRouteSnapshot#params` use `StrictRouteData` instead of `Params`. Members are read-only and of type `string | undefined` instead of `any`**
+
+TypeScript will fail to compile application code that has assumed a route type parameter type other than `string | undefined`.
+
+BEFORE:
+
+```typescript
+// heroes.component.ts
+// (...)
+import { RouterStore } from '@ngworker/router-component-store';
+
+@Component({
+  // (...)
+})
+export class DashboardComponent {
+  #routerStore = inject(RouterStore);
+
+  limit$: Observable<number> = this.#routerStore.routeParams$.pipe(
+    map((params) => params['limit'])
+  );
+}
+```
+
+AFTER:
+
+```typescript
+// heroes.component.ts
+// (...)
+import { RouterStore } from '@ngworker/router-component-store';
+
+@Component({
+  // (...)
+})
+export class DashboardComponent {
+  #routerStore = inject(RouterStore);
+
+  limit$: Observable<number> = this.#routerStore.routeParams$.pipe(
+    map((params) => Number(params['limit'] ?? 10))
+  );
+}
+```
+
+**`StrictRouteData` members are now read-only**
+
+TypeScript will fail to compile application code that mutates route data data structures.
+
+BEFORE:
+
+```typescript
+// heroes.component.ts
+// (...)
+import { RouterStore } from '@ngworker/router-component-store';
+
+@Component({
+  // (...)
+})
+export class DashboardComponent {
+  #routerStore = inject(RouterStore);
+
+  limit$: Observable<number> = this.#routerStore.routeData$.pipe(
+    map((data) => {
+      data['limit'] = Number(data['limit']);
+
+      return data;
+    }),
+    map((data) => data['limit'])
+  );
+}
+```
+
+AFTER:
+
+```typescript
+// heroes.component.ts
+// (...)
+import { RouterStore } from '@ngworker/router-component-store';
+
+@Component({
+  // (...)
+})
+export class DashboardComponent {
+  #routerStore = inject(RouterStore);
+
+  limit$: Observable<number> = this.#routerStore.routeData$.pipe(
+    map((data) => Number(data['limit']))
+  );
+}
+```
+
+**`RouterStore#queryParams$` and `MinimalActivatedRouteSnapshot#queryParams` use `StrictRouteParams` instead of `Params`. Members are read-only and of type `string | undefined` instead of `any`**
+
+TypeScript will fail to compile application code that has assumed a query parameter type other than `string | undefined`.
+
+BEFORE:
+
+```typescript
+// heroes.component.ts
+// (...)
+import { RouterStore } from '@ngworker/router-component-store';
+
+@Component({
+  // (...)
+})
+export class DashboardComponent {
+  #routerStore = inject(RouterStore);
+
+  limit$: Observable<number> = this.#routerStore.queryParams$.pipe(
+    map((params) => params['limit'])
+  );
+}
+```
+
+AFTER:
+
+```typescript
+// heroes.component.ts
+// (...)
+import { RouterStore } from '@ngworker/router-component-store';
+
+@Component({
+  // (...)
+})
+export class DashboardComponent {
+  #routerStore = inject(RouterStore);
+
+  limit$: Observable<number> = this.#routerStore.queryParams$.pipe(
+    map((params) => Number(params['limit'] ?? 10))
+  );
+}
+```
+
+**Compatibility**
+
+To avoid compatibility issues, we now require the same RxJS peer dependency as NgRx ComponentStore, namely at least RxJS version 7.5 ([#311](https://github.com/ngworker/router-component-store/pull/311)).
+
+- Require Angular 15.0
+- Require `@ngrx/component-store` 15.0
+- Require RxJS 7.5
+- Require TypeScript 4.8
+
 ## 0.3.2 (2023-01-03)
 
 ### Performance optimizations

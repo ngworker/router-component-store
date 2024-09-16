@@ -14,9 +14,9 @@ import { MinimalActivatedRouteSnapshot } from '../@ngrx/router-store/minimal-act
 import { MinimalRouterStateSnapshot } from '../@ngrx/router-store/minimal-router-state-snapshot';
 import { MinimalRouterStateSerializer } from '../@ngrx/router-store/minimal_serializer';
 import { filterRouterEvents } from '../filter-router-event.operator';
+import { InternalStrictRouteParams } from '../internal-strict-route-params';
 import { RouterStore } from '../router-store';
 import { StrictRouteData } from '../strict-route-data';
-import { StrictRouteParams } from '../strict-route-params';
 
 interface GlobalRouterState {
   readonly routerState: MinimalRouterStateSnapshot;
@@ -52,7 +52,7 @@ export class GlobalRouterStore
     this.#rootRoute$,
     (route) => route.fragment
   );
-  queryParams$: Observable<StrictRouteParams> = this.select(
+  queryParams$: Observable<InternalStrictRouteParams> = this.select(
     this.#rootRoute$,
     (route) => route.queryParams
   );
@@ -60,7 +60,7 @@ export class GlobalRouterStore
     this.currentRoute$,
     (route) => route.data
   );
-  routeParams$: Observable<StrictRouteParams> = this.select(
+  routeParams$: Observable<InternalStrictRouteParams> = this.select(
     this.currentRoute$,
     (route) => route.params
   );

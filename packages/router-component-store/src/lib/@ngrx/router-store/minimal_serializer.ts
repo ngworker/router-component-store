@@ -28,6 +28,7 @@ import {
   Data,
   RouterStateSnapshot,
 } from '@angular/router';
+import { InternalStrictRouteParams } from '../../internal-strict-route-params';
 import { StrictRouteData } from '../../strict-route-data';
 import { MinimalActivatedRouteSnapshot } from './minimal-activated-route-state-snapshot';
 import { MinimalRouterStateSnapshot } from './minimal-router-state-snapshot';
@@ -54,7 +55,7 @@ export class MinimalRouterStateSerializer {
       this.#serializeRouteSnapshot(childRouteSnapshot)
     );
     return {
-      params: routeSnapshot.params,
+      params: routeSnapshot.params as InternalStrictRouteParams,
       data: this.#serializeRouteData(routeSnapshot.data),
       url: routeSnapshot.url,
       outlet: routeSnapshot.outlet,
@@ -71,7 +72,7 @@ export class MinimalRouterStateSerializer {
                 : undefined,
           }
         : null,
-      queryParams: routeSnapshot.queryParams,
+      queryParams: routeSnapshot.queryParams as InternalStrictRouteParams,
       fragment: routeSnapshot.fragment,
       firstChild: children[0],
       children,

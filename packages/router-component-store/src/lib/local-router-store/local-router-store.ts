@@ -17,9 +17,9 @@ import { MinimalActivatedRouteSnapshot } from '../@ngrx/router-store/minimal-act
 import { MinimalRouterStateSnapshot } from '../@ngrx/router-store/minimal-router-state-snapshot';
 import { MinimalRouterStateSerializer } from '../@ngrx/router-store/minimal_serializer';
 import { filterRouterEvents } from '../filter-router-event.operator';
+import { InternalStrictRouteData } from '../internal-strict-route-data';
 import { InternalStrictRouteParams } from '../internal-strict-route-params';
 import { RouterStore } from '../router-store';
-import { StrictRouteData } from '../strict-route-data';
 
 interface LocalRouterState {
   readonly routerState: MinimalRouterStateSnapshot;
@@ -45,7 +45,7 @@ export class LocalRouterStore
   currentRoute$: Observable<MinimalActivatedRouteSnapshot> = this.#localRoute;
   fragment$: Observable<string | null>;
   queryParams$: Observable<InternalStrictRouteParams>;
-  routeData$: Observable<StrictRouteData>;
+  routeData$: Observable<InternalStrictRouteData>;
   routeParams$: Observable<InternalStrictRouteParams>;
   title$: Observable<string | undefined>;
   url$: Observable<string> = this.select(

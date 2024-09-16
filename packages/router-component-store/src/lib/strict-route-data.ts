@@ -1,7 +1,3 @@
-import { Data } from '@angular/router';
-import { OmitSymbolIndex } from './util-types/omit-symbol-index';
-import { StrictNoAny } from './util-types/strict-no-any';
-
 /**
  * Serializable route `Data` without its symbol index, in particular without the
  * `Symbol(RouteTitle)` key as this is an internal value for the Angular
@@ -9,4 +5,6 @@ import { StrictNoAny } from './util-types/strict-no-any';
  *
  * Additionally, the `any` member type is converted to `unknown`.
  */
-export type StrictRouteData = Readonly<StrictNoAny<OmitSymbolIndex<Data>>>;
+export interface StrictRouteData {
+  readonly [key: string]: unknown;
+}

@@ -1,5 +1,12 @@
 # Router Component Store changelog
 
+## 15.0.0-rc.1 (2024-09-17)
+
+### Refactors
+
+- Replace `StrictRouteParams` with simple type ([#325](https://github.com/ngworker/router-component-store/pull/325))
+- Replace `StrictRouteData` with simple type ([#326](https://github.com/ngworker/router-component-store/pull/326))
+
 ## 15.0.0-rc.0 (2024-09-03)
 
 ### Features

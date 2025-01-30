@@ -2,6 +2,7 @@ import { Injectable, Type } from '@angular/core';
 import { Event as RouterEvent } from '@angular/router';
 import { Observable } from 'rxjs';
 import { MinimalActivatedRouteSnapshot } from './@ngrx/router-store/minimal-activated-route-state-snapshot';
+import { StrictQueryParams } from './strict-query-params';
 import { StrictRouteData } from './strict-route-data';
 import { StrictRouteParams } from './strict-route-params';
 
@@ -46,7 +47,7 @@ export abstract class RouterStore {
   /**
    * Select the current route query parameters.
    */
-  abstract readonly queryParams$: Observable<StrictRouteParams>;
+  abstract readonly queryParams$: Observable<StrictQueryParams>;
   /**
    * Select the current route data.
    */
@@ -80,7 +81,9 @@ export abstract class RouterStore {
    * @example <caption>Usage</caption>
    * const order$ = routerStore.selectQueryParam('order');
    */
-  abstract selectQueryParam(param: string): Observable<string | undefined>;
+  abstract selectQueryParam(
+    param: string
+  ): Observable<string | readonly string[] | undefined>;
   /**
    * Select the specified route parameter.
    *

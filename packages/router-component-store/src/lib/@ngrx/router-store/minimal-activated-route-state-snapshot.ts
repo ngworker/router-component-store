@@ -30,6 +30,7 @@
  * found in the LICENSE file at https://angular.io/license
  */
 import { ActivatedRouteSnapshot } from '@angular/router';
+import { StrictQueryParams } from '../../strict-query-params';
 import { StrictRouteData } from '../../strict-route-data';
 import { StrictRouteParams } from '../../strict-route-params';
 
@@ -54,7 +55,7 @@ export interface MinimalActivatedRouteSnapshot {
   /**
    * The query parameters shared by all the routes.
    */
-  readonly queryParams: StrictRouteParams;
+  readonly queryParams: StrictQueryParams;
   /**
    * The URL fragment shared by all the routes.
    */

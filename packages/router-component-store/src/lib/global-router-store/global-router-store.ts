@@ -14,6 +14,7 @@ import { MinimalActivatedRouteSnapshot } from '../@ngrx/router-store/minimal-act
 import { MinimalRouterStateSnapshot } from '../@ngrx/router-store/minimal-router-state-snapshot';
 import { MinimalRouterStateSerializer } from '../@ngrx/router-store/minimal_serializer';
 import { filterRouterEvents } from '../filter-router-event.operator';
+import { InternalStrictQueryParams } from '../internal-strict-query-params';
 import { InternalStrictRouteData } from '../internal-strict-route-data';
 import { InternalStrictRouteParams } from '../internal-strict-route-params';
 import { RouterStore } from '../router-store';
@@ -52,7 +53,7 @@ export class GlobalRouterStore
     this.#rootRoute$,
     (route) => route.fragment
   );
-  queryParams$: Observable<InternalStrictRouteParams> = this.select(
+  queryParams$: Observable<InternalStrictQueryParams> = this.select(
     this.#rootRoute$,
     (route) => route.queryParams
   );
@@ -101,7 +102,9 @@ export class GlobalRouterStore
     })
   );
 
-  selectQueryParam(param: string): Observable<string | undefined> {
+  selectQueryParam(
+    param: string
+  ): Observable<string | readonly string[] | undefined> {
     return this.select(this.queryParams$, (params) => params[param]);
   }
 

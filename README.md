@@ -36,19 +36,19 @@ The following principles guide the development of Router Component Store.
 
 A `RouterStore` service has the following public properties.
 
-| API                                                                                   | Description                                               |
-| ------------------------------------------------------------------------------------- | --------------------------------------------------------- |
-| `currentRoute$: Observable<MinimalActivatedRouteSnapshot>`                            | Select the current route.                                 |
-| `fragment$: Observable<string \| null>`                                               | Select the current route fragment.                        |
-| `queryParams$: Observable<StrictRouteParams>`                                         | Select the current route query parameters.                |
-| `routeData$: Observable<StrictRouteData>`                                             | Select the current route data.                            |
-| `routeParams$: Observable<StrictRouteParams>`                                         | Select the current route parameters.                      |
-| `title$: Observable<string \| undefined>`                                             | Select the resolved route title.                          |
-| `url$: Observable<string>`                                                            | Select the current URL.                                   |
-| `selectQueryParam(param: string): Observable<string \| undefined>`                    | Select the specified query parameter.                     |
-| `selectRouteData(key: string): Observable<unknown>`                                   | Select the specified route data.                          |
-| `selectRouteParam(param: string): Observable<string \| undefined>`                    | Select the specified route parameter.                     |
-| `selectRouterEvents(...acceptedRouterEvents: RouterEvent[]): Observable<RouterEvent>` | Select router events of the specified router event types. |
+| API                                                                                     | Description                                               |
+| --------------------------------------------------------------------------------------- | --------------------------------------------------------- |
+| `currentRoute$: Observable<MinimalActivatedRouteSnapshot>`                              | Select the current route.                                 |
+| `fragment$: Observable<string \| null>`                                                 | Select the current route fragment.                        |
+| `queryParams$: Observable<StrictQueryParams>`                                           | Select the current route query parameters.                |
+| `routeData$: Observable<StrictRouteData>`                                               | Select the current route data.                            |
+| `routeParams$: Observable<StrictRouteParams>`                                           | Select the current route parameters.                      |
+| `title$: Observable<string \| undefined>`                                               | Select the resolved route title.                          |
+| `url$: Observable<string>`                                                              | Select the current URL.                                   |
+| `selectQueryParam(param: string): Observable<string \| readonly string[] \| undefined>` | Select the specified query parameter.                     |
+| `selectRouteData(key: string): Observable<unknown>`                                     | Select the specified route data.                          |
+| `selectRouteParam(param: string): Observable<string \| undefined>`                      | Select the specified route parameter.                     |
+| `selectRouterEvents(...acceptedRouterEvents: RouterEvent[]): Observable<RouterEvent>`   | Select router events of the specified router event types. |
 
 A `RouterStore` service is provided by using either `provideGlobalRouterStore`or `provideLocalRouterStore`.
 
@@ -174,10 +174,22 @@ The `MinimalActivatedRouteSnapshot` interface is used for the observable `Router
 | `fragment: string \| null`                          | The URL fragment shared by all routes.           |
 | `outlet: string`                                    | The outlet name of the route.                    |
 | `params: StrictRouteParams`                         | The matrix parameters scoped to this route.      |
-| `queryParams: StrictRouteParams`                    | The query parameters shared by all routes.       |
+| `queryParams: StrictQueryParams`                    | The query parameters shared by all routes.       |
 | `routeConfig: Route \| null`                        | The configuration used to match this route.      |
 | `title: string \| undefined`                        | The resolved route title.                        |
 | `url: UrlSegment[]`                                 | The URL segments matched by this route.          |
+
+#### StrictQueryParams
+
+The `StrictQueryParams` type is used for query parameters in the `MinimalActivatedRouteSnapshot#queryParams` and `RouterStore#queryParams$` properties. It is a strictly typed version of the Angular Router's `Params` type where members are read-only and the `any` member type is replaced with `string | readonly string[] | undefined`.
+
+`StrictQueryParams` has the following signature.
+
+```typescript
+export type StrictQueryParams = {
+  readonly [key: string]: string | readonly string[] | undefined;
+};
+```
 
 #### StrictRouteData
 
@@ -193,7 +205,7 @@ export type StrictRouteData = {
 
 #### StrictRouteParams
 
-The `StrictRouteParams` type is used for route parameters in the `MinimalActivatedRouteSnapshot#params` and `RouterStore#routeParams$` properties and for query parameters in the `MinimalActivatedRouteSnapshot#queryParams` and `RouterStore#queryParams$` properties. It is a strictly typed version of the Angular Router's `Params` type where members are read-only and the `any` member type is replaced with `string | undefined`.
+The `StrictRouteParams` type is used for route parameters in the `MinimalActivatedRouteSnapshot#params` and `RouterStore#routeParams$` properties. It is a strictly typed version of the Angular Router's `Params` type where members are read-only and the `any` member type is replaced with `string | undefined`.
 
 `StrictRouteParams` has the following signature.
 

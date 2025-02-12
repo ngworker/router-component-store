@@ -1,5 +1,102 @@
 # Router Component Store changelog
 
+## 15.0.0-rc.2 (2025-02-12)
+
+### Features
+
+- Use `StrictQueryParams` for query parameters instead of `StrictRouteParams` ([#331](https://github.com/ngworker/router-component-store/pull/331))
+
+Array query parameters like `?size=m&size=l&size=xl` are now correctly resolved to `readonly string[]` instead of `string`.
+
+**BREAKING CHANGES**
+
+**`RouterStore#queryParams$` and `MinimalActivatedRouteSnapshot#queryParams` use `StrictQueryParams`**
+
+`RouterStore#queryParams$` and `MinimalActivatedRouteSnapshot#queryParams` use `StrictQueryParams` instead of `StrictRouteParams`. Members are of type `string | readonly string[] | undefined` instead of `string | undefined`.
+
+The TypeScript compiler will fail to compile code that does not handle the string array type.
+
+BEFORE:
+
+```typescript
+// shirts.component.ts
+// (...)
+import { RouterStore } from '@ngworker/router-component-store';
+
+@Component({
+  // (...)
+})
+export class ShirtsComponent {
+  #routerStore = inject(RouterStore);
+
+  size$: Observable<string> = this.#routerStore.queryParams$.pipe(
+    map((params) => params['size'])
+  );
+}
+```
+
+AFTER:
+
+```typescript
+// shirts.component.ts
+// (...)
+import { RouterStore } from '@ngworker/router-component-store';
+
+@Component({
+  // (...)
+})
+export class ShirtsComponent {
+  #routerStore = inject(RouterStore);
+
+  size$: Observable<readonly string[]> = this.#routerStore.queryParams$.pipe(
+    map((params) => params['size']),
+    map((size) => (Array.isArray(size) ? size : [size]))
+  );
+}
+```
+
+**`RouterStore#selectQueryParam` use `StrictQueryParams`**
+
+`RouterStore#selectQueryParam` use `StrictQueryParams` instead of `StrictRouteParams`. The returned value is of type `string | readonly string[] | undefined` instead of `string | undefined`.
+
+The TypeScript compiler will fail to compile code that does not handle the string array type.
+
+BEFORE:
+
+```typescript
+// shirts.component.ts
+// (...)
+import { RouterStore } from '@ngworker/router-component-store';
+
+@Component({
+  // (...)
+})
+export class ShirtsComponent {
+  #routerStore = inject(RouterStore);
+
+  size$: Observable<string> = this.#routerStore.selectQueryParam('size');
+}
+```
+
+AFTER:
+
+```typescript
+// shirts.component.ts
+// (...)
+import { RouterStore } from '@ngworker/router-component-store';
+
+@Component({
+  // (...)
+})
+export class ShirtsComponent {
+  #routerStore = inject(RouterStore);
+
+  size$: Observable<readonly string[]> = this.#routerStore
+    .selectQueryParam('size')
+    .pipe(map((size) => (Array.isArray(size) ? size : [size])));
+}
+```
+
 ## 15.0.0-rc.1 (2024-09-17)
 
 ### Refactors

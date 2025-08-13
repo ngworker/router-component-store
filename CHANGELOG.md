@@ -50,6 +50,7 @@ export class ShirtsComponent {
 
   size$: Observable<readonly string[]> = this.#routerStore.queryParams$.pipe(
     map((params) => params['size']),
+    map((size) => size ?? []),
     map((size) => (Array.isArray(size) ? size : [size]))
   );
 }
@@ -93,7 +94,10 @@ export class ShirtsComponent {
 
   size$: Observable<readonly string[]> = this.#routerStore
     .selectQueryParam('size')
-    .pipe(map((size) => (Array.isArray(size) ? size : [size])));
+    .pipe(
+      map((size) => size ?? []),
+      map((size) => (Array.isArray(size) ? size : [size]))
+    );
 }
 ```
 

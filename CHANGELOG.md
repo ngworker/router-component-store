@@ -1,5 +1,34 @@
 # Router Component Store changelog
 
+## 15.0.0 (2025-08-14)
+
+First stable release. No functional or API changes from 15.0.0-rc.2.
+
+### Features
+
+Provide local or global router store using `provideLocalRouterStore` or `provideGlobalRouterStore`, respectively
+
+- A local router store matches the `ActivatedRoute` service's observable properties and follow the lifecycle of the component that provides it
+- The global router store matches the `@ngrx/router-store` selectors and is never destroyed
+
+Both local and global stores implement a common `RouterStore` API:
+
+- `currentRoute$`
+- `fragment$`
+- `queryParams$`
+- `routeData$`
+- `routeParams$`
+- `title$`
+- `url$`
+- `selectQueryParam(param: string)`
+- `selectRouteData(key: string)`
+- `selectRouteParam(param: string)`
+- `selectRouterEvents(...acceptedRouterEvents: RouterEvent[])`
+
+`RouterStore` is also the injection symbol usable through constructor injection, `inject`, `TestBed.inject`, and `Injector.get`. When `RouterStore` is injected, it resolves to the closest provided local or global router store according to element and environment injectors.
+
+`RouterStore` uses a serializable router state called `MinimalActivatedRouteSnapshot`. It uses additional strict, immutable types like `StrictQueryParams`, `StrictRouteData´, and `StrictRouteParams`.
+
 ## 15.0.0-rc.2 (2025-02-12)
 
 ### Features

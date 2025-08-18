@@ -10,10 +10,10 @@ A strictly typed lightweight alternative to NgRx Router Store (`@ngrx/router-sto
 
 Required peer dependencies:
 
-- Angular >=15.0
-- NgRx Component Store >=15.0
+- Angular 16.x
+- NgRx Component Store 16.x
 - RxJS >=7.5
-- TypeScript >=4.8
+- TypeScript >=4.9
 
 Published with partial Ivy compilation.
 

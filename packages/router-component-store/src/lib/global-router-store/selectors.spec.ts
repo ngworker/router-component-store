@@ -9,7 +9,7 @@ import {
 } from '@angular/router';
 import {
   DEFAULT_ROUTER_FEATURENAME,
-  getSelectors,
+  getRouterSelectors,
   provideRouterStore,
   routerReducer,
 } from '@ngrx/router-store';

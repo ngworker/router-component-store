@@ -27,7 +27,7 @@ Both local and global stores implement a common `RouterStore` API:
 
 `RouterStore` is also the injection symbol usable through constructor injection, `inject`, `TestBed.inject`, and `Injector.get`. When `RouterStore` is injected, it resolves to the closest provided local or global router store according to element and environment injectors.
 
-`RouterStore` uses a serializable router state called `MinimalActivatedRouteSnapshot`. It uses additional strict, immutable types like `StrictQueryParams`, `StrictRouteData´, and `StrictRouteParams`.
+`RouterStore` uses a serializable router state called `MinimalActivatedRouteSnapshot`. It uses additional strict, immutable types like `StrictQueryParams`, `StrictRouteData`, and `StrictRouteParams`.
 
 ## 15.0.0-rc.2 (2025-02-12)
 

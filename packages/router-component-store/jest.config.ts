@@ -3,7 +3,6 @@ export default {
   displayName: 'router-component-store',
   preset: '../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
-  globals: {},
   coverageDirectory: '../../coverage/packages/router-component-store',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': [

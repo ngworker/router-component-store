@@ -5,7 +5,7 @@
     "build": "nx run-many --target=build --all",
     "ci": "yarn lint && yarn test && yarn build",
     "knip": "knip",
-    "lint": "nx workspace-lint && nx run-many --target=lint --all --max-warnings=0",
+    "lint": "nx run-many --target=lint --all --max-warnings=0",
     "nx": "nx",
     "test": "nx run-many --target=test --all"
   },

@@ -39,8 +39,6 @@ jobs:
         uses: nrwl/nx-set-shas@v4
       - name: Set up Node.js and Yarn
         uses: ./.github/actions/setup-node
-      - name: Install package dependencies
-        run: yarn install --frozen-lockfile --no-interactive
 
       - name: Check formatting
         run: yarn nx format:check
@@ -54,8 +52,6 @@ jobs:
         uses: actions/checkout@v4
       - name: Set up Node.js and Yarn
         uses: ./.github/actions/setup-node
-      - name: Install package dependencies
-        run: yarn install --frozen-lockfile --no-interactive
 
       - name: Lint workspace
         run: yarn nx workspace-lint
@@ -71,8 +67,7 @@ jobs:
         uses: actions/checkout@v4
       - name: Set up Node.js and Yarn
         uses: ./.github/actions/setup-node
-      - name: Install package dependencies
-        run: yarn install --frozen-lockfile --no-interactive
+
       - name: Dead code analysis
         run: yarn knip
 
@@ -85,8 +80,6 @@ jobs:
         uses: actions/checkout@v4
       - name: Set up Node.js and Yarn
         uses: ./.github/actions/setup-node
-      - name: Install package dependencies
-        run: yarn install --frozen-lockfile --no-interactive
 
       - name: Test
         run: yarn test --ci --reporters=github-actions
@@ -100,8 +93,6 @@ jobs:
         uses: actions/checkout@v4
       - name: Set up Node.js and Yarn
         uses: ./.github/actions/setup-node
-      - name: Install package dependencies
-        run: yarn install --frozen-lockfile --no-interactive
 
       - name: Build
         run: yarn build

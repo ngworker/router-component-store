@@ -169,7 +169,7 @@
     "@angular-eslint/bundled-angular-compiler" "16.0.3"
     "@typescript-eslint/utils" "5.59.7"
 
-"@angular/cli@~16.0.0":
+"@angular/cli@16.0.6":
   version "16.0.6"
   resolved "https://registry.yarnpkg.com/@angular/cli/-/cli-16.0.6.tgz#87683054671c35ef0891e7331e55bb46f7136c24"
   integrity sha512-um7oOWSu9SIzvwqJ5Aeqcki5/qj4yb6QKi8RkHDWpOdrg1tJfX/BnIzUa4jiCXIwYRIz+PjYJb8W5216wS+7Gg==

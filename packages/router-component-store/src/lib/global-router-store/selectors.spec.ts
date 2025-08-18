@@ -69,7 +69,7 @@ describe(`${GlobalRouterStore.name} selectors`, () => {
     return {
       harness,
       get ngrxRouterStore() {
-        return getSelectors();
+        return getRouterSelectors();
       },
     };
   }

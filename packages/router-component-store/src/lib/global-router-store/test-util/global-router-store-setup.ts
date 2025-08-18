@@ -54,8 +54,8 @@ export async function globalRouterStoreSetup<TRoutedComponent>({
         optional: false,
       });
     },
-    get ngrxRouterStore(): ReturnType<typeof getSelectors> {
-      return getSelectors();
+    get ngrxRouterStore(): ReturnType<typeof getRouterSelectors> {
+      return getRouterSelectors();
     },
     get ngrxStore(): Store<object> {
       return injectorFor(RoutedComponent).get(Store);

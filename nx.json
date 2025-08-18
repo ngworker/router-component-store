@@ -1,7 +1,6 @@
 {
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "extends": "nx/presets/npm.json",
-  "npmScope": "ngworker",
   "affected": {
     "defaultBase": "main"
   },

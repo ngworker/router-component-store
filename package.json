@@ -23,10 +23,10 @@
     "@ngrx/component-store": "16.0.1",
     "@ngrx/router-store": "16.0.1",
     "@ngrx/store": "16.0.1",
+    "@nx/angular": "16.3.2",
     "rxjs": "7.5.7",
     "tslib": "2.4.1",
-    "zone.js": "0.13.3",
-    "@nx/angular": "16.3.2"
+    "zone.js": "0.13.3"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "16.0.6",

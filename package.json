@@ -2,12 +2,12 @@
   "name": "@ngworker/source",
   "private": true,
   "scripts": {
-    "build": "nx run-many --target=build --all",
+    "build": "nx run-many --target=build",
     "ci": "yarn lint && yarn test && yarn build",
     "knip": "knip",
-    "lint": "nx run-many --target=lint --all --max-warnings=0",
+    "lint": "nx run-many --target=lint --max-warnings=0",
     "nx": "nx",
-    "test": "nx run-many --target=test --all"
+    "test": "nx run-many --target=test"
   },
   "engines": {
     "node": "^18.20.8",

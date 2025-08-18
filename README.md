@@ -105,8 +105,7 @@ import { RouterStore } from '@ngworker/router-component-store';
 export class HeroService {
   #routerStore = inject(RouterStore);
 
-  activeHeroId$: Observable<string | undefined> =
-    this.#routerStore.selectRouteParam('id');
+  activeHeroId$: Observable<string | undefined> = this.#routerStore.selectRouteParam('id');
 }
 ```
 
@@ -123,8 +122,7 @@ import { RouterStore } from '@ngworker/router-component-store';
 export class HeroDetailComponent {
   #routerStore = inject(RouterStore);
 
-  heroId$: Observable<string | undefined> =
-    this.#routerStore.selectRouteParam('id');
+  heroId$: Observable<string | undefined> = this.#routerStore.selectRouteParam('id');
 }
 ```
 
@@ -141,10 +139,7 @@ Usage in component:
 ```typescript
 // hero-detail.component.ts
 // (...)
-import {
-  provideLocalRouterStore,
-  RouterStore,
-} from '@ngworker/router-component-store';
+import { provideLocalRouterStore, RouterStore } from '@ngworker/router-component-store';
 
 @Component({
   // (...)
@@ -153,8 +148,7 @@ import {
 export class HeroDetailComponent {
   #routerStore = inject(RouterStore);
 
-  heroId$: Observable<string | undefined> =
-    this.#routerStore.selectRouteParam('id');
+  heroId$: Observable<string | undefined> = this.#routerStore.selectRouteParam('id');
 }
 ```
 

@@ -2792,10 +2792,10 @@
   resolved "https://registry.yarnpkg.com/@ngtools/webpack/-/webpack-16.0.6.tgz#5a27807088cc19f7fe623e2a6106c43a9d473ef8"
   integrity sha512-F6vDIAPxKqN3m0ABdHiBaf1OPb2dyDR0ABPmImxFoZtRApGjAiwuAHvsrk8aZRwBAC2XobSkemm2C0HpV6F6lw==
 
-"@ngworker/spectacular@15.0.0":
-  version "15.0.0"
-  resolved "https://registry.yarnpkg.com/@ngworker/spectacular/-/spectacular-15.0.0.tgz#99f67e4b4d7dfa7174dd448fd23af826575f57dc"
-  integrity sha512-hWUghEFKecL4Z/DBntatxh2fmonBbbBhF4qWJnrr3rfRSXQrouglS4i1n3CLZ6Gi2XlNdwL0D55sBZTK1PWxnw==
+"@ngworker/spectacular@16.0.0":
+  version "16.0.0"
+  resolved "https://registry.yarnpkg.com/@ngworker/spectacular/-/spectacular-16.0.0.tgz#5a28cd435678ab1af2c64e23c5811fe0460e95eb"
+  integrity sha512-MRoGPXHQzkvNUMBDjPyRoS9pQGpoUCLExCbWFYK3Q3gEFv6xIbOJ/o/cebAPzTMud/AOu7pirLZZtUMGRmv3WA==
   dependencies:
     tslib "^2.4.1"
 

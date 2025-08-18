@@ -38,7 +38,6 @@
     "@angular/language-service": "16.0.6",
     "@ngrx/eslint-plugin": "16.0.1",
     "@ngworker/spectacular": "15.0.0",
-    "@nrwl/cli": "15.4.8",
     "@nrwl/eslint-plugin-nx": "16.3.2",
     "@nrwl/jest": "16.3.2",
     "@nrwl/linter": "16.3.2",

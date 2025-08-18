@@ -108,11 +108,11 @@ describe(`${LocalRouterStore.name} componentless nested route data`, () => {
             await expect(
               firstValueFrom(
                 componentStore.select({
-                  componentlessBeforeParent: routerStore.selectRouteData(
+                  componentlessBeforeParent: routerStore.selectRouteDataParam(
                     'componentlessBeforeParent'
                   ),
-                  parent: routerStore.selectRouteData('parent'),
-                  shadowed: routerStore.selectRouteData('shadowed'),
+                  parent: routerStore.selectRouteDataParam('parent'),
+                  shadowed: routerStore.selectRouteDataParam('shadowed'),
                 })
               )
             ).resolves.toEqual(expectedRouteData);
@@ -153,15 +153,15 @@ describe(`${LocalRouterStore.name} componentless nested route data`, () => {
             await expect(
               firstValueFrom(
                 componentStore.select({
-                  componentlessBeforeParent: routerStore.selectRouteData(
+                  componentlessBeforeParent: routerStore.selectRouteDataParam(
                     'componentlessBeforeParent'
                   ),
-                  parent: routerStore.selectRouteData('parent'),
-                  componentlessBeforeChild: routerStore.selectRouteData(
+                  parent: routerStore.selectRouteDataParam('parent'),
+                  componentlessBeforeChild: routerStore.selectRouteDataParam(
                     'componentlessBeforeChild'
                   ),
-                  child: routerStore.selectRouteData('child'),
-                  shadowed: routerStore.selectRouteData('shadowed'),
+                  child: routerStore.selectRouteDataParam('child'),
+                  shadowed: routerStore.selectRouteDataParam('shadowed'),
                 })
               )
             ).resolves.toEqual(expectedRouteData);
@@ -204,19 +204,19 @@ describe(`${LocalRouterStore.name} componentless nested route data`, () => {
           await expect(
             firstValueFrom(
               componentStore.select({
-                componentlessBeforeParent: routerStore.selectRouteData(
+                componentlessBeforeParent: routerStore.selectRouteDataParam(
                   'componentlessBeforeParent'
                 ),
-                parent: routerStore.selectRouteData('parent'),
-                componentlessBeforeChild: routerStore.selectRouteData(
+                parent: routerStore.selectRouteDataParam('parent'),
+                componentlessBeforeChild: routerStore.selectRouteDataParam(
                   'componentlessBeforeChild'
                 ),
-                child: routerStore.selectRouteData('child'),
-                componentlessBeforeGrandchild: routerStore.selectRouteData(
+                child: routerStore.selectRouteDataParam('child'),
+                componentlessBeforeGrandchild: routerStore.selectRouteDataParam(
                   'componentlessBeforeGrandchild'
                 ),
-                grandchild: routerStore.selectRouteData('grandchild'),
-                shadowed: routerStore.selectRouteData('shadowed'),
+                grandchild: routerStore.selectRouteDataParam('grandchild'),
+                shadowed: routerStore.selectRouteDataParam('shadowed'),
               })
             )
           ).resolves.toEqual(expectedRouteData);

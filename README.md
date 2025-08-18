@@ -46,7 +46,7 @@ A `RouterStore` service has the following public properties.
 | `title$: Observable<string \| undefined>`                                               | Select the resolved route title.                          |
 | `url$: Observable<string>`                                                              | Select the current URL.                                   |
 | `selectQueryParam(param: string): Observable<string \| readonly string[] \| undefined>` | Select the specified query parameter.                     |
-| `selectRouteData(key: string): Observable<unknown>`                                     | Select the specified route data.                          |
+| `selectRouteDataParam(key: string): Observable<unknown>`                                | Select the specified route data.                          |
 | `selectRouteParam(param: string): Observable<string \| undefined>`                      | Select the specified route parameter.                     |
 | `selectRouterEvents(...acceptedRouterEvents: RouterEvent[]): Observable<RouterEvent>`   | Select router events of the specified router event types. |
 

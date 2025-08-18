@@ -289,7 +289,7 @@ describe(`${LocalRouterStore.name} selectors`, () => {
       firstValueFrom(
         injectorFor(DummyAuthComponent)
           .get(RouterStore)
-          .selectRouteData('testData')
+          .selectRouteDataParam('testData')
       )
     ).resolves.toBe('test-data');
   });

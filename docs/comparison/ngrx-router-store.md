@@ -6,18 +6,18 @@ Router Component Store is inspired the `@ngrx/router-store` package.
 
 The following table lists NgRx Router Store selectors and their Router Component Store counterparts when using `provideGlobalRouterStore`.
 
-| NgRx Router Store      | Router Component Store         |
-| ---------------------- | ------------------------------ |
-| `selectCurrentRoute`   | `RouterStore#currentRoute$`    |
-| `selectFragment`       | `RouterStore#fragment$`        |
-| `selectQueryParam`     | `RouterStore#selectQueryParam` |
-| `selectQueryParams`    | `RouterStore#queryParams$`     |
-| `selectRouteData`      | `RouterStore#routeData$`       |
-| `selectRouteDataParam` | `RouterStore#selectRouteData`  |
-| `selectRouteParam`     | `RouterStore#selectRouteParam` |
-| `selectRouteParams`    | `RouterStore#routeParams$`     |
-| `selectTitle`          | `RouterStore#title$`           |
-| `selectUrl`            | `RouterStore#url$`             |
+| NgRx Router Store      | Router Component Store             |
+| ---------------------- | ---------------------------------- |
+| `selectCurrentRoute`   | `RouterStore#currentRoute$`        |
+| `selectFragment`       | `RouterStore#fragment$`            |
+| `selectQueryParam`     | `RouterStore#selectQueryParam`     |
+| `selectQueryParams`    | `RouterStore#queryParams$`         |
+| `selectRouteData`      | `RouterStore#routeData$`           |
+| `selectRouteDataParam` | `RouterStore#selectRouteDataParam` |
+| `selectRouteParam`     | `RouterStore#selectRouteParam`     |
+| `selectRouteParams`    | `RouterStore#routeParams$`         |
+| `selectTitle`          | `RouterStore#title$`               |
+| `selectUrl`            | `RouterStore#url$`                 |
 
 Additionally, Router Component Store provides the `RouterStore#selectRouterEvents` selector for observing Router events like `NavigationEnd`.
 

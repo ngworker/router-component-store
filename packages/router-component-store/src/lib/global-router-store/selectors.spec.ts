@@ -249,7 +249,9 @@ describe(`${GlobalRouterStore.name} selectors`, () => {
     );
 
     await expect(
-      firstValueFrom(harness.inject(RouterStore).selectRouteData('testData'))
+      firstValueFrom(
+        harness.inject(RouterStore).selectRouteDataParam('testData')
+      )
     ).resolves.toBe(expectedTestData);
     await expect(
       firstValueFrom(

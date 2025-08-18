@@ -76,8 +76,8 @@ describe(`${LocalRouterStore.name} nested route data`, () => {
             await expect(
               firstValueFrom(
                 componentStore.select({
-                  parent: routerStore.selectRouteData('parent'),
-                  shadowed: routerStore.selectRouteData('shadowed'),
+                  parent: routerStore.selectRouteDataParam('parent'),
+                  shadowed: routerStore.selectRouteDataParam('shadowed'),
                 })
               )
             ).resolves.toEqual(expectedRouteData);
@@ -113,8 +113,8 @@ describe(`${LocalRouterStore.name} nested route data`, () => {
           await expect(
             firstValueFrom(
               componentStore.select({
-                child: routerStore.selectRouteData('child'),
-                shadowed: routerStore.selectRouteData('shadowed'),
+                child: routerStore.selectRouteDataParam('child'),
+                shadowed: routerStore.selectRouteDataParam('shadowed'),
               })
             )
           ).resolves.toEqual(expectedRouteData);
@@ -145,8 +145,8 @@ describe(`${LocalRouterStore.name} nested route data`, () => {
         await expect(
           firstValueFrom(
             componentStore.select({
-              grandchild: routerStore.selectRouteData('grandchild'),
-              shadowed: routerStore.selectRouteData('shadowed'),
+              grandchild: routerStore.selectRouteDataParam('grandchild'),
+              shadowed: routerStore.selectRouteDataParam('shadowed'),
             })
           )
         ).resolves.toEqual(expectedRouteData);
@@ -184,9 +184,9 @@ describe(`${LocalRouterStore.name} nested route data`, () => {
           await expect(
             firstValueFrom(
               componentStore.select({
-                parent: routerStore.selectRouteData('parent'),
-                child: routerStore.selectRouteData('child'),
-                shadowed: routerStore.selectRouteData('shadowed'),
+                parent: routerStore.selectRouteDataParam('parent'),
+                child: routerStore.selectRouteDataParam('child'),
+                shadowed: routerStore.selectRouteDataParam('shadowed'),
               })
             )
           ).resolves.toEqual(expectedRouteData);
@@ -223,10 +223,10 @@ describe(`${LocalRouterStore.name} nested route data`, () => {
         await expect(
           firstValueFrom(
             componentStore.select({
-              parent: routerStore.selectRouteData('parent'),
-              child: routerStore.selectRouteData('child'),
-              grandchild: routerStore.selectRouteData('grandchild'),
-              shadowed: routerStore.selectRouteData('shadowed'),
+              parent: routerStore.selectRouteDataParam('parent'),
+              child: routerStore.selectRouteDataParam('child'),
+              grandchild: routerStore.selectRouteDataParam('grandchild'),
+              shadowed: routerStore.selectRouteDataParam('shadowed'),
             })
           )
         ).resolves.toEqual(expectedRouteData);

@@ -123,19 +123,20 @@ describe(`${GlobalRouterStore.name} componentless nested route data`, () => {
             await expect(
               firstValueFrom(
                 componentStore.select({
-                  componentlessBeforeParent: routerStore.selectRouteData(
+                  componentlessBeforeParent: routerStore.selectRouteDataParam(
                     'componentlessBeforeParent'
                   ),
-                  parent: routerStore.selectRouteData('parent'),
-                  componentlessBeforeChild: routerStore.selectRouteData(
+                  parent: routerStore.selectRouteDataParam('parent'),
+                  componentlessBeforeChild: routerStore.selectRouteDataParam(
                     'componentlessBeforeChild'
                   ),
-                  child: routerStore.selectRouteData('child'),
-                  componentlessBeforeGrandchild: routerStore.selectRouteData(
-                    'componentlessBeforeGrandchild'
-                  ),
-                  grandchild: routerStore.selectRouteData('grandchild'),
-                  shadowed: routerStore.selectRouteData('shadowed'),
+                  child: routerStore.selectRouteDataParam('child'),
+                  componentlessBeforeGrandchild:
+                    routerStore.selectRouteDataParam(
+                      'componentlessBeforeGrandchild'
+                    ),
+                  grandchild: routerStore.selectRouteDataParam('grandchild'),
+                  shadowed: routerStore.selectRouteDataParam('shadowed'),
                 })
               )
             ).resolves.toEqual(expectedRouteData);
@@ -219,18 +220,19 @@ describe(`${GlobalRouterStore.name} componentless nested route data`, () => {
             await expect(
               firstValueFrom(
                 componentStore.select({
-                  componentlessBeforeParent: routerStore.selectRouteData(
+                  componentlessBeforeParent: routerStore.selectRouteDataParam(
                     'componentlessBeforeParent'
                   ),
-                  parent: routerStore.selectRouteData('parent'),
-                  componentlessBeforeChild: routerStore.selectRouteData(
+                  parent: routerStore.selectRouteDataParam('parent'),
+                  componentlessBeforeChild: routerStore.selectRouteDataParam(
                     'componentlessBeforeChild'
                   ),
-                  child: routerStore.selectRouteData('child'),
-                  componentlessBeforeGrandchild: routerStore.selectRouteData(
-                    'componentlessBeforeGrandchild'
-                  ),
-                  shadowed: routerStore.selectRouteData('shadowed'),
+                  child: routerStore.selectRouteDataParam('child'),
+                  componentlessBeforeGrandchild:
+                    routerStore.selectRouteDataParam(
+                      'componentlessBeforeGrandchild'
+                    ),
+                  shadowed: routerStore.selectRouteDataParam('shadowed'),
                 })
               )
             ).resolves.toEqual(expectedRouteData);
@@ -296,14 +298,14 @@ describe(`${GlobalRouterStore.name} componentless nested route data`, () => {
           await expect(
             firstValueFrom(
               componentStore.select({
-                componentlessBeforeParent: routerStore.selectRouteData(
+                componentlessBeforeParent: routerStore.selectRouteDataParam(
                   'componentlessBeforeParent'
                 ),
-                parent: routerStore.selectRouteData('parent'),
-                componentlessBeforeChild: routerStore.selectRouteData(
+                parent: routerStore.selectRouteDataParam('parent'),
+                componentlessBeforeChild: routerStore.selectRouteDataParam(
                   'componentlessBeforeChild'
                 ),
-                shadowed: routerStore.selectRouteData('shadowed'),
+                shadowed: routerStore.selectRouteDataParam('shadowed'),
               })
             )
           ).resolves.toEqual(expectedRouteData);

@@ -3,6 +3,7 @@
   "version": "16.0.0-alpha.0",
   "description": "A strictly typed lightweight alternative to NgRx Router Store (@ngrx/router-store) and ActivatedRoute",
   "license": "MIT",
+  "sideEffects": false,
   "peerDependencies": {
     "@angular/core": "^16.0.0",
     "@angular/router": "^16.0.0",

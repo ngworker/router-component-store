@@ -15,7 +15,7 @@
     "@nrwl/angular:component",
     "@nrwl/angular:library",
     "@nrwl/cli",
-    "@nrwl/workspace",
+    "@nx/workspace",
     "@schematics/angular:component",
     "@typescript-eslint/eslint-plugin",
     "ng-packagr",

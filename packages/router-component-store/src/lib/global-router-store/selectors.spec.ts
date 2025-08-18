@@ -253,11 +253,11 @@ describe(`${GlobalRouterStore.name} selectors`, () => {
     ).resolves.toBe(expectedTestData);
     await expect(
       firstValueFrom(
-        harness.inject(Store).select(ngrxRouterStore.selectRouteData)
+        harness
+          .inject(Store)
+          .select(ngrxRouterStore.selectRouteDataParam('testData'))
       )
-    ).resolves.toEqual({
-      testData: expectedTestData,
-    });
+    ).resolves.toBe(expectedTestData);
   });
 
   it('exposes a selector for the URL', async () => {

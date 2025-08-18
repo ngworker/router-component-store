@@ -55,7 +55,7 @@ describe(`${GlobalRouterStore.name} nested route data`, () => {
       When the ${GlobalRouterStoreTestGrandchildComponent.name} route is activated
       Then route data for the ${GlobalRouterStoreTestGrandchildComponent.name} route is emitted`,
         async ({ RoutedComponent }) => {
-          expect.assertions(3);
+          expect.assertions(4);
           const { componentStore, ngrxRouterStore, ngrxStore, routerStore } =
             await globalRouterStoreSetup({
               navigateTo: '/parent/child/grandchild',
@@ -81,6 +81,18 @@ describe(`${GlobalRouterStore.name} nested route data`, () => {
               })
             )
           ).resolves.toEqual(expectedRouteData);
+          await expect(
+            firstValueFrom(
+              componentStore.select({
+                grandchild: ngrxStore.select(
+                  ngrxRouterStore.selectRouteDataParam('grandchild')
+                ),
+                shadowed: ngrxStore.select(
+                  ngrxRouterStore.selectRouteDataParam('shadowed')
+                ),
+              })
+            )
+          ).resolves.toEqual(expectedRouteData);
         }
       );
 
@@ -96,7 +108,7 @@ describe(`${GlobalRouterStore.name} nested route data`, () => {
       When the ${GlobalRouterStoreTestChildComponent.name} route is activated
       Then route data for the ${GlobalRouterStoreTestChildComponent.name} route is emitted`,
         async ({ RoutedComponent }) => {
-          expect.assertions(3);
+          expect.assertions(4);
           const { componentStore, ngrxRouterStore, ngrxStore, routerStore } =
             await globalRouterStoreSetup({
               navigateTo: '/parent/child',
@@ -122,13 +134,25 @@ describe(`${GlobalRouterStore.name} nested route data`, () => {
               })
             )
           ).resolves.toEqual(expectedRouteData);
+          await expect(
+            firstValueFrom(
+              componentStore.select({
+                child: ngrxStore.select(
+                  ngrxRouterStore.selectRouteDataParam('child')
+                ),
+                shadowed: ngrxStore.select(
+                  ngrxRouterStore.selectRouteDataParam('shadowed')
+                ),
+              })
+            )
+          ).resolves.toEqual(expectedRouteData);
         }
       );
 
       it(`  And ${RouterStore.name} is injected at ${GlobalRouterStoreTestParentComponent.name}
       When the ${GlobalRouterStoreTestParentComponent.name} route is activated
       Then route data for the ${GlobalRouterStoreTestParentComponent.name} route is emitted`, async () => {
-        expect.assertions(3);
+        expect.assertions(4);
         const { componentStore, ngrxRouterStore, ngrxStore, routerStore } =
           await globalRouterStoreSetup({
             navigateTo: '/parent',
@@ -154,6 +178,18 @@ describe(`${GlobalRouterStore.name} nested route data`, () => {
             })
           )
         ).resolves.toEqual(expectedRouteData);
+        await expect(
+          firstValueFrom(
+            componentStore.select({
+              parent: ngrxStore.select(
+                ngrxRouterStore.selectRouteDataParam('parent')
+              ),
+              shadowed: ngrxStore.select(
+                ngrxRouterStore.selectRouteDataParam('shadowed')
+              ),
+            })
+          )
+        ).resolves.toEqual(expectedRouteData);
       });
     });
 
@@ -172,7 +208,7 @@ describe(`${GlobalRouterStore.name} nested route data`, () => {
         And route data for the ${GlobalRouterStoreTestParentComponent.name} route is emitted
         And route data is merged top-down`,
         async ({ RoutedComponent }) => {
-          expect.assertions(3);
+          expect.assertions(4);
           const { componentStore, ngrxRouterStore, ngrxStore, routerStore } =
             await globalRouterStoreSetup({
               navigateTo: '/parent/child/grandchild',
@@ -203,6 +239,24 @@ describe(`${GlobalRouterStore.name} nested route data`, () => {
               })
             )
           ).resolves.toEqual(expectedRouteData);
+          await expect(
+            firstValueFrom(
+              componentStore.select({
+                parent: ngrxStore.select(
+                  ngrxRouterStore.selectRouteDataParam('parent')
+                ),
+                child: ngrxStore.select(
+                  ngrxRouterStore.selectRouteDataParam('child')
+                ),
+                grandchild: ngrxStore.select(
+                  ngrxRouterStore.selectRouteDataParam('grandchild')
+                ),
+                shadowed: ngrxStore.select(
+                  ngrxRouterStore.selectRouteDataParam('shadowed')
+                ),
+              })
+            )
+          ).resolves.toEqual(expectedRouteData);
         }
       );
 
@@ -220,7 +274,7 @@ describe(`${GlobalRouterStore.name} nested route data`, () => {
         And route data for the ${GlobalRouterStoreTestParentComponent.name} route is emitted
         And route data is merged top-down`,
         async ({ RoutedComponent }) => {
-          expect.assertions(3);
+          expect.assertions(4);
           const { componentStore, ngrxRouterStore, ngrxStore, routerStore } =
             await globalRouterStoreSetup({
               navigateTo: '/parent/child',
@@ -249,13 +303,28 @@ describe(`${GlobalRouterStore.name} nested route data`, () => {
               })
             )
           ).resolves.toEqual(expectedRouteData);
+          await expect(
+            firstValueFrom(
+              componentStore.select({
+                parent: ngrxStore.select(
+                  ngrxRouterStore.selectRouteDataParam('parent')
+                ),
+                child: ngrxStore.select(
+                  ngrxRouterStore.selectRouteDataParam('child')
+                ),
+                shadowed: ngrxStore.select(
+                  ngrxRouterStore.selectRouteDataParam('shadowed')
+                ),
+              })
+            )
+          ).resolves.toEqual(expectedRouteData);
         }
       );
 
       it(`And ${RouterStore.name} is injected at ${GlobalRouterStoreTestParentComponent.name}
       When the ${GlobalRouterStoreTestParentComponent.name} route is activated
       Then route data for the ${GlobalRouterStoreTestParentComponent.name} route is emitted`, async () => {
-        expect.assertions(3);
+        expect.assertions(4);
         const { componentStore, ngrxRouterStore, ngrxStore, routerStore } =
           await globalRouterStoreSetup({
             navigateTo: '/parent',
@@ -279,6 +348,18 @@ describe(`${GlobalRouterStore.name} nested route data`, () => {
             componentStore.select({
               parent: routerStore.selectRouteData('parent'),
               shadowed: routerStore.selectRouteData('shadowed'),
+            })
+          )
+        ).resolves.toEqual(expectedRouteData);
+        await expect(
+          firstValueFrom(
+            componentStore.select({
+              parent: ngrxStore.select(
+                ngrxRouterStore.selectRouteDataParam('parent')
+              ),
+              shadowed: ngrxStore.select(
+                ngrxRouterStore.selectRouteDataParam('shadowed')
+              ),
             })
           )
         ).resolves.toEqual(expectedRouteData);

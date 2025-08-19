@@ -9,7 +9,7 @@ import {
 } from '@angular/router';
 import {
   DEFAULT_ROUTER_FEATURENAME,
-  getSelectors,
+  getRouterSelectors,
   provideRouterStore,
   routerReducer,
 } from '@ngrx/router-store';
@@ -69,7 +69,7 @@ describe(`${GlobalRouterStore.name} selectors`, () => {
     return {
       harness,
       get ngrxRouterStore() {
-        return getSelectors();
+        return getRouterSelectors();
       },
     };
   }
@@ -249,15 +249,17 @@ describe(`${GlobalRouterStore.name} selectors`, () => {
     );
 
     await expect(
-      firstValueFrom(harness.inject(RouterStore).selectRouteData('testData'))
+      firstValueFrom(
+        harness.inject(RouterStore).selectRouteDataParam('testData')
+      )
     ).resolves.toBe(expectedTestData);
     await expect(
       firstValueFrom(
-        harness.inject(Store).select(ngrxRouterStore.selectRouteData)
+        harness
+          .inject(Store)
+          .select(ngrxRouterStore.selectRouteDataParam('testData'))
       )
-    ).resolves.toEqual({
-      testData: expectedTestData,
-    });
+    ).resolves.toBe(expectedTestData);
   });
 
   it('exposes a selector for the URL', async () => {

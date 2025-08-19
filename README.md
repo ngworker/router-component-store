@@ -10,10 +10,10 @@ A strictly typed lightweight alternative to NgRx Router Store (`@ngrx/router-sto
 
 Required peer dependencies:
 
-- Angular >=15.0
-- NgRx Component Store >=15.0
+- Angular 16.x
+- NgRx Component Store 16.x
 - RxJS >=7.5
-- TypeScript >=4.8
+- TypeScript >=4.9
 
 Published with partial Ivy compilation.
 
@@ -46,7 +46,7 @@ A `RouterStore` service has the following public properties.
 | `title$: Observable<string \| undefined>`                                               | Select the resolved route title.                          |
 | `url$: Observable<string>`                                                              | Select the current URL.                                   |
 | `selectQueryParam(param: string): Observable<string \| readonly string[] \| undefined>` | Select the specified query parameter.                     |
-| `selectRouteData(key: string): Observable<unknown>`                                     | Select the specified route data.                          |
+| `selectRouteDataParam(key: string): Observable<unknown>`                                | Select the specified route data.                          |
 | `selectRouteParam(param: string): Observable<string \| undefined>`                      | Select the specified route parameter.                     |
 | `selectRouterEvents(...acceptedRouterEvents: RouterEvent[]): Observable<RouterEvent>`   | Select router events of the specified router event types. |
 
@@ -105,8 +105,7 @@ import { RouterStore } from '@ngworker/router-component-store';
 export class HeroService {
   #routerStore = inject(RouterStore);
 
-  activeHeroId$: Observable<string | undefined> =
-    this.#routerStore.selectRouteParam('id');
+  activeHeroId$: Observable<string | undefined> = this.#routerStore.selectRouteParam('id');
 }
 ```
 
@@ -123,8 +122,7 @@ import { RouterStore } from '@ngworker/router-component-store';
 export class HeroDetailComponent {
   #routerStore = inject(RouterStore);
 
-  heroId$: Observable<string | undefined> =
-    this.#routerStore.selectRouteParam('id');
+  heroId$: Observable<string | undefined> = this.#routerStore.selectRouteParam('id');
 }
 ```
 
@@ -141,10 +139,7 @@ Usage in component:
 ```typescript
 // hero-detail.component.ts
 // (...)
-import {
-  provideLocalRouterStore,
-  RouterStore,
-} from '@ngworker/router-component-store';
+import { provideLocalRouterStore, RouterStore } from '@ngworker/router-component-store';
 
 @Component({
   // (...)
@@ -153,8 +148,7 @@ import {
 export class HeroDetailComponent {
   #routerStore = inject(RouterStore);
 
-  heroId$: Observable<string | undefined> =
-    this.#routerStore.selectRouteParam('id');
+  heroId$: Observable<string | undefined> = this.#routerStore.selectRouteParam('id');
 }
 ```
 

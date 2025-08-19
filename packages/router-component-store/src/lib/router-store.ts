@@ -67,12 +67,23 @@ export abstract class RouterStore {
   /**
    * Select the specified route data.
    *
+   * @deprecated Use {@link selectRouteDataParam} instead. To be removed in version 18.
+   *
    * @param key The route data key.
    *
    * @example <caption>Usage</caption>
    * const limit$ = routerStore.selectRouteData('limit').pipe(map(x => Number(x)));
    */
   abstract selectRouteData(key: string): Observable<unknown>;
+  /**
+   * Select the specified route data.
+   *
+   * @param key The route data key.
+   *
+   * @example <caption>Usage</caption>
+   * const limit$ = routerStore.selectRouteDataParam('limit').pipe(map(x => Number(x)));
+   */
+  abstract selectRouteDataParam(key: string): Observable<unknown>;
   /**
    * Select the specified query parameter.
    *

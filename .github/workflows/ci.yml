@@ -53,8 +53,6 @@ jobs:
       - name: Set up Node.js and Yarn
         uses: ./.github/actions/setup-node
 
-      - name: Lint workspace
-        run: yarn nx workspace-lint
       - name: Lint all projects
         run: yarn lint
 

@@ -4,7 +4,7 @@ import { RouterConfigOptions, Routes } from '@angular/router';
 import { ComponentStore } from '@ngrx/component-store';
 import {
   DEFAULT_ROUTER_FEATURENAME,
-  getSelectors,
+  getRouterSelectors,
   provideRouterStore,
   routerReducer,
 } from '@ngrx/router-store';
@@ -54,8 +54,8 @@ export async function globalRouterStoreSetup<TRoutedComponent>({
         optional: false,
       });
     },
-    get ngrxRouterStore(): ReturnType<typeof getSelectors> {
-      return getSelectors();
+    get ngrxRouterStore(): ReturnType<typeof getRouterSelectors> {
+      return getRouterSelectors();
     },
     get ngrxStore(): Store<object> {
       return injectorFor(RoutedComponent).get(Store);

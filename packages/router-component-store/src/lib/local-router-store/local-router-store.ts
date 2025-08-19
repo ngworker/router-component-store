@@ -95,6 +95,10 @@ export class LocalRouterStore
   }
 
   selectRouteData(key: string): Observable<unknown> {
+    return this.selectRouteDataParam(key);
+  }
+
+  selectRouteDataParam(key: string): Observable<unknown> {
     return this.select(this.routeData$, (data) => data[key]);
   }
 

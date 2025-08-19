@@ -1,12 +1,13 @@
 {
   "name": "@ngworker/router-component-store",
-  "version": "15.0.0",
+  "version": "16.0.0-alpha.0",
   "description": "A strictly typed lightweight alternative to NgRx Router Store (@ngrx/router-store) and ActivatedRoute",
   "license": "MIT",
+  "sideEffects": false,
   "peerDependencies": {
-    "@angular/core": "^15.0.0",
-    "@angular/router": "^15.0.0",
-    "@ngrx/component-store": "^15.0.0",
+    "@angular/core": "^16.0.0",
+    "@angular/router": "^16.0.0",
+    "@ngrx/component-store": "^16.0.0",
     "rxjs": "^7.5.0"
   },
   "dependencies": {
@@ -25,9 +26,16 @@
     "url": "https://github.com/LayZeeDK"
   },
   "contributors": [],
+  "funding": [
+    {
+      "type": "individual",
+      "url": "https://github.com/sponsors/LayZeeDK"
+    }
+  ],
   "publishConfig": {
     "access": "public",
-    "registry": "https://registry.npmjs.org/"
+    "registry": "https://registry.npmjs.org/",
+    "tag": "unknown"
   },
   "bugs": {
     "url": "https://github.com/ngworker/router-component-store/issue"

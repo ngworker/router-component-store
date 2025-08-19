@@ -1,19 +1,11 @@
 {
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "extends": "nx/presets/npm.json",
-  "npmScope": "ngworker",
   "affected": {
     "defaultBase": "main"
   },
   "cli": {
     "packageManager": "yarn"
-  },
-  "implicitDependencies": {
-    "package.json": {
-      "dependencies": "*",
-      "devDependencies": "*"
-    },
-    ".eslintrc.json": "*"
   },
   "tasksRunnerOptions": {
     "default": {
@@ -35,7 +27,11 @@
       "inputs": ["default", "^production"]
     },
     "lint": {
-      "inputs": ["default", "{workspaceRoot}/.eslintrc.json"]
+      "inputs": [
+        "default",
+        "{workspaceRoot}/.eslintrc.json",
+        "{workspaceRoot}/.eslintignore"
+      ]
     }
   },
   "namedInputs": {
@@ -45,26 +41,25 @@
       "!{projectRoot}/**/?(*.)+(spec|test).[jt]s?(x)?(.snap)",
       "!{projectRoot}/tsconfig.spec.json",
       "!{projectRoot}/jest.config.[jt]s",
-      "!{projectRoot}/.eslintrc.json",
-      "!{projectRoot}/**/*.spec.[jt]s"
+      "!{projectRoot}/.eslintrc.json"
     ],
     "sharedGlobals": []
   },
   "generators": {
-    "@nrwl/angular:application": {
+    "@nx/angular:application": {
       "style": "css",
       "linter": "eslint",
       "unitTestRunner": "jest",
       "e2eTestRunner": "cypress"
     },
-    "@nrwl/angular:library": {
+    "@nx/angular:library": {
       "linter": "eslint",
       "unitTestRunner": "jest"
     },
     "@schematics/angular:component": {
       "style": "css"
     },
-    "@nrwl/angular:component": {
+    "@nx/angular:component": {
       "style": "css"
     }
   },

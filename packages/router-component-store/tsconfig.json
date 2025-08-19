@@ -7,23 +7,11 @@
       "path": "./tsconfig.lib.json"
     },
     {
-      "path": "./tsconfig.lib.prod.json"
-    },
-    {
       "path": "./tsconfig.spec.json"
     }
   ],
   "compilerOptions": {
-    "target": "ES2022",
-    "lib": [
-      "DOM",
-      "DOM.Iterable",
-      "ES2021",
-      "es2021.intl",
-      "ES2021.Promise",
-      "ES2021.String",
-      "ES2021.WeakRef"
-    ],
+    "target": "es2022",
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "noImplicitOverride": true,

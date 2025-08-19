@@ -94,7 +94,7 @@ describe(`${GlobalRouterStore.name} componentless nested route data`, () => {
           And route data for the ${GlobalRouterStoreTestParentComponent.name} route is emitted
           And componentless route data before the ${GlobalRouterStoreTestParentComponent.name} is emitted`,
           async ({ RoutedComponent }) => {
-            expect.assertions(3);
+            expect.assertions(4);
             const { componentStore, ngrxRouterStore, ngrxStore, routerStore } =
               await globalRouterStoreSetup({
                 navigateTo: '/parent/child/grandchild',
@@ -123,19 +123,53 @@ describe(`${GlobalRouterStore.name} componentless nested route data`, () => {
             await expect(
               firstValueFrom(
                 componentStore.select({
-                  componentlessBeforeParent: routerStore.selectRouteData(
+                  componentlessBeforeParent: routerStore.selectRouteDataParam(
                     'componentlessBeforeParent'
                   ),
-                  parent: routerStore.selectRouteData('parent'),
-                  componentlessBeforeChild: routerStore.selectRouteData(
+                  parent: routerStore.selectRouteDataParam('parent'),
+                  componentlessBeforeChild: routerStore.selectRouteDataParam(
                     'componentlessBeforeChild'
                   ),
-                  child: routerStore.selectRouteData('child'),
-                  componentlessBeforeGrandchild: routerStore.selectRouteData(
-                    'componentlessBeforeGrandchild'
+                  child: routerStore.selectRouteDataParam('child'),
+                  componentlessBeforeGrandchild:
+                    routerStore.selectRouteDataParam(
+                      'componentlessBeforeGrandchild'
+                    ),
+                  grandchild: routerStore.selectRouteDataParam('grandchild'),
+                  shadowed: routerStore.selectRouteDataParam('shadowed'),
+                })
+              )
+            ).resolves.toEqual(expectedRouteData);
+            await expect(
+              firstValueFrom(
+                componentStore.select({
+                  componentlessBeforeParent: ngrxStore.select(
+                    ngrxRouterStore.selectRouteDataParam(
+                      'componentlessBeforeParent'
+                    )
                   ),
-                  grandchild: routerStore.selectRouteData('grandchild'),
-                  shadowed: routerStore.selectRouteData('shadowed'),
+                  parent: ngrxStore.select(
+                    ngrxRouterStore.selectRouteDataParam('parent')
+                  ),
+                  componentlessBeforeChild: ngrxStore.select(
+                    ngrxRouterStore.selectRouteDataParam(
+                      'componentlessBeforeChild'
+                    )
+                  ),
+                  child: ngrxStore.select(
+                    ngrxRouterStore.selectRouteDataParam('child')
+                  ),
+                  componentlessBeforeGrandchild: ngrxStore.select(
+                    ngrxRouterStore.selectRouteDataParam(
+                      'componentlessBeforeGrandchild'
+                    )
+                  ),
+                  grandchild: ngrxStore.select(
+                    ngrxRouterStore.selectRouteDataParam('grandchild')
+                  ),
+                  shadowed: ngrxStore.select(
+                    ngrxRouterStore.selectRouteDataParam('shadowed')
+                  ),
                 })
               )
             ).resolves.toEqual(expectedRouteData);
@@ -158,7 +192,7 @@ describe(`${GlobalRouterStore.name} componentless nested route data`, () => {
           And route data for the ${GlobalRouterStoreTestParentComponent.name} route is emitted
           And componentless route data before the ${GlobalRouterStoreTestParentComponent.name} is emitted`,
           async ({ RoutedComponent }) => {
-            expect.assertions(3);
+            expect.assertions(4);
             const { componentStore, ngrxRouterStore, ngrxStore, routerStore } =
               await globalRouterStoreSetup({
                 navigateTo: '/parent/child',
@@ -186,18 +220,49 @@ describe(`${GlobalRouterStore.name} componentless nested route data`, () => {
             await expect(
               firstValueFrom(
                 componentStore.select({
-                  componentlessBeforeParent: routerStore.selectRouteData(
+                  componentlessBeforeParent: routerStore.selectRouteDataParam(
                     'componentlessBeforeParent'
                   ),
-                  parent: routerStore.selectRouteData('parent'),
-                  componentlessBeforeChild: routerStore.selectRouteData(
+                  parent: routerStore.selectRouteDataParam('parent'),
+                  componentlessBeforeChild: routerStore.selectRouteDataParam(
                     'componentlessBeforeChild'
                   ),
-                  child: routerStore.selectRouteData('child'),
-                  componentlessBeforeGrandchild: routerStore.selectRouteData(
-                    'componentlessBeforeGrandchild'
+                  child: routerStore.selectRouteDataParam('child'),
+                  componentlessBeforeGrandchild:
+                    routerStore.selectRouteDataParam(
+                      'componentlessBeforeGrandchild'
+                    ),
+                  shadowed: routerStore.selectRouteDataParam('shadowed'),
+                })
+              )
+            ).resolves.toEqual(expectedRouteData);
+            await expect(
+              firstValueFrom(
+                componentStore.select({
+                  componentlessBeforeParent: ngrxStore.select(
+                    ngrxRouterStore.selectRouteDataParam(
+                      'componentlessBeforeParent'
+                    )
                   ),
-                  shadowed: routerStore.selectRouteData('shadowed'),
+                  parent: ngrxStore.select(
+                    ngrxRouterStore.selectRouteDataParam('parent')
+                  ),
+                  componentlessBeforeChild: ngrxStore.select(
+                    ngrxRouterStore.selectRouteDataParam(
+                      'componentlessBeforeChild'
+                    )
+                  ),
+                  child: ngrxStore.select(
+                    ngrxRouterStore.selectRouteDataParam('child')
+                  ),
+                  componentlessBeforeGrandchild: ngrxStore.select(
+                    ngrxRouterStore.selectRouteDataParam(
+                      'componentlessBeforeGrandchild'
+                    )
+                  ),
+                  shadowed: ngrxStore.select(
+                    ngrxRouterStore.selectRouteDataParam('shadowed')
+                  ),
                 })
               )
             ).resolves.toEqual(expectedRouteData);
@@ -209,7 +274,7 @@ describe(`${GlobalRouterStore.name} componentless nested route data`, () => {
         Then componentless route data before the ${GlobalRouterStoreTestChildComponent.name} is emitted
           And route data for the ${GlobalRouterStoreTestParentComponent.name} route is emitted
           And componentless route data before the ${GlobalRouterStoreTestParentComponent.name} is emitted`, async () => {
-          expect.assertions(3);
+          expect.assertions(4);
           const { componentStore, ngrxRouterStore, ngrxStore, routerStore } =
             await globalRouterStoreSetup({
               navigateTo: '/parent',
@@ -233,14 +298,36 @@ describe(`${GlobalRouterStore.name} componentless nested route data`, () => {
           await expect(
             firstValueFrom(
               componentStore.select({
-                componentlessBeforeParent: routerStore.selectRouteData(
+                componentlessBeforeParent: routerStore.selectRouteDataParam(
                   'componentlessBeforeParent'
                 ),
-                parent: routerStore.selectRouteData('parent'),
-                componentlessBeforeChild: routerStore.selectRouteData(
+                parent: routerStore.selectRouteDataParam('parent'),
+                componentlessBeforeChild: routerStore.selectRouteDataParam(
                   'componentlessBeforeChild'
                 ),
-                shadowed: routerStore.selectRouteData('shadowed'),
+                shadowed: routerStore.selectRouteDataParam('shadowed'),
+              })
+            )
+          ).resolves.toEqual(expectedRouteData);
+          await expect(
+            firstValueFrom(
+              componentStore.select({
+                componentlessBeforeParent: ngrxStore.select(
+                  ngrxRouterStore.selectRouteDataParam(
+                    'componentlessBeforeParent'
+                  )
+                ),
+                parent: ngrxStore.select(
+                  ngrxRouterStore.selectRouteDataParam('parent')
+                ),
+                componentlessBeforeChild: ngrxStore.select(
+                  ngrxRouterStore.selectRouteDataParam(
+                    'componentlessBeforeChild'
+                  )
+                ),
+                shadowed: ngrxStore.select(
+                  ngrxRouterStore.selectRouteDataParam('shadowed')
+                ),
               })
             )
           ).resolves.toEqual(expectedRouteData);

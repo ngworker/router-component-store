@@ -26,6 +26,12 @@
     "url": "https://github.com/LayZeeDK"
   },
   "contributors": [],
+  "funding": [
+    {
+      "type": "individual",
+      "url": "https://github.com/sponsors/LayZeeDK"
+    }
+  ],
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"

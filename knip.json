@@ -18,7 +18,6 @@
     "@schematics/angular:component",
     "@typescript-eslint/eslint-plugin",
     "ng-packagr",
-    "nx",
     "postcss",
     "postcss-import",
     "postcss-preset-env",

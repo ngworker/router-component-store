@@ -1,5 +1,26 @@
 # Router Component Store changelog
 
+## 16.0.0 (2025-08-19)
+
+### Features
+
+- Add `RouterStore#selectRouteDataParam(param: string)` to match NgRx Router Store selector name ([#341](https://github.com/ngworker/router-component-store/pull/341))
+
+**Deprecations**
+
+- Deprecate `RouterStore#selectRouteData`
+  - Use `RouterStore#selectRouteDataParam` instead
+  - To be removed in version 18
+
+**BREAKING CHANGES**
+
+**Compatibility**
+
+- Require Angular 16.0
+- Require `@ngrx/component-store` 16.0
+- Require RxJS 7.5
+- Require TypeScript 4.9
+
 ## 15.0.0 (2025-08-14)
 
 First stable release. No functional or API changes from 15.0.0-rc.2.

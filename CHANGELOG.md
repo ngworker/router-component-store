@@ -58,9 +58,7 @@ import { RouterStore } from '@ngworker/router-component-store';
 export class ShirtsComponent {
   #routerStore = inject(RouterStore);
 
-  size$: Observable<string> = this.#routerStore.queryParams$.pipe(
-    map((params) => params['size'])
-  );
+  size$: Observable<string> = this.#routerStore.queryParams$.pipe(map((params) => params['size']));
 }
 ```
 
@@ -121,12 +119,10 @@ import { RouterStore } from '@ngworker/router-component-store';
 export class ShirtsComponent {
   #routerStore = inject(RouterStore);
 
-  size$: Observable<readonly string[]> = this.#routerStore
-    .selectQueryParam('size')
-    .pipe(
-      map((size) => size ?? []),
-      map((size) => (Array.isArray(size) ? size : [size]))
-    );
+  size$: Observable<readonly string[]> = this.#routerStore.selectQueryParam('size').pipe(
+    map((size) => size ?? []),
+    map((size) => (Array.isArray(size) ? size : [size]))
+  );
 }
 ```
 
@@ -260,9 +256,7 @@ import { RouterStore } from '@ngworker/router-component-store';
 })
 export class HeroesComponent {
   #routerStore = inject(RouterStore);
-  limit$: Observable<number> = this.#routerStore.routeData$.pipe(
-    map((routeData) => routeData['limit'])
-  );
+  limit$: Observable<number> = this.#routerStore.routeData$.pipe(map((routeData) => routeData['limit']));
 }
 ```
 
@@ -300,9 +294,7 @@ import { RouterStore } from '@ngworker/router-component-store';
 export class DashboardComponent {
   #routerStore = inject(RouterStore);
 
-  limit$: Observable<number> = this.#routerStore.routeParams$.pipe(
-    map((params) => params['limit'])
-  );
+  limit$: Observable<number> = this.#routerStore.routeParams$.pipe(map((params) => params['limit']));
 }
 ```
 
@@ -319,9 +311,7 @@ import { RouterStore } from '@ngworker/router-component-store';
 export class DashboardComponent {
   #routerStore = inject(RouterStore);
 
-  limit$: Observable<number> = this.#routerStore.routeParams$.pipe(
-    map((params) => Number(params['limit'] ?? 10))
-  );
+  limit$: Observable<number> = this.#routerStore.routeParams$.pipe(map((params) => Number(params['limit'] ?? 10)));
 }
 ```
 
@@ -366,9 +356,7 @@ import { RouterStore } from '@ngworker/router-component-store';
 export class DashboardComponent {
   #routerStore = inject(RouterStore);
 
-  limit$: Observable<number> = this.#routerStore.routeData$.pipe(
-    map((data) => Number(data['limit']))
-  );
+  limit$: Observable<number> = this.#routerStore.routeData$.pipe(map((data) => Number(data['limit'])));
 }
 ```
 
@@ -389,9 +377,7 @@ import { RouterStore } from '@ngworker/router-component-store';
 export class DashboardComponent {
   #routerStore = inject(RouterStore);
 
-  limit$: Observable<number> = this.#routerStore.queryParams$.pipe(
-    map((params) => params['limit'])
-  );
+  limit$: Observable<number> = this.#routerStore.queryParams$.pipe(map((params) => params['limit']));
 }
 ```
 
@@ -408,9 +394,7 @@ import { RouterStore } from '@ngworker/router-component-store';
 export class DashboardComponent {
   #routerStore = inject(RouterStore);
 
-  limit$: Observable<number> = this.#routerStore.queryParams$.pipe(
-    map((params) => Number(params['limit'] ?? 10))
-  );
+  limit$: Observable<number> = this.#routerStore.queryParams$.pipe(map((params) => Number(params['limit'] ?? 10)));
 }
 ```
 
@@ -530,9 +514,7 @@ After:
 
 ```typescript
 // Emitted values are implicitly of type `string | undefined` and are only changeable through operators
-const filter$ = routerStore
-  .selectQueryParam('filter')
-  .pipe(map((filter) => filter ?? null));
+const filter$ = routerStore.selectQueryParam('filter').pipe(map((filter) => filter ?? null));
 ```
 
 #### Stricter signature for selectRouteParam
@@ -622,10 +604,7 @@ After:
 ```typescript
 // hero-detail.component.ts
 // (...)
-import {
-  provideLocalRouterStore,
-  RouterStore,
-} from '@ngworker/router-component-store';
+import { provideLocalRouterStore, RouterStore } from '@ngworker/router-component-store';
 
 @Component({
   // (...)

@@ -1,5 +1,26 @@
 # Router Component Store changelog
 
+## 16.0.0 (2025-08-19)
+
+### Features
+
+- Add `RouterStore#selectRouteDataParam(param: string)` to match NgRx Router Store selector name ([#341](https://github.com/ngworker/router-component-store/pull/341))
+
+**Deprecations**
+
+- Deprecate `RouterStore#selectRouteData`
+  - Use `RouterStore#selectRouteDataParam` instead
+  - To be removed in version 18
+
+**BREAKING CHANGES**
+
+**Compatibility**
+
+- Require Angular 16.0
+- Require `@ngrx/component-store` 16.0
+- Require RxJS 7.5
+- Require TypeScript 4.9
+
 ## 15.0.0 (2025-08-14)
 
 First stable release. No functional or API changes from 15.0.0-rc.2.
@@ -58,9 +79,7 @@ import { RouterStore } from '@ngworker/router-component-store';
 export class ShirtsComponent {
   #routerStore = inject(RouterStore);
 
-  size$: Observable<string> = this.#routerStore.queryParams$.pipe(
-    map((params) => params['size'])
-  );
+  size$: Observable<string> = this.#routerStore.queryParams$.pipe(map((params) => params['size']));
 }
 ```
 
@@ -121,12 +140,10 @@ import { RouterStore } from '@ngworker/router-component-store';
 export class ShirtsComponent {
   #routerStore = inject(RouterStore);
 
-  size$: Observable<readonly string[]> = this.#routerStore
-    .selectQueryParam('size')
-    .pipe(
-      map((size) => size ?? []),
-      map((size) => (Array.isArray(size) ? size : [size]))
-    );
+  size$: Observable<readonly string[]> = this.#routerStore.selectQueryParam('size').pipe(
+    map((size) => size ?? []),
+    map((size) => (Array.isArray(size) ? size : [size]))
+  );
 }
 ```
 
@@ -260,9 +277,7 @@ import { RouterStore } from '@ngworker/router-component-store';
 })
 export class HeroesComponent {
   #routerStore = inject(RouterStore);
-  limit$: Observable<number> = this.#routerStore.routeData$.pipe(
-    map((routeData) => routeData['limit'])
-  );
+  limit$: Observable<number> = this.#routerStore.routeData$.pipe(map((routeData) => routeData['limit']));
 }
 ```
 
@@ -300,9 +315,7 @@ import { RouterStore } from '@ngworker/router-component-store';
 export class DashboardComponent {
   #routerStore = inject(RouterStore);
 
-  limit$: Observable<number> = this.#routerStore.routeParams$.pipe(
-    map((params) => params['limit'])
-  );
+  limit$: Observable<number> = this.#routerStore.routeParams$.pipe(map((params) => params['limit']));
 }
 ```
 
@@ -319,9 +332,7 @@ import { RouterStore } from '@ngworker/router-component-store';
 export class DashboardComponent {
   #routerStore = inject(RouterStore);
 
-  limit$: Observable<number> = this.#routerStore.routeParams$.pipe(
-    map((params) => Number(params['limit'] ?? 10))
-  );
+  limit$: Observable<number> = this.#routerStore.routeParams$.pipe(map((params) => Number(params['limit'] ?? 10)));
 }
 ```
 
@@ -366,9 +377,7 @@ import { RouterStore } from '@ngworker/router-component-store';
 export class DashboardComponent {
   #routerStore = inject(RouterStore);
 
-  limit$: Observable<number> = this.#routerStore.routeData$.pipe(
-    map((data) => Number(data['limit']))
-  );
+  limit$: Observable<number> = this.#routerStore.routeData$.pipe(map((data) => Number(data['limit'])));
 }
 ```
 
@@ -389,9 +398,7 @@ import { RouterStore } from '@ngworker/router-component-store';
 export class DashboardComponent {
   #routerStore = inject(RouterStore);
 
-  limit$: Observable<number> = this.#routerStore.queryParams$.pipe(
-    map((params) => params['limit'])
-  );
+  limit$: Observable<number> = this.#routerStore.queryParams$.pipe(map((params) => params['limit']));
 }
 ```
 
@@ -408,9 +415,7 @@ import { RouterStore } from '@ngworker/router-component-store';
 export class DashboardComponent {
   #routerStore = inject(RouterStore);
 
-  limit$: Observable<number> = this.#routerStore.queryParams$.pipe(
-    map((params) => Number(params['limit'] ?? 10))
-  );
+  limit$: Observable<number> = this.#routerStore.queryParams$.pipe(map((params) => Number(params['limit'] ?? 10)));
 }
 ```
 
@@ -530,9 +535,7 @@ After:
 
 ```typescript
 // Emitted values are implicitly of type `string | undefined` and are only changeable through operators
-const filter$ = routerStore
-  .selectQueryParam('filter')
-  .pipe(map((filter) => filter ?? null));
+const filter$ = routerStore.selectQueryParam('filter').pipe(map((filter) => filter ?? null));
 ```
 
 #### Stricter signature for selectRouteParam
@@ -622,10 +625,7 @@ After:
 ```typescript
 // hero-detail.component.ts
 // (...)
-import {
-  provideLocalRouterStore,
-  RouterStore,
-} from '@ngworker/router-component-store';
+import { provideLocalRouterStore, RouterStore } from '@ngworker/router-component-store';
 
 @Component({
   // (...)

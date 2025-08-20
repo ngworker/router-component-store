@@ -67,9 +67,9 @@
     "typescript": "5.2.2"
   },
   "resolutions": {
-    "jest/typescript": "4.9.5",
+    "jest/typescript": "5.2.2",
     "knip/typescript": "5.5.4",
-    "ts-jest/typescript": "4.9.5",
-    "ts-node/typescript": "4.9.5"
+    "ts-jest/typescript": "5.2.2",
+    "ts-node/typescript": "5.2.2"
   }
 }

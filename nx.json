@@ -59,5 +59,10 @@
       "style": "css"
     }
   },
-  "defaultProject": "router-component-store"
+  "defaultProject": "router-component-store",
+  "pluginsConfig": {
+    "@nx/js": {
+      "analyzeSourceFiles": true
+    }
+  }
 }

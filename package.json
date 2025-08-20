@@ -64,7 +64,7 @@
     "prettier": "2.8.8",
     "ts-jest": "29.4.1",
     "ts-node": "10.9.1",
-    "typescript": "4.9.5"
+    "typescript": "5.0.4"
   },
   "resolutions": {
     "jest/typescript": "4.9.5",

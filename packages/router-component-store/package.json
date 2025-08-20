@@ -5,8 +5,8 @@
   "license": "MIT",
   "sideEffects": false,
   "peerDependencies": {
-    "@angular/core": "^16.0.0",
-    "@angular/router": "^16.0.0",
+    "@angular/core": "^17.0.0",
+    "@angular/router": "^17.0.0",
     "@ngrx/component-store": "^16.0.0",
     "rxjs": "^7.5.0"
   },

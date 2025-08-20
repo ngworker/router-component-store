@@ -9,8 +9,7 @@
       "executor": "@nx/angular:package",
       "outputs": ["{workspaceRoot}/dist/{projectRoot}"],
       "options": {
-        "project": "packages/router-component-store/ng-package.json",
-        "updateBuildableProjectDepsInPackageJson": true
+        "project": "packages/router-component-store/ng-package.json"
       },
       "configurations": {
         "production": {
@@ -38,13 +37,7 @@
     },
     "lint": {
       "executor": "@nx/linter:eslint",
-      "outputs": ["{options.outputFile}"],
-      "options": {
-        "lintFilePatterns": [
-          "packages/router-component-store/src/**/*.ts",
-          "packages/router-component-store/src/**/*.html"
-        ]
-      }
+      "outputs": ["{options.outputFile}"]
     }
   },
   "tags": []

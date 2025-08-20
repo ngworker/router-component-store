@@ -35,7 +35,7 @@
     "@angular-eslint/eslint-plugin": "17.0.1",
     "@angular-eslint/eslint-plugin-template": "17.0.1",
     "@angular-eslint/template-parser": "17.0.1",
-    "@angular/cli": "~16.2.0",
+    "@angular/cli": "~17.0.0",
     "@angular/compiler-cli": "17.0.9",
     "@angular/language-service": "17.0.9",
     "@ngrx/eslint-plugin": "17.0.1",

@@ -1,13 +1,13 @@
 # Matches Angular CLI's default Browserslist configuration when Angular 16.0 was released
 # See https://angular.io/guide/build#configuring-browser-compatibility
 # See https://chromiumdash.appspot.com/schedule
-Chrome >= 109
+Chrome >= 119
 # Firefox Desktop. See https://whattrainisitnow.com/calendar/
-Firefox >= 110
-# See https://learn.microsoft.com/en-us/deployedge/microsoft-edge-release-schedule
-Edge >= 109
+Firefox >= 119
+# See https://learn.microsoft.com/en-us/deployedge/microsoft-edge-release-schedule?WT.mc_id=DT-MVP-5003831
+Edge >= 118
 # See https://developer.apple.com/documentation/safari-release-notes
-Safari >= 15
-iOS >= 15
+Safari >= 16
+iOS >= 16
 # Firefox ESR. See https://whattrainisitnow.com/calendar/
-Firefox >= 102
+Firefox >= 115

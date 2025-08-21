@@ -14,6 +14,7 @@
     "@nx/angular:application",
     "@nx/angular:component",
     "@nx/angular:library",
+    "@nx/js",
     "@nx/workspace",
     "@schematics/angular:component",
     "@typescript-eslint/eslint-plugin",

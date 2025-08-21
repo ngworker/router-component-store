@@ -41,5 +41,7 @@ If the user wants to generate something, use the following flow:
 - decide which options to provide in order to best complete the user's request. Don't make any assumptions and keep the options minimalistic
 - open the generator UI using the 'nx_run_generator' tool
 - wait for the user to finish the generator
-- read the generator log file using the 'nx_read_generator_log' tool
+- read the generator log file using the 'nx_current_running_task_output' tool
 - use the information provided in the log file to answer the user's question or continue with what they were doing
+
+If no IDE is available, use the `nx` CLI instead of tools requiring an IDE.

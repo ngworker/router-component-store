@@ -39,7 +39,7 @@ If the user wants to generate something, use the following flow:
 - get generator details using the 'nx_generator_schema' tool
 - you may use the 'nx_docs' tool to learn more about a specific generator or technology if you're unsure
 - decide which options to provide in order to best complete the user's request. Don't make any assumptions and keep the options minimalistic
-- open the generator UI using the 'nx_open_generate_ui' tool
+- open the generator UI using the 'nx_run_generator' tool
 - wait for the user to finish the generator
 - read the generator log file using the 'nx_read_generator_log' tool
 - use the information provided in the log file to answer the user's question or continue with what they were doing

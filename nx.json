@@ -1,6 +1,5 @@
 {
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
-  "extends": "nx/presets/npm.json",
   "affected": {
     "defaultBase": "main"
   },
@@ -68,10 +67,5 @@
       "style": "css"
     }
   },
-  "defaultProject": "router-component-store",
-  "pluginsConfig": {
-    "@nx/js": {
-      "analyzeSourceFiles": true
-    }
-  }
+  "defaultProject": "router-component-store"
 }

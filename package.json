@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "build": "nx run-many --targets=build",
-    "ci": "yarn lint && yarn test && yarn build",
+    "ci": "yarn lint && yarn test && yarn build && yarn knip",
     "knip": "knip",
     "lint": "nx run-many --targets=lint --max-warnings=0",
     "nx": "nx",

@@ -3280,7 +3280,7 @@
   resolved "https://registry.yarnpkg.com/@swc-node/core/-/core-1.14.1.tgz#b3f85f9ac055faee1a3454a0cf71bb953c814f1a"
   integrity sha512-jrt5GUaZUU6cmMS+WTJEvGvaB6j1YNKPHPzC2PUi2BjaFbtxURHj6641Az6xN7b665hNniAIdvjxWcRml5yCnw==
 
-"@swc-node/register@~1.6.7":
+"@swc-node/register@1.6.8":
   version "1.6.8"
   resolved "https://registry.yarnpkg.com/@swc-node/register/-/register-1.6.8.tgz#4e2402b42ae5b538d5041e0c4d86d9c3c8d5b323"
   integrity sha512-74ijy7J9CWr1Z88yO+ykXphV29giCrSpANQPQRooE0bObpkTO1g4RzQovIfbIaniBiGDDVsYwDoQ3FIrCE8HcQ==
@@ -3350,7 +3350,7 @@
   resolved "https://registry.yarnpkg.com/@swc/core-win32-x64-msvc/-/core-win32-x64-msvc-1.3.107.tgz#c89640b16504ddda1f1faf573a7ed7193dc87485"
   integrity sha512-Eyzo2XRqWOxqhE1gk9h7LWmUf4Bp4Xn2Ttb0ayAXFp6YSTxQIThXcT9kipXZqcpxcmDwoq8iWbbf2P8XL743EA==
 
-"@swc/core@~1.3.85":
+"@swc/core@1.3.107":
   version "1.3.107"
   resolved "https://registry.yarnpkg.com/@swc/core/-/core-1.3.107.tgz#081697224ec3bffa63c33209d242e4f0b2c49e78"
   integrity sha512-zKhqDyFcTsyLIYK1iEmavljZnf4CCor5pF52UzLAz4B6Nu/4GLU+2LQVAf+oRHjusG39PTPjd2AlRT3f3QWfsQ==

@@ -1,5 +1,15 @@
 # Router Component Store changelog
 
+## 17.0.0 (2025-09-16)
+
+### Features
+
+**Compatibility**
+
+- Require Angular 17.0
+- Require `@ngrx/component-store` 17.0
+- Require TypeScript 5.2
+
 ## 16.0.0 (2025-08-19)
 
 ### Features

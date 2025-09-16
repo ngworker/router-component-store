@@ -8,7 +8,6 @@
 
 - Require Angular 17.0
 - Require `@ngrx/component-store` 17.0
-- Require RxJS 7.5
 - Require TypeScript 5.2
 
 ## 16.0.0 (2025-08-19)

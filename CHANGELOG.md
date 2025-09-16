@@ -1,5 +1,20 @@
 # Router Component Store changelog
 
+## 17.0.0 (2025-09-16)
+
+### Features
+
+- Support for Angular 17.0
+- Support for NgRx Component Store 17.0
+- Improved TypeScript support with TypeScript 5.2
+
+**Compatibility**
+
+- Require Angular 17.0
+- Require `@ngrx/component-store` 17.0
+- Require RxJS 7.5
+- Require TypeScript 5.2
+
 ## 16.0.0 (2025-08-19)
 
 ### Features

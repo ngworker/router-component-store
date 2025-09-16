@@ -2499,10 +2499,10 @@
   resolved "https://registry.yarnpkg.com/@ngtools/webpack/-/webpack-17.0.9.tgz#7d3b4413de533dac3dab886026fbe84b865103ee"
   integrity sha512-ilbzwW30NaccrhYbdY3jy/ZpbC0l7W6+L2Cd3dzHFQ1gZGckibDdMzjibW/vyq/vRf0xr25+oBVIqUn8kZ606g==
 
-"@ngworker/spectacular@16.0.0":
-  version "16.0.0"
-  resolved "https://registry.yarnpkg.com/@ngworker/spectacular/-/spectacular-16.0.0.tgz#5a28cd435678ab1af2c64e23c5811fe0460e95eb"
-  integrity sha512-MRoGPXHQzkvNUMBDjPyRoS9pQGpoUCLExCbWFYK3Q3gEFv6xIbOJ/o/cebAPzTMud/AOu7pirLZZtUMGRmv3WA==
+"@ngworker/spectacular@17.0.1":
+  version "17.0.1"
+  resolved "https://registry.yarnpkg.com/@ngworker/spectacular/-/spectacular-17.0.1.tgz#497ab8d205d8c40980412ca9f2d232c39e1959d5"
+  integrity sha512-EDHO7tDsysVLTp4O3n/B2OIGWu2HlHa2SCSjMkorjHHxrWnNNyM6EqBj/9BFINMRMq2fUVaFO0R+ef26mzkPEQ==
   dependencies:
     tslib "^2.4.1"
 

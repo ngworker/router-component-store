@@ -2,6 +2,8 @@
 
 ## 17.0.0 (2025-09-16)
 
+### Features
+
 **Compatibility**
 
 - Require Angular 17.0

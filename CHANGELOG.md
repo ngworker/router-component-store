@@ -2,12 +2,6 @@
 
 ## 17.0.0 (2025-09-16)
 
-### Features
-
-- Support for Angular 17.0
-- Support for NgRx Component Store 17.0
-- Improved TypeScript support with TypeScript 5.2
-
 **Compatibility**
 
 - Require Angular 17.0

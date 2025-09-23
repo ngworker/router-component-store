@@ -43,10 +43,7 @@ To ensure injection of a local router store, use the `host` inject option.
 ```typescript
 // crisis-detail.component.ts
 // (...)
-import {
-  provideLocalRouterStore,
-  RouterStore,
-} from '@ngworker/router-component-store';
+import { provideLocalRouterStore, RouterStore } from '@ngworker/router-component-store';
 
 @Component({
   // (...)

@@ -1,4 +1,22 @@
-# Router Component Store changelog
+# ngworker Router Store changelog
+
+## @ngworker/router-signal-store 17.0.0 (2025-09-24)
+
+First release of the signal-based router store. It has similar features to `@ngworker/router-component-store` but uses Angular Signals instead of RxJS Observables and has a peer dependency on NgRx Signals (`@ngrx/signals`) instead of NgRx Component Store (`@ngrx/component-store`).
+
+### Features
+
+- `RouterSignalStore` shared API for dependency injection
+- `provideLocalRouterSignalStore` for providing a local router signal store, a replacement for `ActivatedRoute`
+- `provideGlobalRouterSignalStore` for providing the global router signal store, a replacement for NgRx Router Store
+- Strong and strict typing with `StrictQueryParams`, `StrictRouteData`, and `StrictRouteParams`
+- Serializable router state with `MinimalActivatedRouteSnapshot`
+
+**Compatibility**
+
+- Require Angular 17.0
+- Require `@ngrx/signals` 17.0
+- Require TypeScript 5.2
 
 ## 17.0.0 (2025-09-16)
 

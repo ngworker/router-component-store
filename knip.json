@@ -11,12 +11,9 @@
     "@angular/compiler",
     "@angular/language-service",
     "@ngrx/component-store",
-    "@nx/angular:application",
-    "@nx/angular:component",
-    "@nx/angular:library",
+    "@ngrx/signals",
     "@nx/js",
     "@nx/workspace",
-    "@schematics/angular:component",
     "@typescript-eslint/eslint-plugin",
     "ng-packagr",
     "postcss",
@@ -24,6 +21,7 @@
     "postcss-preset-env",
     "postcss-url",
     "prettier",
+    "tslib",
     "ts-node",
     "zone.js"
   ],
@@ -36,8 +34,15 @@
     ]
   },
   "nx": {
-    "config": ["nx.json", "project.json", "packages/**/project.json"]
+    "config": [
+      "nx.json",
+      "project.json",
+      "packages/**/project.json",
+      "package.json",
+      "packages/**/package.json"
+    ]
   },
+  "tags": ["-deprecated"],
   "typescript": {
     "config": ["tsconfig.json", "tsconfig.*.json"]
   },

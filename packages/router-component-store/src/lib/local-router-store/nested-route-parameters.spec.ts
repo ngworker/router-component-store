@@ -197,7 +197,7 @@ describe(`${LocalRouterStore.name} nested route parameters`, () => {
     When the ${LocalRouterStoreTestGrandchildComponent.name} route is activated
     Then route parameters for the ${LocalRouterStoreTestGrandchildComponent.name} route are emitted
       And route parameters for the ${LocalRouterStoreTestChildComponent.name} route are emitted
-      And route paraemters for the ${LocalRouterStoreTestParentComponent.name} route are emitted
+      And route parameters for the ${LocalRouterStoreTestParentComponent.name} route are emitted
       And route parameters are merged top-down`, async () => {
       expect.assertions(3);
       const { activatedRoute, componentStore, routerStore } =

@@ -81,7 +81,7 @@ describe(`${GlobalRouterStore.name} nested route title`, () => {
             await expect(
               firstValueFrom(ngrxStore.select(ngrxRouterStore.selectTitle))
             ).resolves.toBe(
-              // NOTE(@LayZeeDK) Seems to be a bug in NgRx Router Store 15.0.0
+              // NOTE(@LayZeeDK) Seems to be a bug in NgRx Router Store
               undefined
             );
           }
@@ -115,7 +115,7 @@ describe(`${GlobalRouterStore.name} nested route title`, () => {
             await expect(
               firstValueFrom(ngrxStore.select(ngrxRouterStore.selectTitle))
             ).resolves.toBe(
-              // NOTE(@LayZeeDK) Seems to be a bug in NgRx Router Store 15.0.0
+              // NOTE(@LayZeeDK) Seems to be a bug in NgRx Router Store
               undefined
             );
           }
@@ -140,7 +140,7 @@ describe(`${GlobalRouterStore.name} nested route title`, () => {
           await expect(
             firstValueFrom(ngrxStore.select(ngrxRouterStore.selectTitle))
           ).resolves.toBe(
-            // NOTE(@LayZeeDK) Seems to be a bug in NgRx Router Store 15.0.0
+            // NOTE(@LayZeeDK) Seems to be a bug in NgRx Router Store
             undefined
           );
         });

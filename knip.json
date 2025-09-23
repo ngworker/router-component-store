@@ -41,6 +41,7 @@
       "packages/**/package.json"
     ]
   },
+  "tags": ["-deprecated"],
   "typescript": {
     "config": ["tsconfig.json", "tsconfig.*.json"]
   },

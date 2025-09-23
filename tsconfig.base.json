@@ -17,6 +17,9 @@
     "paths": {
       "@ngworker/router-component-store": [
         "packages/router-component-store/src/index.ts"
+      ],
+      "@ngworker/router-signal-store": [
+        "packages/router-signal-store/src/index.ts"
       ]
     }
   },

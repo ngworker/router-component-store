@@ -97,14 +97,14 @@ jobs:
 
       - name: Build
         run: yarn build
-      - name: Bundle readme
-        run: cp README.md dist/packages/router-component-store/
 
-      - name: '[Merge] Upload package bundle'
+      - name: '[Merge] Upload package bundles'
         if: ${{ env.is-merge-to-main == 'true' }}
         uses: actions/upload-artifact@v4
         with:
           name: ngworker-router-component-store
-          path: dist/packages/router-component-store
+          path: |
+            dist/packages/router-component-store
+            dist/packages/router-signal-store
           if-no-files-found: error
           retention-days: 7

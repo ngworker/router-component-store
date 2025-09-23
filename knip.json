@@ -11,6 +11,7 @@
     "@angular/compiler",
     "@angular/language-service",
     "@ngrx/component-store",
+    "@ngrx/signals",
     "@nx/js",
     "@nx/workspace",
     "@typescript-eslint/eslint-plugin",

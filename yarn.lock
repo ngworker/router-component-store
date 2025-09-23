@@ -2518,6 +2518,13 @@
   dependencies:
     tslib "^2.0.0"
 
+"@ngrx/signals@17.0.1":
+  version "17.0.1"
+  resolved "https://registry.yarnpkg.com/@ngrx/signals/-/signals-17.0.1.tgz#901fb51b21c1f3867db463000def811172cb57ee"
+  integrity sha512-YxnYoDlm0Q0Wighspwg3mgUqnOuIiGP3jvqcr1R/ZMIQ2e0IyzJR2QhtZ1etFxB6NhyDuGtG8FWU2+0cgc0w/w==
+  dependencies:
+    tslib "^2.3.0"
+
 "@ngrx/store@17.0.1":
   version "17.0.1"
   resolved "https://registry.yarnpkg.com/@ngrx/store/-/store-17.0.1.tgz#e8ebad6ff28e53cd7c945939d84f26be965a406c"

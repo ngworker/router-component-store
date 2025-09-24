@@ -1,0 +1,43 @@
+{
+  "name": "@ngworker/router-store",
+  "version": "17.0.0",
+  "description": "A strictly typed lightweight alternative to NgRx Router Store and ActivatedRoute using Angular Signals",
+  "license": "MIT",
+  "sideEffects": false,
+  "peerDependencies": {
+    "@angular/core": "^17.0.0",
+    "@angular/router": "^17.0.0"
+  },
+  "dependencies": {},
+  "keywords": [
+    "angular",
+    "router",
+    "signals",
+    "ngworker"
+  ],
+  "author": {
+    "name": "Lars Gyrup Brink Nielsen",
+    "email": "larsbrinknielsen@gmail.com",
+    "url": "https://github.com/LayZeeDK"
+  },
+  "contributors": [],
+  "funding": [
+    {
+      "type": "individual",
+      "url": "https://github.com/sponsors/LayZeeDK"
+    }
+  ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/",
+    "tag": "unknown"
+  },
+  "bugs": {
+    "url": "https://github.com/ngworker/router-component-store/issue"
+  },
+  "homepage": "https://github.com/ngworker/router-component-store#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ngworker/router-component-store"
+  }
+}

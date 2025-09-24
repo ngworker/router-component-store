@@ -207,6 +207,13 @@
     "@angular-eslint/bundled-angular-compiler" "17.0.1"
     "@typescript-eslint/utils" "6.10.0"
 
+"@angular/animations@17.0.9":
+  version "17.0.9"
+  resolved "https://registry.yarnpkg.com/@angular/animations/-/animations-17.0.9.tgz#0e5a6a47d037a9a75b982fcd25596a55c1b1561e"
+  integrity sha512-TcAdBQyGqglgbxdiJcaHc7FcDNkzTXGRtZuPOcr4sYmBvryBu2q18edwzo6+QDYFaoGredFhE5RnOIw+M4A3Xw==
+  dependencies:
+    tslib "^2.3.0"
+
 "@angular/cli@~17.0.0":
   version "17.0.10"
   resolved "https://registry.yarnpkg.com/@angular/cli/-/cli-17.0.10.tgz#24a9cdbdf2d19eb4138c9ccada5eebd4202014b4"
@@ -263,6 +270,13 @@
   version "17.0.9"
   resolved "https://registry.yarnpkg.com/@angular/core/-/core-17.0.9.tgz#407f8ee879af777f092f64886fc7b82ccf6e8b80"
   integrity sha512-LtDWzyx19XNmAjXju9xjw//rDZPUFu2bllHqzS6NVO1bE4PwJHIs0zfvygh0j46ubKp1gUICNk3jvYK9FMVinA==
+  dependencies:
+    tslib "^2.3.0"
+
+"@angular/forms@17.0.9":
+  version "17.0.9"
+  resolved "https://registry.yarnpkg.com/@angular/forms/-/forms-17.0.9.tgz#9edb3298714354197fc9dfaed46c40cdb646d870"
+  integrity sha512-UCZhJH5FCRPGmYHfKCTGbOXqz4SEs9bVkAQGwhHzhM3Bwn3cZ/LKN2UfOglIcwkqKXxKnRx+VkJ2M1KfZJAvLQ==
   dependencies:
     tslib "^2.3.0"
 

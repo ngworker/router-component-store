@@ -20,7 +20,8 @@
       ],
       "@ngworker/router-signal-store": [
         "packages/router-signal-store/src/index.ts"
-      ]
+      ],
+      "@ngworker/router-store": ["packages/router-store/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

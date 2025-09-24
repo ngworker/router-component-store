@@ -1,4 +1,12 @@
-import { DestroyRef, Injectable, Signal, WritableSignal, computed, inject, signal } from '@angular/core';
+import {
+  DestroyRef,
+  Injectable,
+  Signal,
+  WritableSignal,
+  computed,
+  inject,
+  signal,
+} from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import {
   ActivatedRoute,
@@ -50,9 +58,8 @@ export class LocalRouterStore extends RouterStore {
   readonly #serializer = inject(MinimalRouterStateSerializer);
   readonly #destroyRef = inject(DestroyRef);
 
-  readonly #routerStateSignal: WritableSignal<MinimalRouterStateSnapshot> = signal(
-    serializeRouterState(this.#route, this.#router, this.#serializer)
-  );
+  readonly #routerStateSignal: WritableSignal<MinimalRouterStateSnapshot> =
+    signal(serializeRouterState(this.#route, this.#router, this.#serializer));
 
   readonly currentRoute = computed(
     (): MinimalActivatedRouteSnapshot => this.#routerStateSignal().root
@@ -62,19 +69,25 @@ export class LocalRouterStore extends RouterStore {
     requireSync: true,
   });
 
-  readonly queryParams: Signal<StrictQueryParams> = toSignal(this.#route.queryParams, {
-    requireSync: true,
-  });
+  readonly queryParams: Signal<StrictQueryParams> = toSignal(
+    this.#route.queryParams,
+    {
+      requireSync: true,
+    }
+  );
 
   readonly routeData: Signal<StrictRouteData> = toSignal(this.#route.data, {
     requireSync: true,
   });
 
-  readonly routeParams: Signal<StrictRouteParams> = toSignal(this.#route.params, {
-    requireSync: true,
-  });
+  readonly routeParams: Signal<StrictRouteParams> = toSignal(
+    this.#route.params,
+    {
+      requireSync: true,
+    }
+  );
 
-  readonly title: Signal<string | undefined> = toSignal(this.#route.title, { 
+  readonly title: Signal<string | undefined> = toSignal(this.#route.title, {
     requireSync: true,
   });
 
@@ -84,18 +97,26 @@ export class LocalRouterStore extends RouterStore {
     super();
 
     // Listen to router events to update state
-    this.#router.events.pipe(takeUntilDestroyed(this.#destroyRef)).subscribe((routerEvent) => {
-      if (isNavigationEvent(routerEvent)) {
-        const routerState = serializeRouterState(this.#route, this.#router, this.#serializer);
-        this.#routerStateSignal.set(routerState);
-      }
-    });
+    this.#router.events
+      .pipe(takeUntilDestroyed(this.#destroyRef))
+      .subscribe((routerEvent) => {
+        if (isNavigationEvent(routerEvent)) {
+          const routerState = serializeRouterState(
+            this.#route,
+            this.#router,
+            this.#serializer
+          );
+          this.#routerStateSignal.set(routerState);
+        }
+      });
   }
 
   selectQueryParam(
     param: string
   ): Signal<string | readonly string[] | undefined> {
-    return computed(() => (this.queryParams() as InternalStrictQueryParams)[param]);
+    return computed(
+      () => (this.queryParams() as InternalStrictQueryParams)[param]
+    );
   }
 
   selectRouteDataParam(key: string): Signal<unknown> {
@@ -103,6 +124,8 @@ export class LocalRouterStore extends RouterStore {
   }
 
   selectRouteParam(param: string): Signal<string | undefined> {
-    return computed(() => (this.routeParams() as InternalStrictRouteParams)[param]);
+    return computed(
+      () => (this.routeParams() as InternalStrictRouteParams)[param]
+    );
   }
 }

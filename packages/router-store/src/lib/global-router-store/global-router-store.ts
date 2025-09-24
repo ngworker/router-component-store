@@ -1,4 +1,12 @@
-import { DestroyRef, Injectable, Signal, WritableSignal, computed, inject, signal } from '@angular/core';
+import {
+  DestroyRef,
+  Injectable,
+  Signal,
+  WritableSignal,
+  computed,
+  inject,
+  signal,
+} from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 import { MinimalActivatedRouteSnapshot } from '../@ngrx/router-store/minimal-activated-route-state-snapshot';
@@ -21,9 +29,8 @@ export class GlobalRouterStore extends RouterStore {
   readonly #serializer = inject(MinimalRouterStateSerializer);
   readonly #destroyRef = inject(DestroyRef);
 
-  readonly #routerStateSignal: WritableSignal<MinimalRouterStateSnapshot> = signal(
-    this.#serializer.serialize(this.#router.routerState.snapshot)
-  );
+  readonly #routerStateSignal: WritableSignal<MinimalRouterStateSnapshot> =
+    signal(this.#serializer.serialize(this.#router.routerState.snapshot));
 
   readonly #rootRoute = computed(
     (): MinimalActivatedRouteSnapshot => this.#routerStateSignal().root
@@ -63,18 +70,24 @@ export class GlobalRouterStore extends RouterStore {
     super();
 
     // Listen to router events to update state
-    this.#router.events.pipe(takeUntilDestroyed(this.#destroyRef)).subscribe((routerEvent) => {
-      if (isNavigationEvent(routerEvent)) {
-        const routerState = this.#serializer.serialize(this.#router.routerState.snapshot);
-        this.#routerStateSignal.set(routerState);
-      }
-    });
+    this.#router.events
+      .pipe(takeUntilDestroyed(this.#destroyRef))
+      .subscribe((routerEvent) => {
+        if (isNavigationEvent(routerEvent)) {
+          const routerState = this.#serializer.serialize(
+            this.#router.routerState.snapshot
+          );
+          this.#routerStateSignal.set(routerState);
+        }
+      });
   }
 
   selectQueryParam(
     param: string
   ): Signal<string | readonly string[] | undefined> {
-    return computed(() => (this.queryParams() as InternalStrictQueryParams)[param]);
+    return computed(
+      () => (this.queryParams() as InternalStrictQueryParams)[param]
+    );
   }
 
   selectRouteDataParam(key: string): Signal<unknown> {
@@ -82,6 +95,8 @@ export class GlobalRouterStore extends RouterStore {
   }
 
   selectRouteParam(param: string): Signal<string | undefined> {
-    return computed(() => (this.routeParams() as InternalStrictRouteParams)[param]);
+    return computed(
+      () => (this.routeParams() as InternalStrictRouteParams)[param]
+    );
   }
 }

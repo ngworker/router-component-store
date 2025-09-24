@@ -45,7 +45,9 @@ describe(`${GlobalRouterStore.name} selectors`, () => {
       title: 'Static title',
     });
 
-    await harness.router.navigateByUrl('/bqbNGrezShfz?ref=ngworker.github.io#test-fragment');
+    await harness.router.navigateByUrl(
+      '/bqbNGrezShfz?ref=ngworker.github.io#test-fragment'
+    );
 
     const expectedRouteSnapshot: Partial<MinimalActivatedRouteSnapshot> = {
       children: [],
@@ -77,7 +79,9 @@ describe(`${GlobalRouterStore.name} selectors`, () => {
       data: expectedRouteData,
     });
 
-    await harness.router.navigateByUrl('/VDhyGSDTYfvz?ref=ngworker.github.io#test-fragment');
+    await harness.router.navigateByUrl(
+      '/VDhyGSDTYfvz?ref=ngworker.github.io#test-fragment'
+    );
 
     const routeData = harness.inject(RouterStore).routeData();
     expect(routeData).toEqual(expectedRouteData);
@@ -91,16 +95,22 @@ describe(`${GlobalRouterStore.name} selectors`, () => {
       },
     });
 
-    await harness.router.navigateByUrl('/SFUXQFSDgMyw?ref=ngworker.github.io#test-fragment');
+    await harness.router.navigateByUrl(
+      '/SFUXQFSDgMyw?ref=ngworker.github.io#test-fragment'
+    );
 
-    const testData = harness.inject(RouterStore).selectRouteDataParam('testData')();
+    const testData = harness
+      .inject(RouterStore)
+      .selectRouteDataParam('testData')();
     expect(testData).toBe(expectedTestData);
   });
 
   it('creates a selector for a specific query parameter', async () => {
     const { harness } = setup();
 
-    await harness.router.navigateByUrl('/vOaURFhUDkYN?ref=ngworker.github.io#test-fragment');
+    await harness.router.navigateByUrl(
+      '/vOaURFhUDkYN?ref=ngworker.github.io#test-fragment'
+    );
 
     const ref = harness.inject(RouterStore).selectQueryParam('ref')();
     expect(ref).toBe('ngworker.github.io');
@@ -109,7 +119,9 @@ describe(`${GlobalRouterStore.name} selectors`, () => {
   it('creates a selector for a specific route parameter', async () => {
     const { harness } = setup();
 
-    await harness.router.navigateByUrl('/token?ref=ngworker.github.io#test-fragment');
+    await harness.router.navigateByUrl(
+      '/token?ref=ngworker.github.io#test-fragment'
+    );
 
     const token = harness.inject(RouterStore).selectRouteParam('token')();
     expect(token).toBe('token');

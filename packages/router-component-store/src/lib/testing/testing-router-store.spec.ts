@@ -6,7 +6,7 @@ import { firstValueFrom, take } from 'rxjs';
 import { MinimalActivatedRouteSnapshot } from '../@ngrx/router-store/minimal-activated-route-state-snapshot';
 import { RouterStore } from '../router-store';
 import { provideTestingRouterStore } from './provide-testing-router-store';
-import { TestingRouterStore } from './testing-router-store';
+import { injectTestingRouterStore, TestingRouterStore } from './testing-router-store';
 
 @Component({
   standalone: true,
@@ -409,5 +409,83 @@ describe('TestingRouterStore integration', () => {
     expect(compiled.querySelector('#route-param')?.textContent?.trim()).toBe('123');
     expect(compiled.querySelector('#query-param')?.textContent?.trim()).toBe('batman');
     expect(compiled.querySelector('#route-data')?.textContent?.trim()).toBe('50');
+  });
+});
+
+describe('injectTestingRouterStore', () => {
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      providers: [provideTestingRouterStore()],
+    });
+  });
+
+  it('should inject TestingRouterStore without casting', () => {
+    TestBed.runInInjectionContext(() => {
+      const routerStore = injectTestingRouterStore();
+      
+      expect(routerStore).toBeInstanceOf(TestingRouterStore);
+      expect(typeof routerStore.setUrl).toBe('function');
+      expect(typeof routerStore.setRouteParam).toBe('function');
+      expect(typeof routerStore.reset).toBe('function');
+    });
+  });
+
+  it('should provide access to all testing methods', () => {
+    TestBed.runInInjectionContext(() => {
+      const routerStore = injectTestingRouterStore();
+      
+      // Test that all testing methods are accessible
+      routerStore.setUrl('/test');
+      routerStore.setFragment('test');
+      routerStore.setTitle('Test');
+      routerStore.setRouteParam('id', '123');
+      routerStore.setRouteParams({ id: '123', type: 'test' });
+      routerStore.setQueryParam('q', 'search');
+      routerStore.setQueryParams({ q: 'search', page: '1' });
+      routerStore.setRouteDataParam('key', 'value');
+      routerStore.setRouteData({ key: 'value' });
+      routerStore.setCurrentRoute({
+        routeConfig: null,
+        url: [],
+        params: {},
+        queryParams: {},
+        fragment: null,
+        data: {},
+        outlet: 'primary',
+        title: undefined,
+        firstChild: undefined,
+        children: [],
+      });
+      routerStore.reset();
+      
+      // If we get here without errors, all methods are accessible
+      expect(routerStore).toBeDefined();
+    });
+  });
+
+  it('should work in component tests', async () => {
+    @Component({
+      standalone: true,
+      template: '<div [attr.data-id]="routeId$ | async"></div>',
+      imports: [AsyncPipe],
+    })
+    class TestInjectionComponent {
+      private routerStore = injectTestingRouterStore();
+      routeId$ = this.routerStore.selectRouteParam('id');
+    }
+
+    TestBed.configureTestingModule({
+      imports: [TestInjectionComponent],
+      providers: [provideTestingRouterStore()],
+    });
+
+    const fixture = TestBed.createComponent(TestInjectionComponent);
+    
+    // The injectTestingRouterStore should be accessible within the component
+    fixture.detectChanges();
+    
+    // We can't directly access the component's routerStore, but we can verify
+    // the injection works by checking the component renders properly
+    expect(fixture.nativeElement.querySelector('div')).toBeTruthy();
   });
 });

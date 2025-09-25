@@ -221,7 +221,11 @@ Router Component Store provides testing utilities to make it easy to test compon
 
 ```typescript
 import { TestBed } from '@angular/core/testing';
-import { provideTestingRouterStore, TestingRouterStore } from '@ngworker/router-component-store';
+import { 
+  provideTestingRouterStore, 
+  TestingRouterStore,
+  injectTestingRouterStore 
+} from '@ngworker/router-component-store';
 
 describe('HeroDetailComponent', () => {
   let routerStore: TestingRouterStore;
@@ -232,7 +236,13 @@ describe('HeroDetailComponent', () => {
       providers: [provideTestingRouterStore()],
     });
 
+    // Option 1: Manual casting
     routerStore = TestBed.inject(RouterStore) as TestingRouterStore;
+
+    // Option 2: Using injection helper (recommended)
+    TestBed.runInInjectionContext(() => {
+      routerStore = injectTestingRouterStore();
+    });
   });
 
   it('should display hero ID from route param', () => {
@@ -294,7 +304,13 @@ describe('HeroService', () => {
     });
 
     service = TestBed.inject(HeroService);
+    // Option 1: Manual casting
     routerStore = TestBed.inject(RouterStore) as TestingRouterStore;
+
+    // Option 2: Using injection helper (recommended)
+    TestBed.runInInjectionContext(() => {
+      routerStore = injectTestingRouterStore();
+    });
   });
 
   it('should emit current hero ID', (done) => {
@@ -307,6 +323,30 @@ describe('HeroService', () => {
   });
 });
 ```
+
+#### Injection helper
+
+The `injectTestingRouterStore()` function provides a convenient way to inject the testing router store without manual casting:
+
+```typescript
+import { injectTestingRouterStore } from '@ngworker/router-component-store';
+
+// In your test setup
+TestBed.configureTestingModule({
+  providers: [provideTestingRouterStore()],
+});
+
+// Instead of casting manually
+const routerStore = TestBed.inject(RouterStore) as TestingRouterStore;
+
+// Use the injection helper
+TestBed.runInInjectionContext(() => {
+  const routerStore = injectTestingRouterStore();
+  routerStore.setRouteParam('id', '123'); // Direct access to testing methods
+});
+```
+
+**Note:** The `injectTestingRouterStore()` function should only be used when `provideTestingRouterStore()` is provided in the testing module. It must be called within an injection context (e.g., inside `TestBed.runInInjectionContext()` or within a component/service constructor).
 
 #### Available testing methods
 

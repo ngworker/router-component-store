@@ -9,7 +9,7 @@ import { provideTestingRouterStore, TestingRouterStore } from '../testing';
 @Component({
   standalone: true,
   imports: [AsyncPipe, NgIf],
-  selector: 'demo-hero-detail',
+  selector: 'ngw-demo-hero-detail',
   template: `
     <h1 [textContent]="title$ | async"></h1>
     <div class="hero-info">

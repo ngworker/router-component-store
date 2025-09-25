@@ -18,7 +18,13 @@ import { TestingRouterStore } from './testing-router-store';
  *   providers: [provideTestingRouterStore()],
  * });
  * 
+ * // Option 1: Manual casting
  * const routerStore = TestBed.inject(RouterStore) as TestingRouterStore;
+ * routerStore.setUrl('/test/123');
+ * routerStore.setRouteParam('id', '123');
+ * 
+ * // Option 2: Using injection helper (recommended)
+ * const routerStore = injectTestingRouterStore();
  * routerStore.setUrl('/test/123');
  * routerStore.setRouteParam('id', '123');
  * ```

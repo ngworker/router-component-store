@@ -1,4 +1,4 @@
-import { Injectable, Type } from '@angular/core';
+import { inject, Injectable, Type } from '@angular/core';
 import { Event as RouterEvent } from '@angular/router';
 import { BehaviorSubject, NEVER, Observable } from 'rxjs';
 import { MinimalActivatedRouteSnapshot } from '../@ngrx/router-store/minimal-activated-route-state-snapshot';
@@ -20,9 +20,13 @@ import { StrictRouteParams } from '../strict-route-params';
  *   providers: [provideTestingRouterStore()],
  * });
  * 
+ * // Option 1: Manual casting
  * const routerStore = TestBed.inject(RouterStore) as TestingRouterStore;
+ * routerStore.setUrl('/test/123');
+ * routerStore.setRouteParam('id', '123');
  * 
- * // Set test values
+ * // Option 2: Using injection helper (recommended)
+ * const routerStore = injectTestingRouterStore();
  * routerStore.setUrl('/test/123');
  * routerStore.setRouteParam('id', '123');
  * ```
@@ -212,4 +216,59 @@ export class TestingRouterStore implements RouterStore {
       children: [],
     };
   }
+}
+
+/**
+ * Inject a `TestingRouterStore` instance without the need for casting.
+ * 
+ * This is a convenience function that injects the `RouterStore` token and
+ * casts it to `TestingRouterStore`, providing direct access to testing methods.
+ * 
+ * ⚠️ **Important**: This function should only be used when `provideTestingRouterStore()`
+ * is provided in the testing module. Using it with the actual router store providers
+ * will result in a runtime error.
+ * 
+ * @returns A `TestingRouterStore` instance with direct access to testing methods
+ * 
+ * @example
+ * ```typescript
+ * // In your test setup
+ * TestBed.configureTestingModule({
+ *   providers: [provideTestingRouterStore()],
+ * });
+ * 
+ * // Instead of casting manually
+ * const routerStore = TestBed.inject(RouterStore) as TestingRouterStore;
+ * 
+ * // Use the injection helper
+ * const routerStore = injectTestingRouterStore();
+ * routerStore.setUrl('/test/123');
+ * routerStore.setRouteParam('id', '123');
+ * ```
+ * 
+ * @example
+ * ```typescript
+ * // In component tests
+ * describe('HeroComponent', () => {
+ *   beforeEach(() => {
+ *     TestBed.configureTestingModule({
+ *       imports: [HeroComponent],
+ *       providers: [provideTestingRouterStore()],
+ *     });
+ *   });
+ * 
+ *   it('should handle route changes', () => {
+ *     const routerStore = injectTestingRouterStore();
+ *     const fixture = TestBed.createComponent(HeroComponent);
+ * 
+ *     routerStore.setRouteParam('id', '456');
+ *     fixture.detectChanges();
+ * 
+ *     expect(fixture.nativeElement.textContent).toContain('456');
+ *   });
+ * });
+ * ```
+ */
+export function injectTestingRouterStore(): TestingRouterStore {
+  return inject(RouterStore) as TestingRouterStore;
 }

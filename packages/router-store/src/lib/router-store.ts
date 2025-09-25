@@ -61,7 +61,6 @@ export abstract class RouterStore {
    * Select the current URL.
    */
   abstract readonly url: Signal<string>;
-
   /**
    * Select the specified route data.
    *

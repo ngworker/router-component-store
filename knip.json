@@ -9,7 +9,6 @@
     "@angular-eslint/template-parser",
     "@angular/cli",
     "@angular/compiler",
-    "@angular/forms",
     "@angular/language-service",
     "@ngrx/component-store",
     "@ngrx/signals",

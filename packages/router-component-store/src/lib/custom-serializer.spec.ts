@@ -1,6 +1,6 @@
 import { Component, Injectable, Injector, Type } from '@angular/core';
 import { By } from '@angular/platform-browser';
-import { RouterStateSnapshot, Routes } from '@angular/router';
+import { RouterStateSnapshot, Routes, ActivatedRouteSnapshot } from '@angular/router';
 import { ComponentStore } from '@ngrx/component-store';
 import { createFeatureHarness } from '@ngworker/spectacular';
 import { firstValueFrom } from 'rxjs';
@@ -28,8 +28,8 @@ class CustomMinimalRouterStateSerializer implements RouterStateSerializer<Minima
     };
   }
 
-  private serializeRouteSnapshot(routeSnapshot: any): MinimalActivatedRouteSnapshot {
-    const children = (routeSnapshot.children || []).map((child: any) =>
+  private serializeRouteSnapshot(routeSnapshot: ActivatedRouteSnapshot): MinimalActivatedRouteSnapshot {
+    const children = (routeSnapshot.children || []).map((child: ActivatedRouteSnapshot) =>
       this.serializeRouteSnapshot(child)
     );
     
@@ -66,8 +66,8 @@ class CustomDataProcessingSerializer implements RouterStateSerializer<MinimalRou
     };
   }
 
-  private processRouteSnapshot(routeSnapshot: any): MinimalActivatedRouteSnapshot {
-    const children = (routeSnapshot.children || []).map((child: any) =>
+  private processRouteSnapshot(routeSnapshot: ActivatedRouteSnapshot): MinimalActivatedRouteSnapshot {
+    const children = (routeSnapshot.children || []).map((child: ActivatedRouteSnapshot) =>
       this.processRouteSnapshot(child)
     );
     
@@ -286,7 +286,7 @@ describe('CustomMinimalRouterStateSerializer', () => {
         data: {},
         queryParams: { param1: 'value1', param2: 'value2' },
         children: []
-      } as any
+      } as unknown as ActivatedRouteSnapshot
     };
   });
 
@@ -311,7 +311,7 @@ describe('CustomDataProcessingSerializer', () => {
         data: { originalValue: 'test' },
         queryParams: {},
         children: []
-      } as any
+      } as unknown as ActivatedRouteSnapshot
     };
   });
 

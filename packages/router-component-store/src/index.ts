@@ -9,3 +9,5 @@ export * from './lib/router-store';
 export * from './lib/strict-query-params';
 export * from './lib/strict-route-data';
 export * from './lib/strict-route-params';
+// Testing utilities
+export * from './lib/testing';

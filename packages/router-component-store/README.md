@@ -326,7 +326,9 @@ describe('HeroService', () => {
 
 #### Injection helper
 
-The `injectTestingRouterStore()` function provides a convenient way to inject the testing router store without manual casting:
+The `injectTestingRouterStore()` function provides a convenient way to inject the testing router store without manual casting. It supports injection options similar to Angular's `inject()` function and can also inject from specific component injectors for local router stores.
+
+##### Basic usage
 
 ```typescript
 import { injectTestingRouterStore } from '@ngworker/router-component-store';
@@ -344,6 +346,46 @@ TestBed.runInInjectionContext(() => {
   const routerStore = injectTestingRouterStore();
   routerStore.setRouteParam('id', '123'); // Direct access to testing methods
 });
+```
+
+##### With injection options
+
+```typescript
+TestBed.runInInjectionContext(() => {
+  // With injection options (optional, skipSelf, self, host)
+  const routerStore = injectTestingRouterStore({ 
+    optional: true, 
+    host: true 
+  });
+  routerStore?.setRouteParam('id', '123');
+});
+```
+
+##### For local router stores
+
+```typescript
+// When testing components with local router store providers
+@Component({
+  template: '<p>Hero: {{ heroId$ | async }}</p>',
+  providers: [provideTestingRouterStore()], // Local provider
+})
+class HeroComponent {
+  private routerStore = inject(RouterStore);
+  heroId$ = this.routerStore.selectRouteParam('id');
+}
+
+// In your test
+const fixture = TestBed.createComponent(ParentComponent);
+
+// Inject from the specific component's injector
+const routerStore = injectTestingRouterStore({
+  component: HeroComponent,
+  fixture,
+  options: { host: true } // Optional injection options
+});
+
+routerStore.setRouteParam('id', '123');
+fixture.detectChanges();
 ```
 
 **Note:** The `injectTestingRouterStore()` function should only be used when `provideTestingRouterStore()` is provided in the testing module. It must be called within an injection context (e.g., inside `TestBed.runInInjectionContext()` or within a component/service constructor).

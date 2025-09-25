@@ -1,4 +1,6 @@
 import { inject, Injectable, Type } from '@angular/core';
+import { ComponentFixture } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { Event as RouterEvent } from '@angular/router';
 import { BehaviorSubject, NEVER, Observable } from 'rxjs';
 import { MinimalActivatedRouteSnapshot } from '../@ngrx/router-store/minimal-activated-route-state-snapshot';
@@ -219,6 +221,48 @@ export class TestingRouterStore implements RouterStore {
 }
 
 /**
+ * Options for the `injectTestingRouterStore` function.
+ */
+export interface InjectTestingRouterStoreOptions {
+  /**
+   * Use optional injection, and return `null` if the requested token is not found.
+   */
+  optional?: boolean;
+  /**
+   * Start injection at the parent of the current injector.
+   */
+  skipSelf?: boolean;
+  /**
+   * Only query the current injector for the token, and don't fall back to the parent injector if
+   * it's not found.
+   */
+  self?: boolean;
+  /**
+   * Stop injection at the host component's injector. Only relevant when injecting from an element
+   * injector, and a no-op for environment injectors.
+   */
+  host?: boolean;
+}
+
+/**
+ * Configuration for injecting from a specific component's injector.
+ */
+export interface InjectFromComponentOptions<TComponent = unknown> {
+  /**
+   * The component type to get the injector from.
+   */
+  component: Type<TComponent>;
+  /**
+   * The component fixture to query for the component instance.
+   */
+  fixture: ComponentFixture<unknown>;
+  /**
+   * Additional injection options.
+   */
+  options?: InjectTestingRouterStoreOptions;
+}
+
+/**
  * Inject a `TestingRouterStore` instance without the need for casting.
  * 
  * This is a convenience function that injects the `RouterStore` token and
@@ -228,47 +272,94 @@ export class TestingRouterStore implements RouterStore {
  * is provided in the testing module. Using it with the actual router store providers
  * will result in a runtime error.
  * 
+ * @param options - Injection options similar to Angular's inject() function
  * @returns A `TestingRouterStore` instance with direct access to testing methods
  * 
  * @example
  * ```typescript
- * // In your test setup
- * TestBed.configureTestingModule({
- *   providers: [provideTestingRouterStore()],
+ * // Basic usage
+ * TestBed.runInInjectionContext(() => {
+ *   const routerStore = injectTestingRouterStore();
+ *   routerStore.setRouteParam('id', '123');
  * });
  * 
- * // Instead of casting manually
- * const routerStore = TestBed.inject(RouterStore) as TestingRouterStore;
- * 
- * // Use the injection helper
- * const routerStore = injectTestingRouterStore();
- * routerStore.setUrl('/test/123');
- * routerStore.setRouteParam('id', '123');
- * ```
- * 
- * @example
- * ```typescript
- * // In component tests
- * describe('HeroComponent', () => {
- *   beforeEach(() => {
- *     TestBed.configureTestingModule({
- *       imports: [HeroComponent],
- *       providers: [provideTestingRouterStore()],
- *     });
- *   });
- * 
- *   it('should handle route changes', () => {
- *     const routerStore = injectTestingRouterStore();
- *     const fixture = TestBed.createComponent(HeroComponent);
- * 
- *     routerStore.setRouteParam('id', '456');
- *     fixture.detectChanges();
- * 
- *     expect(fixture.nativeElement.textContent).toContain('456');
- *   });
+ * // With injection options
+ * TestBed.runInInjectionContext(() => {
+ *   const routerStore = injectTestingRouterStore({ optional: true, host: true });
+ *   routerStore?.setRouteParam('id', '123');
  * });
  * ```
  */
-export function injectTestingRouterStore(): TestingRouterStore {
-  return inject(RouterStore) as TestingRouterStore;
+export function injectTestingRouterStore(): TestingRouterStore;
+
+/**
+ * Inject a `TestingRouterStore` instance with injection options.
+ * 
+ * @param options - Injection options (optional, skipSelf, self, host)
+ * @returns A `TestingRouterStore` instance or null if optional and not found
+ */
+export function injectTestingRouterStore(
+  options: InjectTestingRouterStoreOptions & { optional: true }
+): TestingRouterStore | null;
+
+/**
+ * Inject a `TestingRouterStore` instance with injection options.
+ * 
+ * @param options - Injection options (skipSelf, self, host)
+ * @returns A `TestingRouterStore` instance
+ */
+export function injectTestingRouterStore(
+  options: InjectTestingRouterStoreOptions
+): TestingRouterStore;
+
+/**
+ * Inject a `TestingRouterStore` instance from a specific component's injector.
+ * 
+ * This overload is particularly useful for testing local router stores that are
+ * provided at the component level.
+ * 
+ * @param config - Configuration specifying the component and fixture
+ * @returns A `TestingRouterStore` instance from the component's injector
+ * 
+ * @example
+ * ```typescript
+ * // Inject from a specific component (useful for local router stores)
+ * const fixture = TestBed.createComponent(HeroComponent);
+ * const routerStore = injectTestingRouterStore({
+ *   component: HeroComponent,
+ *   fixture,
+ *   options: { host: true }
+ * });
+ * routerStore.setRouteParam('id', '456');
+ * ```
+ */
+export function injectTestingRouterStore<TComponent>(
+  config: InjectFromComponentOptions<TComponent>
+): TestingRouterStore;
+
+export function injectTestingRouterStore<TComponent>(
+  optionsOrConfig?:
+    | InjectTestingRouterStoreOptions
+    | InjectFromComponentOptions<TComponent>
+): TestingRouterStore | null {
+  // Check if it's a component injection configuration
+  if (optionsOrConfig && 'component' in optionsOrConfig) {
+    const { component, fixture, options = {} } = optionsOrConfig;
+    const componentDebugElement = fixture.debugElement.query(By.directive(component));
+    
+    if (!componentDebugElement) {
+      throw new Error(
+        `Component ${component.name} not found in fixture. ` +
+        'Make sure the component is rendered in the fixture.'
+      );
+    }
+    
+    const componentInjector = componentDebugElement.injector;
+    const routerStore = componentInjector.get(RouterStore, undefined, options);
+    return routerStore as TestingRouterStore;
+  }
+  
+  // Use standard injection with options
+  const options = optionsOrConfig || {};
+  return inject(RouterStore, options) as TestingRouterStore;
 }

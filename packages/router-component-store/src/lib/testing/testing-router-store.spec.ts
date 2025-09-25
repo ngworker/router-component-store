@@ -489,3 +489,222 @@ describe('injectTestingRouterStore', () => {
     expect(fixture.nativeElement.querySelector('div')).toBeTruthy();
   });
 });
+
+describe('injectTestingRouterStore - Enhanced Options', () => {
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      providers: [provideTestingRouterStore()],
+    });
+  });
+
+  describe('injection options', () => {
+    it('should support optional injection', () => {
+      TestBed.runInInjectionContext(() => {
+        // With optional: false (default behavior)
+        const routerStore = injectTestingRouterStore();
+        expect(routerStore).toBeInstanceOf(TestingRouterStore);
+
+        // With optional: true - should still work since TestingRouterStore is provided
+        const optionalStore = injectTestingRouterStore({ optional: true });
+        expect(optionalStore).toBeInstanceOf(TestingRouterStore);
+      });
+    });
+
+    it('should support host injection option', () => {
+      TestBed.runInInjectionContext(() => {
+        const routerStore = injectTestingRouterStore({ host: true });
+        expect(routerStore).toBeInstanceOf(TestingRouterStore);
+        expect(typeof routerStore.setRouteParam).toBe('function');
+      });
+    });
+
+    it('should support self injection option', () => {
+      TestBed.runInInjectionContext(() => {
+        const routerStore = injectTestingRouterStore({ self: true });
+        expect(routerStore).toBeInstanceOf(TestingRouterStore);
+        expect(typeof routerStore.setUrl).toBe('function');
+      });
+    });
+
+    it('should support skipSelf injection option', () => {
+      TestBed.runInInjectionContext(() => {
+        const routerStore = injectTestingRouterStore({ skipSelf: false });
+        expect(routerStore).toBeInstanceOf(TestingRouterStore);
+        expect(typeof routerStore.reset).toBe('function');
+      });
+    });
+
+    it('should support combined injection options', () => {
+      TestBed.runInInjectionContext(() => {
+        const routerStore = injectTestingRouterStore({
+          optional: false,
+          host: true,
+          self: false,
+        });
+        expect(routerStore).toBeInstanceOf(TestingRouterStore);
+      });
+    });
+  });
+
+  describe('component injector support', () => {
+    @Component({
+      standalone: true,
+      selector: 'ngw-test-with-local',
+      template: '<p>Test Component</p>',
+      providers: [provideTestingRouterStore()], // Local provider
+    })
+    class TestComponentWithLocalStoreComponent {}
+
+    @Component({
+      standalone: true,
+      template: '<ngw-test-with-local></ngw-test-with-local>',
+      imports: [TestComponentWithLocalStoreComponent],
+    })
+    class TestParentComponent {}
+
+    it('should inject from specific component injector', () => {
+      TestBed.configureTestingModule({
+        imports: [TestComponentWithLocalStoreComponent, TestParentComponent],
+      });
+
+      const fixture = TestBed.createComponent(TestParentComponent);
+      fixture.detectChanges();
+
+      const routerStore = injectTestingRouterStore({
+        component: TestComponentWithLocalStoreComponent,
+        fixture,
+      });
+
+      expect(routerStore).toBeInstanceOf(TestingRouterStore);
+      expect(typeof routerStore.setRouteParam).toBe('function');
+
+      // Test that we can use the injected store
+      routerStore.setRouteParam('test', 'value');
+      expect(routerStore).toBeDefined();
+    });
+
+    it('should inject from component with options', () => {
+      TestBed.configureTestingModule({
+        imports: [TestComponentWithLocalStoreComponent, TestParentComponent],
+      });
+
+      const fixture = TestBed.createComponent(TestParentComponent);
+      fixture.detectChanges();
+
+      const routerStore = injectTestingRouterStore({
+        component: TestComponentWithLocalStoreComponent,
+        fixture,
+        options: { host: true },
+      });
+
+      expect(routerStore).toBeInstanceOf(TestingRouterStore);
+      routerStore.setQueryParam('search', 'test');
+      expect(routerStore).toBeDefined();
+    });
+
+    it('should throw error if component not found in fixture', () => {
+      @Component({
+        standalone: true,
+        template: '<p>Different Component</p>',
+      })
+      class DifferentComponent {}
+
+      TestBed.configureTestingModule({
+        imports: [DifferentComponent],
+      });
+
+      const fixture = TestBed.createComponent(DifferentComponent);
+
+      expect(() => {
+        injectTestingRouterStore({
+          component: TestComponentWithLocalStoreComponent, // This component is not in the fixture
+          fixture,
+        });
+      }).toThrow('Component TestComponentWithLocalStoreComponent not found in fixture');
+    });
+  });
+});
+
+describe('injectTestingRouterStore - Real-world Usage', () => {
+  @Component({
+    standalone: true,
+    selector: 'ngw-hero-detail',
+    template: `
+      <div class="hero-detail">
+        <h1>Hero: {{ heroId$ | async }}</h1>
+        <p>Search: {{ search$ | async }}</p>
+      </div>
+    `,
+    imports: [AsyncPipe],
+    providers: [provideTestingRouterStore()], // Local testing store
+  })
+  class HeroDetailComponent {
+    private routerStore = inject(RouterStore);
+    heroId$ = this.routerStore.selectRouteParam('id');
+    search$ = this.routerStore.selectQueryParam('search');
+  }
+
+  @Component({
+    standalone: true,
+    template: '<ngw-hero-detail></ngw-hero-detail>',
+    imports: [HeroDetailComponent],
+  })
+  class AppComponent {}
+
+  it('should work with local router store in real component', () => {
+    TestBed.configureTestingModule({
+      imports: [AppComponent],
+    });
+
+    const fixture = TestBed.createComponent(AppComponent);
+    fixture.detectChanges();
+
+    // Inject from the specific component's injector
+    const routerStore = injectTestingRouterStore({
+      component: HeroDetailComponent,
+      fixture,
+    });
+
+    // Set up test data
+    routerStore.setRouteParam('id', 'superman');
+    routerStore.setQueryParam('search', 'hero');
+
+    fixture.detectChanges();
+
+    const compiled = fixture.nativeElement;
+    expect(compiled.textContent).toContain('Hero: superman');
+    expect(compiled.textContent).toContain('Search: hero');
+  });
+
+  it('should demonstrate different injection strategies', () => {
+    TestBed.configureTestingModule({
+      imports: [AppComponent],
+      providers: [provideTestingRouterStore()], // Global testing store
+    });
+
+    const fixture = TestBed.createComponent(AppComponent);
+    fixture.detectChanges();
+
+    // Strategy 1: Use global testing store with injection context
+    TestBed.runInInjectionContext(() => {
+      const globalStore = injectTestingRouterStore();
+      globalStore.setUrl('/global/test');
+      expect(globalStore.url$).toBeDefined();
+    });
+
+    // Strategy 2: Use local component store
+    const localStore = injectTestingRouterStore({
+      component: HeroDetailComponent,
+      fixture,
+      options: { host: true },
+    });
+
+    localStore.setRouteParam('id', 'batman');
+    localStore.setQueryParam('search', 'dark knight');
+
+    fixture.detectChanges();
+
+    expect(fixture.nativeElement.textContent).toContain('Hero: batman');
+    expect(fixture.nativeElement.textContent).toContain('Search: dark knight');
+  });
+});

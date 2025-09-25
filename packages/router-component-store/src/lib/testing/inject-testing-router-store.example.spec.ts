@@ -1,18 +1,6 @@
-import { Component, inject } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { RouterStore } from '../router-store';
 import { injectTestingRouterStore, provideTestingRouterStore, TestingRouterStore } from '../testing';
-
-// Example showing the improvement in developer experience
-@Component({
-  standalone: true,
-  selector: 'ngw-example-usage',
-  template: '<p>Route param: {{ routeParam$ | async }}</p>',
-})
-class ExampleComponent {
-  private routerStore = inject(RouterStore);
-  routeParam$ = this.routerStore.selectRouteParam('id');
-}
 
 describe('injectTestingRouterStore - Usage Examples', () => {
   beforeEach(() => {

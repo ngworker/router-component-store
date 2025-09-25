@@ -25,7 +25,7 @@ node_modules/
 !.vscode/extensions.json
 
 # misc
-.angular/
+.angular
 .nx/cache/
 .nx/workspace-data/
 /.sass-cache

@@ -208,3 +208,232 @@ export type StrictRouteParams = {
   readonly [key: string]: string | undefined;
 };
 ```
+
+## Testing
+
+Router Component Store provides testing utilities to make it easy to test components and services that depend on `RouterStore`.
+
+### TestingRouterStore
+
+`TestingRouterStore` is a testing implementation of the `RouterStore` interface that uses stubbed observables. This allows you to easily control router state in your tests without needing to set up complex routing configurations.
+
+#### Basic usage
+
+```typescript
+import { TestBed } from '@angular/core/testing';
+import { 
+  provideTestingRouterStore, 
+  TestingRouterStore,
+  injectTestingRouterStore 
+} from '@ngworker/router-component-store';
+
+describe('HeroDetailComponent', () => {
+  let routerStore: TestingRouterStore;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [HeroDetailComponent],
+      providers: [provideTestingRouterStore()],
+    });
+
+    // Option 1: Manual casting
+    routerStore = TestBed.inject(RouterStore) as TestingRouterStore;
+
+    // Option 2: Using injection helper (recommended)
+    TestBed.runInInjectionContext(() => {
+      routerStore = injectTestingRouterStore();
+    });
+  });
+
+  it('should display hero ID from route param', () => {
+    const fixture = TestBed.createComponent(HeroDetailComponent);
+
+    // Set route parameter
+    routerStore.setRouteParam('id', '123');
+    fixture.detectChanges();
+
+    expect(fixture.nativeElement.textContent).toContain('Hero: 123');
+  });
+});
+```
+
+#### Testing different router states
+
+```typescript
+it('should handle various router states', () => {
+  // Set URL
+  routerStore.setUrl('/heroes/456?search=batman#details');
+  
+  // Set individual parameters
+  routerStore.setRouteParam('id', '456');
+  routerStore.setQueryParam('search', 'batman');
+  routerStore.setFragment('details');
+  
+  // Set route data
+  routerStore.setRouteDataParam('title', 'Hero Details');
+  routerStore.setRouteDataParam('breadcrumbs', ['Home', 'Heroes']);
+  
+  // Or set multiple values at once
+  routerStore.setRouteParams({ id: '456', type: 'superhero' });
+  routerStore.setQueryParams({ search: 'batman', page: '1' });
+  routerStore.setRouteData({ title: 'Hero Details', allowEdit: true });
+
+  fixture.detectChanges();
+  
+  // Your assertions here...
+});
+```
+
+#### Testing with services
+
+```typescript
+class HeroService {
+  private routerStore = inject(RouterStore);
+  
+  currentHeroId$ = this.routerStore.selectRouteParam('id');
+  searchQuery$ = this.routerStore.selectQueryParam('q');
+}
+
+describe('HeroService', () => {
+  let service: HeroService;
+  let routerStore: TestingRouterStore;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      providers: [HeroService, provideTestingRouterStore()],
+    });
+
+    service = TestBed.inject(HeroService);
+    // Option 1: Manual casting
+    routerStore = TestBed.inject(RouterStore) as TestingRouterStore;
+
+    // Option 2: Using injection helper (recommended)
+    TestBed.runInInjectionContext(() => {
+      routerStore = injectTestingRouterStore();
+    });
+  });
+
+  it('should emit current hero ID', (done) => {
+    service.currentHeroId$.subscribe(id => {
+      expect(id).toBe('789');
+      done();
+    });
+
+    routerStore.setRouteParam('id', '789');
+  });
+});
+```
+
+#### Injection helper
+
+The `injectTestingRouterStore()` function provides a convenient way to inject the testing router store without manual casting. It supports injection options similar to Angular's `inject()` function and can also inject from specific component injectors for local router stores.
+
+##### Basic usage
+
+```typescript
+import { injectTestingRouterStore } from '@ngworker/router-component-store';
+
+// In your test setup
+TestBed.configureTestingModule({
+  providers: [provideTestingRouterStore()],
+});
+
+// Instead of casting manually
+const routerStore = TestBed.inject(RouterStore) as TestingRouterStore;
+
+// Use the injection helper
+TestBed.runInInjectionContext(() => {
+  const routerStore = injectTestingRouterStore();
+  routerStore.setRouteParam('id', '123'); // Direct access to testing methods
+});
+```
+
+##### With injection options
+
+```typescript
+TestBed.runInInjectionContext(() => {
+  // With injection options (optional, skipSelf, self, host)
+  const routerStore = injectTestingRouterStore({ 
+    optional: true, 
+    host: true 
+  });
+  routerStore?.setRouteParam('id', '123');
+});
+```
+
+##### For local router stores
+
+```typescript
+// When testing components with local router store providers
+@Component({
+  template: '<p>Hero: {{ heroId$ | async }}</p>',
+  providers: [provideTestingRouterStore()], // Local provider
+})
+class HeroComponent {
+  private routerStore = inject(RouterStore);
+  heroId$ = this.routerStore.selectRouteParam('id');
+}
+
+// In your test
+const fixture = TestBed.createComponent(ParentComponent);
+
+// Inject from the specific component's injector
+const routerStore = injectTestingRouterStore({
+  component: HeroComponent,
+  fixture,
+  options: { host: true } // Optional injection options
+});
+
+routerStore.setRouteParam('id', '123');
+fixture.detectChanges();
+```
+
+**Note:** The `injectTestingRouterStore()` function should only be used when `provideTestingRouterStore()` is provided in the testing module. It must be called within an injection context (e.g., inside `TestBed.runInInjectionContext()` or within a component/service constructor).
+
+#### Available testing methods
+
+| Method | Description |
+| --- | --- |
+| `setUrl(url: string)` | Set the current URL |
+| `setFragment(fragment: string \| null)` | Set the URL fragment |
+| `setTitle(title: string \| undefined)` | Set the resolved route title |
+| `setRouteParam(param: string, value: string \| undefined)` | Set a single route parameter |
+| `setRouteParams(params: StrictRouteParams)` | Set all route parameters |
+| `setQueryParam(param: string, value: string \| readonly string[] \| undefined)` | Set a single query parameter |
+| `setQueryParams(params: StrictQueryParams)` | Set all query parameters |
+| `setRouteDataParam(key: string, value: unknown)` | Set a single route data value |
+| `setRouteData(data: StrictRouteData)` | Set all route data |
+| `setCurrentRoute(route: MinimalActivatedRouteSnapshot)` | Set the complete current route |
+| `reset()` | Reset all values to their defaults |
+
+#### Integration with RouterTestingModule
+
+While `TestingRouterStore` is great for isolated unit tests, you might sometimes want to test the full routing behavior. You can still use `RouterTestingModule` with the actual `RouterStore` implementations:
+
+```typescript
+import { provideGlobalRouterStore } from '@ngworker/router-component-store';
+import { RouterTestingModule } from '@angular/router/testing';
+
+describe('Full routing integration', () => {
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        RouterTestingModule.withRoutes([
+          { path: 'heroes/:id', component: HeroDetailComponent }
+        ])
+      ],
+      providers: [provideGlobalRouterStore()],
+    });
+  });
+
+  it('should work with actual navigation', async () => {
+    const router = TestBed.inject(Router);
+    const routerStore = TestBed.inject(RouterStore);
+    
+    await router.navigate(['/heroes', '123']);
+    
+    const heroId = await firstValueFrom(routerStore.selectRouteParam('id'));
+    expect(heroId).toBe('123');
+  });
+});
+```

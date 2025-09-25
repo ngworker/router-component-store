@@ -25,7 +25,7 @@ node_modules/
 !.vscode/extensions.json
 
 # misc
-.angular/
+.angular
 .nx/cache/
 .nx/workspace-data/
 /.sass-cache
@@ -43,5 +43,3 @@ Thumbs.db
 
 .cursor/rules/nx-rules.mdc
 .github/instructions/nx.instructions.md
-
-.angular

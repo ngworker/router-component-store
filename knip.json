@@ -3,7 +3,7 @@
   "angular": {
     "config": ["project.json"]
   },
-  "include": ["nsExports", "nsTypes"],
+  "include": ["nsExports", "nsTypes", "classMembers"],
   "ignoreDependencies": [
     "@angular-eslint/eslint-plugin",
     "@angular-eslint/template-parser",

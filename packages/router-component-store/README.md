@@ -208,3 +208,114 @@ export type StrictRouteParams = {
   readonly [key: string]: string | undefined;
 };
 ```
+
+## Custom Router State Serializer
+
+Router Component Store supports custom router state serializers, similar to NgRx Router Store. This allows you to customize how router state snapshots are serialized and stored.
+
+### Configuration
+
+You can provide a custom serializer when configuring global or local router stores:
+
+#### Global Router Store with Custom Serializer
+
+```typescript
+// main.ts or app.module.ts
+import { provideGlobalRouterStore, RouterStateSerializer, MinimalRouterStateSnapshot } from '@ngworker/router-component-store';
+import { Injectable } from '@angular/core';
+import { RouterStateSnapshot } from '@angular/router';
+
+// Example: Custom serializer that still produces MinimalRouterStateSnapshot
+// but with custom URL transformation
+@Injectable()
+export class CustomRouterStateSerializer implements RouterStateSerializer<MinimalRouterStateSnapshot> {
+  serialize(routerState: RouterStateSnapshot): MinimalRouterStateSnapshot {
+    // Custom serialization logic
+    return {
+      root: this.serializeRoute(routerState.root),
+      url: '/custom' + routerState.url, // Custom URL prefix
+    };
+  }
+
+  private serializeRoute(route: any): any {
+    // Implement your custom route serialization logic
+    // This is a simplified example - see MinimalRouterStateSerializer for full implementation
+    return {
+      params: route.params || {},
+      data: route.data || {},
+      url: route.url || [],
+      outlet: route.outlet || 'primary',
+      title: route.title,
+      routeConfig: route.routeConfig,
+      queryParams: route.queryParams || {},
+      fragment: route.fragment,
+      firstChild: route.children?.[0] ? this.serializeRoute(route.children[0]) : null,
+      children: route.children?.map((child: any) => this.serializeRoute(child)) || [],
+    };
+  }
+}
+
+// In your providers
+providers: [
+  provideGlobalRouterStore({ serializer: CustomRouterStateSerializer }),
+  // ... other providers
+]
+```
+
+#### Local Router Store with Custom Serializer
+
+```typescript
+// hero-detail.component.ts
+import { Component, Injectable, inject } from '@angular/core';
+import { RouterStateSnapshot } from '@angular/router';
+import { Observable } from 'rxjs';
+import { 
+  provideLocalRouterStore, 
+  RouterStateSerializer, 
+  RouterStore, 
+  MinimalRouterStateSnapshot 
+} from '@ngworker/router-component-store';
+
+@Injectable()
+export class CustomLocalSerializer implements RouterStateSerializer<MinimalRouterStateSnapshot> {
+  serialize(routerState: RouterStateSnapshot): MinimalRouterStateSnapshot {
+    // Custom serialization logic that still produces MinimalRouterStateSnapshot
+    return {
+      root: this.serializeRoute(routerState.root),
+      url: this.transformUrl(routerState.url), // Custom URL transformation
+    };
+  }
+
+  private transformUrl(url: string): string {
+    // Add custom URL transformation logic
+    return url.toLowerCase();
+  }
+
+  // ... other helper methods
+}
+
+@Component({
+  // (...)
+  providers: [provideLocalRouterStore({ serializer: CustomLocalSerializer })],
+})
+export class HeroDetailComponent {
+  #routerStore = inject(RouterStore);
+
+  heroId$: Observable<string | undefined> = this.#routerStore.selectRouteParam('id');
+}
+```
+
+### Important Notes
+
+1. **Backward Compatibility**: Custom serializers must produce a structure that's compatible with `MinimalRouterStateSnapshot` if you want to use the existing `RouterStore` interface methods.
+
+2. **Type Safety**: The `RouterStateSerializer<T>` interface is generic, allowing you to specify the return type of your serializer.
+
+3. **Default Behavior**: If no custom serializer is provided, the default `MinimalRouterStateSerializer` is used.
+
+### Example Use Cases
+
+- **URL Transformation**: Modify URLs before they're stored (e.g., adding prefixes, converting to lowercase)
+- **Data Enrichment**: Add timestamps, user context, or other metadata to the router state
+- **Filtering**: Remove sensitive information or unnecessary data from the router state
+- **Custom State Structure**: Create specialized state structures for specific application needs (while maintaining compatibility with the existing router store interface)

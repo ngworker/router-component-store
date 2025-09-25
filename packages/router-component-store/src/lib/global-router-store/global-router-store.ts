@@ -12,11 +12,11 @@ import { ComponentStore } from '@ngrx/component-store';
 import { map, Observable } from 'rxjs';
 import { MinimalActivatedRouteSnapshot } from '../@ngrx/router-store/minimal-activated-route-state-snapshot';
 import { MinimalRouterStateSnapshot } from '../@ngrx/router-store/minimal-router-state-snapshot';
-import { MinimalRouterStateSerializer } from '../@ngrx/router-store/minimal_serializer';
 import { filterRouterEvents } from '../filter-router-event.operator';
 import { InternalStrictQueryParams } from '../internal-strict-query-params';
 import { InternalStrictRouteData } from '../internal-strict-route-data';
 import { InternalStrictRouteParams } from '../internal-strict-route-params';
+import { ROUTER_STATE_SERIALIZER, RouterStateSerializer } from '../router-state-serializer';
 import { RouterStore } from '../router-store';
 
 interface GlobalRouterState {
@@ -29,7 +29,7 @@ export class GlobalRouterStore
   implements RouterStore
 {
   #router = inject(Router);
-  #serializer = inject(MinimalRouterStateSerializer);
+  #serializer = inject(ROUTER_STATE_SERIALIZER) as RouterStateSerializer<MinimalRouterStateSnapshot>;
 
   #routerState$: Observable<MinimalRouterStateSnapshot> = this.select(
     (state) => state.routerState

@@ -39,4 +39,4 @@ Router Component Store synchronizes router state at the following router events.
 
 ## Router state serializer
 
-NgRx Router Store uses `MinimalRouterStateSerializer` by default, offers a `FullRouterStateSerializer`, and supports a custom router state seralizer through a _serializer_ setting. Router Component Store uses a serializer similar to `MinimalRouterStateSerializer` but does not support a full or custom router state serializer.
+NgRx Router Store uses `MinimalRouterStateSerializer` by default, offers a `FullRouterStateSerializer`, and supports a custom router state seralizer through a _serializer_ setting. Router Component Store uses a serializer similar to `MinimalRouterStateSerializer` and now supports custom router state serializers through the `serializer` configuration option in `provideGlobalRouterStore` and `provideLocalRouterStore`.

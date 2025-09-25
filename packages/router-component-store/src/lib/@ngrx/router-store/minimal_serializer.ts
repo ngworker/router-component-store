@@ -30,13 +30,14 @@ import {
 } from '@angular/router';
 import { InternalStrictRouteData } from '../../internal-strict-route-data';
 import { InternalStrictRouteParams } from '../../internal-strict-route-params';
+import { RouterStateSerializer } from '../../router-state-serializer';
 import { MinimalActivatedRouteSnapshot } from './minimal-activated-route-state-snapshot';
 import { MinimalRouterStateSnapshot } from './minimal-router-state-snapshot';
 
 @Injectable({
   providedIn: 'root',
 })
-export class MinimalRouterStateSerializer {
+export class MinimalRouterStateSerializer implements RouterStateSerializer<MinimalRouterStateSnapshot> {
   serialize(routerState: RouterStateSnapshot): MinimalRouterStateSnapshot {
     return {
       root: this.#serializeRouteSnapshot(routerState.root),
